@@ -70,7 +70,7 @@ export const PersonalForm = () => {
         <Input
           name="address"
           label="Dirección"
-          placeholder="Ingres tu dirección"
+          placeholder="Ingresa tu dirección"
           color="primary"
           isRequired
           variant="bordered"

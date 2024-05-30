@@ -73,7 +73,7 @@ export const LayoutMain = ({ children }: Props) => {
         <AnimatePresence>
           {isOpen && (
             <motion.aside
-              className="w-screen min-[640px]:w-[var(--panel-size)] h-[calc(100vh-var(--header-size))] p-2 panel"
+              className="w-screen min-[640px]:w-[var(--panel-size)] h-[calc(100vh-var(--header-size))] p-2 pl-0 panel"
               initial={{ opacity: 0, x: "100%" }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: "100%" }}

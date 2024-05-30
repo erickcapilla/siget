@@ -176,7 +176,10 @@ export const TopicForm = ({ view }: Props) => {
                   icon={<AvatarIcon />}
                 />
                 <div className="flex flex-col">
-                  <span className="text-small">{"User"}</span>
+                  <span className="text-small">
+                    {user.userInformation.name + " " +
+                      user.userInformation.fatherLastName}
+                  </span>
                   <span className="text-tiny text-default-400">
                     {user.email}
                   </span>

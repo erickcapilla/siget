@@ -1,4 +1,4 @@
-export const passwordGenerator = (length = 12): string => {
+export const passwordGenerator = (length = 8): string => {
   const characters = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*`;
   let password = "";
 
@@ -7,5 +7,5 @@ export const passwordGenerator = (length = 12): string => {
     password += characters[randomIndex];
   }
 
-  return password;
+  return password + "Ej0";
 };

@@ -7,6 +7,8 @@ interface Props {
 
 export const TopicsList = ({ view }: Props) => {
   const { topics, userTopics } = useTopic();
+  console.log("All topics", topics)
+  console.log("User topics", userTopics)
   return (
     <div className="grid gap-2">
       {view === "all" &&

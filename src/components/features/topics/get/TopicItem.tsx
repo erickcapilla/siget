@@ -16,16 +16,16 @@ export const TopicItem = ({ topic, view }: Props) => {
   const { deleteTopic } = useTopic();
   const [user, setUser] = useState<UserResponse>(null);
   const [collaborator, setCollaborator] = useState<UserResponse>(null);
-  const name = user
+  const userName = user
     ? `${user.userInformation.name.split(" ")[0]} ${
         user.userInformation.fatherLastName
       }`
     : "Usuario";
-  const collaboratorName = collaborator
-    ? `${collaborator.userInformation.name.split(" ")[0]} ${
+  const collaboratorName = collaborator !== null
+      ? `${collaborator.userInformation.name.split(" ")[0]} ${
         collaborator.userInformation.fatherLastName
       }`
-    : "Usuario";
+      : "Usuario";
 
   useEffect(() => {
     userServices
@@ -34,11 +34,13 @@ export const TopicItem = ({ topic, view }: Props) => {
       .then((data) => setUser(data))
       .catch((e) => console.error(e));
 
-    userServices
+    topic.collaborator != null && (
+      userServices
       .getUser(topic.collaborator.id)
       .then((res) => res.json())
       .then((data) => setCollaborator(data))
-      .catch((e) => console.error(e));
+      .catch((e) => console.error(e))
+    )
   }, []);
 
   return (
@@ -58,7 +60,7 @@ export const TopicItem = ({ topic, view }: Props) => {
             <Chip size="sm" color="warning" variant="flat">
               {topic.degreeProgram.name}
             </Chip>
-            {collaborator && (
+            {topic.collaborator != null && (
               <User
                 name={collaboratorName}
                 description="Colaborador"
@@ -82,7 +84,7 @@ export const TopicItem = ({ topic, view }: Props) => {
       </section>
       <section className="flex min-[500px]:flex-col min-[550px]:w-[220px] justify-between w-full">
         <User
-          name={name}
+          name={userName}
           description="Autor"
           avatarProps={{
             showFallback: false,

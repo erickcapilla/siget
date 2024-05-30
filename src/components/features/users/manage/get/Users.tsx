@@ -16,7 +16,7 @@ import {
   ModalHeader,
   ModalBody,
   useDisclosure,
-  Link
+  Link,
 } from "@nextui-org/react";
 
 import { columns } from "@data/users";
@@ -25,12 +25,13 @@ import { EditIcon, DeleteIcon, EyeIcon } from "@/assets/icons";
 import { roles } from "@/data/roles";
 import userServices from "@/services/UserServices";
 import { SelectRole } from "@/components/features/ui";
+import { Information } from "@/types";
 
 type User = {
   id: string;
-  fullName: string;
   email: string;
   roles: string[];
+  userInformation: Information;
 };
 
 interface Props {
@@ -39,6 +40,7 @@ interface Props {
 }
 
 export const Users = ({ users, setUsers }: Props) => {
+  console.log(users);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [newRoles, setNewRoles] = useState([]);
   const [idEdit, setIdEdit] = useState("");
@@ -61,7 +63,9 @@ export const Users = ({ users, setUsers }: Props) => {
     console.log(newRoles);
     userServices
       .editUser(idEdit, { roles: newRoles })
-      .then(() => {onOpenChange()})
+      .then(() => {
+        onOpenChange();
+      })
       .catch((error) => console.error(error));
   };
 
@@ -73,6 +77,11 @@ export const Users = ({ users, setUsers }: Props) => {
       );
 
       const cellValue = user[columnKey as keyof User];
+      const userName = user.userInformation.name
+        ? `${user.userInformation.name.split(" ")[0]} ${
+            user.userInformation.fatherLastName
+          }`
+        : "Usuario";
 
       switch (columnKey) {
         case "name":
@@ -85,7 +94,10 @@ export const Users = ({ users, setUsers }: Props) => {
                 },
               }}
               description={user.email}
-              name={user.fullName}
+              name={userName}
+              classNames={{
+                name: "font-bold"
+              }}
             >
               {user.email}
             </User>

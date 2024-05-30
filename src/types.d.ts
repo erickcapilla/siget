@@ -8,6 +8,7 @@ export interface User {
   password?: string;
   email: string;
   roles: string[];
+  userInformation: Information;
 }
 
 export type Information = {
@@ -15,8 +16,8 @@ export type Information = {
   name: string;
   fatherLastName: string;
   motherLastName: string;
-  phoneNumber: string;
-  address: string;
+  phoneNumber?: string;
+  address?: string;
 };
 
 export type Degree = {
@@ -44,7 +45,7 @@ export interface TopicResponse {
   description: string;
   degreeProgram: Degree;
   graduationOption: Option;
-  collaborator?: User;
+  collaborator: User;
   proposedBy: User;
   proposedByRole: string
 }

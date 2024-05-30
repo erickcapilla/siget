@@ -43,7 +43,6 @@ export const TopicProvider = ({ children }: Props) => {
     try {
       const res = await topicServices.getTopics(token);
       const data = await res.json();
-      console.log(data);
       setTopics(data);
     } catch (error) {
       console.error(error);
@@ -57,7 +56,6 @@ export const TopicProvider = ({ children }: Props) => {
     try {
       const res = await topicServices.getUserTopics(token);
       const data = await res.json();
-      console.log(data);
       setUserTopics(data);
     } catch (error) {
       console.error(error);

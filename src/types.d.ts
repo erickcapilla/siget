@@ -56,3 +56,9 @@ export type Option = {
   id: string;
   name: string;
 };
+
+export type Options = {
+  id: number;
+  name: string;
+  description: string;
+}

@@ -27,8 +27,13 @@ interface Props {
 export const ActionBar = ({ handleOpenPanel }: Props) => {
   const { logout } = useAuth();
   const navigate = useNavigate();
-  const { userRoles, role, information } = useUser();
+  const { userRoles, role, information, setRole } = useUser();
   const name = information ? `${information.name.split(" ")[0]} ${information.fatherLastName}` : "Usuario";
+
+  const handleLogout = () => {
+    logout()
+    setRole("")
+  }
 
   return (
     <Navbar
@@ -123,7 +128,7 @@ export const ActionBar = ({ handleOpenPanel }: Props) => {
             </DropdownTrigger>
             <DropdownMenu
               onAction={(key) => {
-                key === "logout" ? logout() : navigate("/profile");
+                key === "logout" ? handleLogout() : navigate("/profile");
               }}
               aria-label="Menu"
             >

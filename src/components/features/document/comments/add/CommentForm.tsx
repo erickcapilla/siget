@@ -1,16 +1,46 @@
 import { Textarea, Button } from "@nextui-org/react";
+import documentCommentsServices from "@/services/DocumentCommentsServices";
+import { useAuth } from "@/hooks";
+import { useState } from 'react'
 
-export const CommentForm = () => {
+interface Props {
+  id: string;
+}
+
+export const CommentForm = ({ id }: Props) => {
+  const { token } = useAuth();
+  const [comment, setComment] = useState("");
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    documentCommentsServices.saveComment(token, comment, id);
+  };
+
   return (
-    <form className="flex flex-col justify-between h-full">
+    <form className="flex flex-col justify-between h-full" onSubmit={handleSubmit}>
       <div>
-        <Textarea label="Comentario" placeholder="Ingresa tu comentario" color="primary" variant="bordered" radius="sm" />
+        <Textarea
+          label="Comentario"
+          placeholder="Ingresa tu comentario"
+          color="primary"
+          variant="bordered"
+          radius="sm"
+          value={comment}
+          onChange={e => setComment(e.target.value)}
+        />
       </div>
       <div>
-        <Button type="submit" color="primary" variant="solid" radius="sm" className="w-full">
+        <Button
+          type="submit"
+          color="primary"
+          variant="solid"
+          radius="sm"
+          className="w-full"
+        >
           Agregar Comentario
         </Button>
       </div>
     </form>
-  )
-}
+  );
+};

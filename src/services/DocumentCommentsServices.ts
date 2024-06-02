@@ -1,14 +1,14 @@
 class DocumentCommentsServices {
   API_URL_COMMENTS = `${import.meta.env.VITE_API_URL}/topic-document-comments`;
 
-  async saveComment(token: string, comment: string) {
+  async saveComment(token: string, comment: string, topicDocument: string) {
     const response = await fetch(this.API_URL_COMMENTS, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(comment),
+      body: JSON.stringify({comment, topicDocument }),
     });
 
     if (response.ok) {
@@ -20,14 +20,18 @@ class DocumentCommentsServices {
     throw new Error(error.message);
   }
 
-  async getComments(token: string, id: string) {
-    const response = await fetch(`${this.API_URL_COMMENTS}/${id}`, {
+  async getComments(token: string, topicDocumentId: string) {
+    console.log("Hola", topicDocumentId)
+    const response = await fetch(this.API_URL_COMMENTS, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
-      }
+      },
+      body: JSON.stringify({ topicDocumentId }),
     })
+
+    console.log(response)
 
     if (response.ok) {
       return response;

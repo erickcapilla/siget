@@ -82,3 +82,14 @@ export interface PetitionTopic {
   requestedBy: User;
   topic: TopicResponse;
 }
+
+export interface DocumentUrl {
+  id: string;
+  url: string;
+}
+
+export type Comment = {
+  id: string;
+  comment: string;
+  date: string;
+}

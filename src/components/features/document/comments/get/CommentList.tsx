@@ -1,11 +1,17 @@
 import { CommentItem } from "./CommentItem";
+import { Comment } from "@/types";
 
-export const CommentList = () => {
+interface Props {
+  comments: Comment[];
+}
+
+export const CommentList = ({ comments }: Props) => {
+
   return (
     <>
-      <CommentItem />
-      <CommentItem />
-      <CommentItem />
+      {comments.map((comment) => (
+        <CommentItem />
+      ))}
     </>
-  )
-}
+  );
+};

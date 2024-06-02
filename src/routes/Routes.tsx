@@ -32,7 +32,7 @@ export const MainRoutes = () => {
         <Route path="/topics" element={<Topics />} />
         <Route path="/manage" element={<Manage />} />
         <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/document" element={<Document />} />
+        <Route path="/document/:id" element={<Document />} />
         <Route path="/advice" element={<Advice />} />
         <Route path="/degree" element={<Degree />} />
         <Route path="/graduates" element={<Graduates />} />
@@ -47,7 +47,7 @@ export const MainRoutes = () => {
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/topics" element={<Topics />} />
         <Route path="/manage" element={<Manage />} />
-        <Route path="/document" element={<Document />} />
+        <Route path="/document/:id" element={<Document />} />
         <Route path="/advice" element={<Advice />} />
         <Route path="/degree" element={<Degree />} />
         <Route path="/graduates" element={<Graduates />} />

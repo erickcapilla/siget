@@ -5,8 +5,7 @@ export const AdviceItem = () => {
   return (
     <LayoutItem className="border-primary">
       <section className="grid gap-3 w-full">
-        <h3 className="text-primary font-bold">Titulo del proyecto</h3>
-        <p className="text-sm">Tema revisado</p>
+        <h3 className="text-primary font-bold">Tema revisado</h3>
         <p className="text-sm">Observaciones</p>
         <div className="flex items-center w-full">
           <div className="flex gap-2 items-center">

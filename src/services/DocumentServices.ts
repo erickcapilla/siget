@@ -27,7 +27,7 @@ class DocumentServices {
     formData.append("file", file);
 
     const response = await fetch(`${this.API_URL_FILE}/update-topic?topic-document=${id}`, {
-      method: "PATCH",
+      method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
       },

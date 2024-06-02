@@ -6,8 +6,8 @@ export interface Credentials {
 export interface User {
   id?: string;
   password?: string;
-  email: string;
-  roles: string[];
+  email?: string;
+  roles?: string[];
   userInformation: Information;
 }
 
@@ -43,10 +43,10 @@ export interface TopicResponse {
   id: string;
   title: string;
   description: string;
-  degreeProgram: Degree;
-  graduationOption: Option;
-  collaborator: User;
-  proposedBy: User;
+  degreeProgram?: Degree;
+  graduationOption?: Option;
+  collaborator?: User;
+  proposedBy?: User;
   proposedByRole: string
 }
 
@@ -57,8 +57,28 @@ export type Option = {
   name: string;
 };
 
-export type Options = {
+export interface Options {
   id: number;
   name: string;
   description: string;
+}
+
+export interface Steps {
+  id: number;
+  name: string;
+  description: string;
+  type: string;
+}
+
+export interface RequestTopic {
+  id: string;
+  isAccepted: boolean;
+  topic: TopicResponse;
+}
+
+export interface PetitionTopic {
+  id: string;
+  isAccepted: boolean;
+  requestedBy: User;
+  topic: TopicResponse;
 }

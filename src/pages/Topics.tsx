@@ -7,16 +7,20 @@ import { useTopic } from "@/hooks/useTopic";
 
 export const Topics = () => {
   const [view, setView] = useState("all");
-  const { getTopics, getUserTopics, loading } = useTopic();
+  const { getTopics, getUserTopics, getPetitionsTopics, getRequestTopics, loading } = useTopic();
 
   const handleView = async (type: string) => {
     setView(type);
     if(view === "all")  getTopics();
     if(view === "user") getUserTopics();
+    if(view === "interest") getUserTopics();
+    if(view === "proposals") getUserTopics();
   };
 
   useEffect(() => {
     getUserTopics()
+    getPetitionsTopics()
+    getRequestTopics()
   }, [])
 
   return (
@@ -76,6 +80,16 @@ export const Topics = () => {
                 isLoading={view === "interest" && loading}
               >
                 Temas de interés
+              </Chip>
+              <Chip
+                as={Button}
+                size="md"
+                variant="flat"
+                color={view === "proposals" ? "primary" : "default"}
+                onPress={() => handleView("proposals")}
+                isLoading={view === "proposals" && loading}
+              >
+                Propuestas
               </Chip>
             </section>
             <TopicsList view={view} />

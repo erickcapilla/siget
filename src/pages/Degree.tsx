@@ -1,6 +1,7 @@
 import { LayoutMain } from "@components/layouts";
-import { Panel, OptionsList } from "@/components/features";
+import { Panel, OptionsList  } from "@/components/features";
 
+//<DegreeProgressBar /> DegreeProgressBar
 export const Degree = () => {
   return (
     <LayoutMain>

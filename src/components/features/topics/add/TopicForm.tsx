@@ -60,10 +60,9 @@ export const TopicForm = ({ view }: Props) => {
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent<EventTarget>) => {
+  const handleSubmit = (e: React.FormEvent<EventTarget | HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(topic);
     saveTopic(topic)
       .then(
         (data) =>
@@ -159,12 +158,22 @@ export const TopicForm = ({ view }: Props) => {
             return (
               <div className="flex flex-wrap gap-2">
                 {items.map((item) => (
-                  <Chip key={item.key}>{"User"}</Chip>
+                  <Chip key={item.key} color="primary" variant="flat">
+                    {item.data.userInformation.name +
+                      " " +
+                      item.data.userInformation.fatherLastName}
+                  </Chip>
                 ))}
               </div>
             );
           }}
-          onChange={(e) => setTopic({ ...topic, collaborator: e.target.value })}
+          onChange={(e) =>
+            setTopic(
+              e.target.value.length > 0
+                ? { ...topic, collaborator: e.target.value }
+                : { ...topic }
+            )
+          }
         >
           {(user) => (
             <SelectItem key={user.id} textValue={"User"}>
@@ -177,7 +186,8 @@ export const TopicForm = ({ view }: Props) => {
                 />
                 <div className="flex flex-col">
                   <span className="text-small">
-                    {user.userInformation.name + " " +
+                    {user.userInformation.name +
+                      " " +
                       user.userInformation.fatherLastName}
                   </span>
                   <span className="text-tiny text-default-400">

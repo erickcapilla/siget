@@ -2,9 +2,9 @@ class RequestTopicServices {
   API_URL_TOPIC_REQUEST = `${import.meta.env.VITE_API_URL}/topic-request`;
   API_URL_TOPIC_ACCEPT = `${import.meta.env.VITE_API_URL}/topic-request/accept-my-petition/`;
   API_URL_USER_PETITIONS = `${import.meta.env.VITE_API_URL}/topic-request/my-petitions`;
-  API_URL_USER_REQUESTS = `${import.meta.env.VITE_API_URL}/topic-request/my-request`;
+  API_URL_USER_REQUESTS = `${import.meta.env.VITE_API_URL}/topic-request/my-requests`;
   API_URL_DELETE_PETITION = `${import.meta.env.VITE_API_URL}/topic-request/reject-a-petition/`;
-  API_URL_ACCEPTED_TOPICS = `${import.meta.env.VITE_API_URL}/topic-request/accepted-topics`;
+  API_URL_ACCEPTED_TOPICS = `${import.meta.env.VITE_API_URL}/accepted-topics`;
 
   async createRequestTopic(token: string, id: string) {
     const response = await fetch(this.API_URL_TOPIC_REQUEST, {
@@ -13,7 +13,7 @@ class RequestTopicServices {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ topicId: id }),
+      body: JSON.stringify({ topic: id }),
     });
 
     if (response.ok) {

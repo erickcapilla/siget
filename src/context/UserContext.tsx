@@ -1,8 +1,15 @@
 import { useState, createContext, useEffect, useCallback } from "react";
 import { useAuth } from "@/hooks";
-import { User, Information, Degree, DocumentUrl } from "@/types";
+import {
+  User,
+  Information,
+  Degree,
+  DocumentUrl,
+  TopicAcceptedRequest,
+} from "@/types";
 import userServices from "@/services/UserServices";
-import documentServices from '@/services/DocumentServices';
+import documentServices from "@/services/DocumentServices";
+import requestTopicServices from "@/services/RequestTopicServices";
 
 type UserContext = {
   setInformation: React.Dispatch<(prevState: undefined) => undefined>;
@@ -14,6 +21,7 @@ type UserContext = {
   userRoles: string[];
   degrees: Degree[];
   document: DocumentUrl[];
+  myTopics: TopicAcceptedRequest;
   role: string;
 };
 
@@ -39,6 +47,7 @@ export const UserContext = createContext<UserContext>({
   userRoles: [],
   degrees: [],
   document: [],
+  myTopics: { id: "", items: [], total: 0},
   role: "",
 });
 
@@ -52,7 +61,8 @@ export const UserProvider = ({ children }: Props) => {
   const [userRoles, setUserRoles] = useState([]);
   const [degrees, setDegrees] = useState<Degree[]>([]);
   const [user, setUser] = useState();
-  const [document, setDocument] = useState<DocumentUrl[]>([])
+  const [document, setDocument] = useState<DocumentUrl[]>([]);
+  const [myTopics, setMyTopics] = useState<TopicAcceptedRequest>();
 
   const { isAuth, userAuthed, token } = useAuth();
 
@@ -77,16 +87,24 @@ export const UserProvider = ({ children }: Props) => {
   }, [userAuthed, role]);
 
   const getUserDocument = async () => {
-    documentServices.getUserDocuments(token)
+    documentServices
+      .getUserDocuments(token)
+      .then((res) => res.json())
+      .then((data) => setDocument(data))
+      .catch((error) => console.error(error));
+  };
+
+  const getMyTopics = async () => {
+    requestTopicServices.getAcceptedTopics(token)
       .then(res => res.json())
-      .then(data => setDocument(data))
-      .then(() => console.log(document))
-      .catch(error => console.error(error))
+      .then(data => setMyTopics(data))
+      .catch(error => console.log(error))
   }
 
   useEffect(() => {
     isAuth && getUser();
-    getUserDocument()
+    getUserDocument();
+    getMyTopics();
   }, [getUser, isAuth]);
 
   return (
@@ -102,6 +120,7 @@ export const UserProvider = ({ children }: Props) => {
         setInformation,
         document,
         getUserDocument,
+        myTopics,
       }}
     >
       {children}

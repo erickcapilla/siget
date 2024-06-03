@@ -93,3 +93,23 @@ export type Comment = {
   comment: string;
   date: string;
 }
+
+export interface CommentResponse {
+  result: Comment[];
+  total: number;
+}
+
+export type TopicAccepted = {
+  acceptedBy: Information;
+  collaborator: User;
+  description: string;
+  id: string;
+  requestedBy: Information;
+  title: string;
+}
+
+export interface TopicAcceptedRequest {
+  id: string;
+  items: TopicAccepted[];
+  total: number;
+}

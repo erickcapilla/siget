@@ -33,7 +33,7 @@ export const DocumentViewer = ({ document }: Props) => {
       >
         <Page pageNumber={pageNumber} />
         <div className="absolute bottom-10 w-full">
-          <div className="fixed bottom-8 right-20 text-gray-700">
+          <div className="fixed bottom-8 right-32 text-gray-700">
             <div className="flex gap-3 shadow-md border-1 rounded-md px-3 py-1 items-center">
               <Button
                 isIconOnly

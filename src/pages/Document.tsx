@@ -11,21 +11,25 @@ import { useUser, useAuth } from "@/hooks";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import documentCommentsServices from "@/services/DocumentCommentsServices";
+import { CommentResponse } from "@/types";
 
 export const Document = () => {
   const { role, getUserDocument, document } = useUser();
   const { token } = useAuth()
   const { id } = useParams();
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState<CommentResponse>();
 
-
-  useEffect(() => {
-    getUserDocument();
+  const getComments = () => {
     documentCommentsServices
-      .getComments(token, "be4e1e4a-c900-405c-9c7a-aa4649edfb40")
+      .getComments(token, document[0].id)
       .then((res) => res.json())
       .then((data) => setComments(data))
       .catch((error) => console.error(error));
+  }
+
+  useEffect(() => {
+    getUserDocument();
+    getComments()
   }, []);
 
   return (
@@ -63,13 +67,13 @@ export const Document = () => {
       <div className="min-[640px]:min-w-[70%] h-full">
         <Panel title="Documento" className="relative">
           <article className="flex">
-            <DocumentViewer document={document[0]} />
-            <section className="shrink sticky max-w-[50%] min-w-[30%] w-full right-0 top-0 h-[50%] overflow-y-auto">
-              <h1 className="rounded-t-md bg-gray-100 mb-3 p-2 text-center text-gray-600 font-bold">
+            { document && <DocumentViewer document={document[0]} /> }
+            <section className="shrink sticky max-w-[50%] min-w-[30%] w-full right-0 top-0 h-[50%] overflow-y-auto pr-2">
+              <h1 className="rounded-t-md bg-gray-100 mb-3 p-2 text-center text-gray-600 font-bold border-cyan-500 border-t-3 border-l-3">
                 Comentarios
               </h1>
               <div className="top-0 w-full grid gap-3">
-                {document[0].id !== null && <CommentList comments={comments} />}
+                { comments && <CommentList comments={comments.result} setComments={setComments} /> }
               </div>
             </section>
           </article>

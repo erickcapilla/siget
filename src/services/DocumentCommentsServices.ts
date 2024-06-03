@@ -1,5 +1,6 @@
 class DocumentCommentsServices {
   API_URL_COMMENTS = `${import.meta.env.VITE_API_URL}/topic-document-comments`;
+  API_URL_DOCUMENT_COMMENTS = `${import.meta.env.VITE_API_URL}/topic-document-comments/comments`;
 
   async saveComment(token: string, comment: string, topicDocument: string) {
     const response = await fetch(this.API_URL_COMMENTS, {
@@ -22,16 +23,13 @@ class DocumentCommentsServices {
 
   async getComments(token: string, topicDocumentId: string) {
     console.log("Hola", topicDocumentId)
-    const response = await fetch(this.API_URL_COMMENTS, {
+    const response = await fetch(`${this.API_URL_DOCUMENT_COMMENTS}/${topicDocumentId}`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ topicDocumentId }),
     })
-
-    console.log(response)
 
     if (response.ok) {
       return response;

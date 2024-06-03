@@ -2,11 +2,10 @@ type Props = {
   className?: string;
   height?: number;
   size?: number;
+  color?: string;
 };
 
-const color = "#610726";
-
-export const CalendarIcon: React.FC<Props> = ({ size, height, ...props }) => (
+export const CalendarIcon: React.FC<Props> = ({ size, height, color = "#610726", ...props }) => (
   <svg
     width={size || height || 24}
     height={size || height || 24}

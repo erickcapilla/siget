@@ -52,3 +52,13 @@ export function getStepPosition(
   }
   return (100 / steps) * (stepIndex + 1);
 }
+
+export const stepPercentage = {
+  "1": 0,
+  "2": 20,
+  "3": 35,
+  "4": 52,
+  "5": 70,
+  "6": 85,
+  "7": 100,
+}

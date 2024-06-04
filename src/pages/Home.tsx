@@ -3,17 +3,18 @@ import {
   NotInformation,
   Panel,
   NoTopic,
-  NoAppointments,
+  ScheduleList,
   NoDegree,
   ProgressDocument,
 } from "@/components/features";
 import { useUser, useTopic } from "@/hooks";
 import "@css/Home.css";
+import { Chip, Avatar, AvatarIcon } from "@nextui-org/react";
 
 export const Home = () => {
   const { information, role } = useUser();
   const { userRequestsAccepted } = useTopic();
-  console.log(userRequestsAccepted)
+  console.log(userRequestsAccepted);
 
   return (
     <LayoutMain>
@@ -25,17 +26,45 @@ export const Home = () => {
           }
           className="h-1/2"
         >
-          <div className="w-full h-full overflow-hidden grid items-center px-3">
-            {role === "STUDENT_ROLE" && !userRequestsAccepted ? (
-              <NoTopic />
+          <article className="w-full h-full overflow-hidden">
+            {role === "STUDENT_ROLE" && userRequestsAccepted ? (
+              <>
+                <section className="w-full flex gap-5 h-auto">
+                  <Chip
+                    color="success"
+                    variant="flat"
+                    avatar={<Avatar icon={<AvatarIcon />} classNames={{icon: "text-white"}} />}
+                  >
+                    {userRequestsAccepted.items[0].requestedBy.name +
+                      " " +
+                      userRequestsAccepted.items[0].requestedBy.fatherLastName +
+                      " " +
+                      userRequestsAccepted.items[0].requestedBy.motherLastName}
+                  </Chip>
+                  <Chip
+                    color="warning"
+                    variant="flat"
+                    avatar={<Avatar icon={<AvatarIcon />} classNames={{icon: "text-white"}} />}
+                  >
+                    {userRequestsAccepted.items[0].acceptedBy.name +
+                      " " +
+                      userRequestsAccepted.items[0].acceptedBy.fatherLastName +
+                      " " +
+                      userRequestsAccepted.items[0].acceptedBy.motherLastName}
+                  </Chip>
+                </section>
+                <section className="w-full h-full overflow-hidden grid items-center px-3 pb-10">
+                  <ProgressDocument />
+                </section>
+              </>
             ) : (
-              <ProgressDocument />
+              <NoTopic />
             )}
-          </div>
+          </article>
         </Panel>
         <div className="flex gap-3 w-full h-1/2 pb-3">
           <Panel title="Agenda" className="w-full max-w-96 h-full">
-            <NoAppointments />
+            <ScheduleList />
           </Panel>
           <Panel
             title={role === "STUDENT_ROLE" ? "Progreso de titulación" : ""}

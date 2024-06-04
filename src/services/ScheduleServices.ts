@@ -1,8 +1,8 @@
 import { Appointment } from "@/types";
 class ScheduleServices {
   API_URL_SCHEDULE = `${import.meta.env.VITE_API_URL}/schedule`;
-  API_URL_REQUEST_SCHEDULE = `${import.meta.env.VITE_API_URL}/my-request`;
-  API_URL_PETITION_SCHEDULE = `${import.meta.env.VITE_API_URL}/my-petition`;
+  API_URL_REQUEST_SCHEDULE = `${import.meta.env.VITE_API_URL}/schedule/my-request`;
+  API_URL_PETITION_SCHEDULE = `${import.meta.env.VITE_API_URL}/schedule/my-petition`;
 
   async createAppointment(token: string, appointment: Appointment) {
     const response = await fetch(this.API_URL_SCHEDULE, {

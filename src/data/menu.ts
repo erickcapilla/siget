@@ -23,7 +23,7 @@ export const menuItems: MenuItems[] = [
   {
     id: "document",
     name: "Documento",
-    path: "/document/b055a2b8-f69c-4cf0-81b2-48f86389f431",
+    path: "/document",
   },
   {
     id: "advice",

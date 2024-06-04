@@ -85,6 +85,13 @@ export interface PetitionTopic {
 
 export interface DocumentUrl {
   id: string;
+  chapter1: boolean,
+  chapter2: boolean,
+  chapter3: boolean,
+  chapter4: boolean,
+  chapter5: boolean,
+  chapter6: boolean,
+  chapter7: boolean,
   url: string;
 }
 
@@ -121,4 +128,11 @@ export interface Appointment {
   time: string;
   participants: string[];
   invitee: string;
+}
+
+export interface Advisory {
+  reviewedTopic: string;
+  observations: string;
+  date: string;
+  acceptedTopic: string;
 }

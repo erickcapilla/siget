@@ -41,7 +41,9 @@ export const Schedule = () => {
             showShadow={true}
             className="shadow-none rounded-sm"
           />
-          <ScheduleList />
+          <div className="mt-3 h-[200px] overflow-y-auto">
+            <ScheduleList />
+          </div>
         </Panel>
       </div>
     </Layout>

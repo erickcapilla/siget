@@ -18,6 +18,7 @@ export const Document = () => {
   const { token } = useAuth()
   const { id } = useParams();
   const [comments, setComments] = useState<CommentResponse>();
+  console.log(document)
 
   const getComments = () => {
     documentCommentsServices
@@ -69,7 +70,7 @@ export const Document = () => {
           <article className="flex">
             { document && <DocumentViewer document={document[0]} /> }
             <section className="shrink sticky max-w-[50%] min-w-[30%] w-full right-0 top-0 h-[50%] overflow-y-auto pr-2">
-              <h1 className="rounded-t-md bg-gray-100 mb-3 p-2 text-center text-gray-600 font-bold border-cyan-500 border-t-3 border-l-3">
+              <h1 className="rounded-t-md bg-gray-100 mb-3 p-2 text-center text-gray-700 font-bold border-primary border-t-3 border-l-3">
                 Comentarios
               </h1>
               <div className="top-0 w-full grid gap-3">

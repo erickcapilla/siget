@@ -12,10 +12,13 @@ import {
 } from "@nextui-org/react";
 import { User, Appointment } from "@/types";
 import userServices from "@/services/UserServices";
+import scheduleServices from "@/services/ScheduleServices"
 import { useState, useEffect } from "react";
+import { useAuth } from '@/hooks'
 
 export const ScheduleForm = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const { token } = useAuth();
   const [appointment, setAppointment] = useState<Appointment>({
     topic: "",
     location: "",
@@ -43,7 +46,9 @@ export const ScheduleForm = () => {
 
   const handleSubmit = (e: React.FormEvent<EventTarget | HTMLFormElement>) => {
     e.preventDefault()
-
+    scheduleServices.createAppointment(token, appointment)
+      .then(() => console.log("Cita agendada"))
+      .catch(error => console.error(error))
     console.log(appointment)
   }
 
@@ -80,7 +85,9 @@ export const ScheduleForm = () => {
           color="primary"
           radius="sm"
           isRequired
-          onChange={(e) => console.log(e)}
+          onChange={(e) => {
+            setAppointment({ ...appointment, date: e.toDate() });
+          }}
         />
         <TimeInput
           name="time"
@@ -89,7 +96,9 @@ export const ScheduleForm = () => {
           color="primary"
           radius="sm"
           isRequired
-          onChange={(e) => console.log(e)}
+          onChange={(e) => {
+            setAppointment({ ...appointment, time: `${e.hour}:${e.minute}` });
+          }}
         />
         <Select
           name="participants"
@@ -110,9 +119,9 @@ export const ScheduleForm = () => {
               <div className="flex flex-wrap gap-2">
                 {items.map((item) => (
                   <Chip key={item.key} color="primary" variant="flat">
-                    {item.data.userInformation.name +
+                    {item.data.userInformation ? item.data.userInformation.name +
                       " " +
-                      item.data.userInformation.fatherLastName}
+                      item.data.userInformation.fatherLastName : "Usuario"}
                   </Chip>
                 ))}
               </div>
@@ -131,9 +140,9 @@ export const ScheduleForm = () => {
                 />
                 <div className="flex flex-col">
                   <span className="text-small">
-                    {user.userInformation.name +
+                    {user.userInformation ? user.userInformation.name +
                       " " +
-                      user.userInformation.fatherLastName}
+                      user.userInformation.fatherLastName : "Usuario"}
                   </span>
                   <span className="text-tiny text-default-400">
                     {user.email}
@@ -163,9 +172,9 @@ export const ScheduleForm = () => {
               <div className="flex flex-wrap gap-2">
                 {items.map((item) => (
                   <Chip key={item.key} color="primary" variant="flat">
-                    {item.data.userInformation.name +
+                    {item.data.userInformation ? item.data.userInformation.name +
                       " " +
-                      item.data.userInformation.fatherLastName}
+                      item.data.userInformation.fatherLastName : "Usuario"}
                   </Chip>
                 ))}
               </div>
@@ -183,9 +192,9 @@ export const ScheduleForm = () => {
                 />
                 <div className="flex flex-col">
                   <span className="text-small">
-                    {user.userInformation.name +
+                    {user.userInformation ? user.userInformation.name +
                       " " +
-                      user.userInformation.fatherLastName}
+                      user.userInformation.fatherLastName : "Usuario"}
                   </span>
                   <span className="text-tiny text-default-400">
                     {user.email}

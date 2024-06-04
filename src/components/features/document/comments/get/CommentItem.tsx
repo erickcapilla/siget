@@ -31,7 +31,7 @@ export const CommentItem = ({ comment, setComments }: Props) => {
   };
 
   return (
-    <LayoutItem className="border-cyan-500 text-sm items-center">
+    <LayoutItem className="border-primary text-sm items-center">
       <article className="flex flex-col gap-3">
         <h2>{comment.comment}</h2>
         <section className="flex gap-2">

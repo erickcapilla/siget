@@ -13,6 +13,7 @@ import requestTopicServices from "@/services/RequestTopicServices";
 
 type UserContext = {
   setInformation: React.Dispatch<(prevState: undefined) => undefined>;
+  setDocument: React.Dispatch<React.SetStateAction<DocumentUrl[]>>;
   setRole: React.Dispatch<React.SetStateAction<string>>;
   getUser: () => Promise<void>;
   getUserDocument: () => Promise<void>;
@@ -27,6 +28,7 @@ type UserContext = {
 
 export const UserContext = createContext<UserContext>({
   setInformation: () => {},
+  setDocument: () => {},
   getUser: async () => {},
   getUserDocument: async () => {},
   setRole: () => {},
@@ -121,6 +123,7 @@ export const UserProvider = ({ children }: Props) => {
         document,
         getUserDocument,
         myTopics,
+        setDocument,
       }}
     >
       {children}

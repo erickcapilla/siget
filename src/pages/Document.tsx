@@ -1,6 +1,6 @@
 import { Layout } from "@/components/layouts";
 import { Panel } from "@components/features/ui";
-import { Accordion, AccordionItem } from "@nextui-org/react";
+import { Accordion, AccordionItem, Button } from "@nextui-org/react";
 import {
   DocumentForm,
   DocumentViewer,
@@ -11,14 +11,29 @@ import { useUser, useAuth } from "@/hooks";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import documentCommentsServices from "@/services/DocumentCommentsServices";
+import documentServices from "@/services/DocumentServices";
 import { CommentResponse } from "@/types";
 
 export const Document = () => {
-  const { role, getUserDocument, document } = useUser();
-  const { token } = useAuth()
+  const { role, getUserDocument, document, setDocument } = useUser();
+  const { token } = useAuth();
   const { id } = useParams();
   const [comments, setComments] = useState<CommentResponse>();
-  console.log(document)
+  console.log(document);
+
+  const getNextChapter = () => {
+    let chapter = "";
+
+    if (chapter === "") chapter = "Cap. 1";
+    if (document[0].chapter1) chapter = "Cap. 2";
+    if (document[0].chapter2) chapter = "Cap. 3";
+    if (document[0].chapter3) chapter = "Cap. 4";
+    if (document[0].chapter4) chapter = "Cap. 5";
+    if (document[0].chapter5) chapter = "Cap. 6";
+    if (document[0].chapter6) chapter = "Cap. 7";
+
+    return chapter;
+  };
 
   const getComments = () => {
     documentCommentsServices
@@ -26,11 +41,24 @@ export const Document = () => {
       .then((res) => res.json())
       .then((data) => setComments(data))
       .catch((error) => console.error(error));
+  };
+
+  const nextChapter = () => {
+    let chapter = 0;
+
+    if (document[0].chapter1) chapter = 2;
+    if (document[0].chapter2) chapter = 3;
+    if (document[0].chapter3) chapter = 4;
+    if (document[0].chapter4) chapter = 5;
+    if (document[0].chapter5) chapter = 6;
+    if (document[0].chapter6) chapter = 7;
+    //documentServices.updateChapter(token, chapter, document[0].id)
+      //.then(() => setDocument(prev => [...prev, ]))
   }
 
   useEffect(() => {
     getUserDocument();
-    getComments()
+    getComments();
   }, []);
 
   return (
@@ -68,14 +96,20 @@ export const Document = () => {
       <div className="min-[640px]:min-w-[70%] h-full">
         <Panel title="Documento" className="relative">
           <article className="flex">
-            { document && <DocumentViewer document={document[0]} /> }
+            {document && <DocumentViewer document={document[0]} />}
             <section className="shrink sticky max-w-[50%] min-w-[30%] w-full right-0 top-0 h-[50%] overflow-y-auto pr-2">
               <h1 className="rounded-t-md bg-gray-100 mb-3 p-2 text-center text-gray-700 font-bold border-primary border-t-3 border-l-3">
                 Comentarios
               </h1>
               <div className="top-0 w-full grid gap-3">
-                { comments && <CommentList comments={comments.result} setComments={setComments} /> }
+                {comments && (
+                  <CommentList
+                    comments={comments.result}
+                    setComments={setComments}
+                  />
+                )}
               </div>
+              
             </section>
           </article>
         </Panel>
@@ -83,3 +117,17 @@ export const Document = () => {
     </Layout>
   );
 };
+
+/*
+<section>
+                <Button
+                  color="primary"
+                  variant="solid"
+                  size="sm"
+                  className="mt-2 font-bold"
+                  onPress={nextChapter()}
+                >
+                  {`Aprobar capitulo ${getNextChapter()}`}{" "}
+                </Button>
+              </section>
+*/

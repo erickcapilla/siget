@@ -1,5 +1,6 @@
 class DocumentServices {
   API_URL_FILE = `${import.meta.env.VITE_API_URL}/files`;
+  API_URL_CHAPTER = `${import.meta.env.VITE_API_URL}/files/complete-chapter`;
 
   async uploadFile(token: string, file: File, id: string) {
     const formData = new FormData();
@@ -66,6 +67,24 @@ class DocumentServices {
       headers: {
         "Authorization": `Bearer ${token}`,
       },
+    });
+
+    if (response.ok) {
+      return response;
+    }
+
+    const error = await response.json();
+
+    throw new Error(error.message);
+  }
+
+  async updateChapter(token: string, chapter: number, id: string) {
+    const response = await fetch(`${this.API_URL_CHAPTER}/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify({chapter}),
     });
 
     if (response.ok) {

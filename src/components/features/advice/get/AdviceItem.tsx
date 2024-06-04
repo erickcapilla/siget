@@ -49,7 +49,7 @@ export const AdviceItem = () => {
           className="font-bold w-full justify-center"
         />
           <Tooltip
-            content="Eliminar"
+            content="Firmar"
             radius="sm"
             className="text-primary font-bold w-full"
           >

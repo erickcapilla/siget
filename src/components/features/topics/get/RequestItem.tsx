@@ -14,9 +14,9 @@ export const RequestItem = ({ request }: Props) => {
         <p className="text-sm">{request.topic.description}</p>
       </section>
       <section>
-        <Chip color={request.isAccepted ? "success" : "danger"} variant="flat">
+        <Chip color={request.isAccepted ? "success" : "warning"} variant="flat">
           {" "}
-          {request.isAccepted ? "Aceptado" : "Rechazado"}{" "}
+          {request.isAccepted ? "Aceptado" : "En espera"}{" "}
         </Chip>
       </section>
     </LayoutItem>

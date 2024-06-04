@@ -159,9 +159,9 @@ export const TopicForm = ({ view }: Props) => {
               <div className="flex flex-wrap gap-2">
                 {items.map((item) => (
                   <Chip key={item.key} color="primary" variant="flat">
-                    {item.data.userInformation.name +
+                    {item.data.userInformation ? item.data.userInformation.name +
                       " " +
-                      item.data.userInformation.fatherLastName}
+                      item.data.userInformation.fatherLastName : "Usuario"}
                   </Chip>
                 ))}
               </div>
@@ -186,9 +186,9 @@ export const TopicForm = ({ view }: Props) => {
                 />
                 <div className="flex flex-col">
                   <span className="text-small">
-                    {user.userInformation.name +
+                    {user.userInformation ? user.userInformation.name +
                       " " +
-                      user.userInformation.fatherLastName}
+                      user.userInformation.fatherLastName : "Usuario"}
                   </span>
                   <span className="text-tiny text-default-400">
                     {user.email}

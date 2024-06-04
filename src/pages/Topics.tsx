@@ -7,21 +7,29 @@ import { useTopic } from "@/hooks/useTopic";
 
 export const Topics = () => {
   const [view, setView] = useState("all");
-  const { getTopics, getUserTopics, getPetitionsTopics, getRequestTopics, loading } = useTopic();
+  const {
+    getTopics,
+    getUserTopics,
+    getPetitionsTopics,
+    getRequestTopics,
+    getRequestAccepted,
+    loading,
+  } = useTopic();
 
   const handleView = async (type: string) => {
     setView(type);
-    if(view === "all")  getTopics();
-    if(view === "user") getUserTopics();
-    if(view === "interest") getUserTopics();
-    if(view === "proposals") getUserTopics();
+    if (view === "all") getTopics();
+    if (view === "user") getUserTopics();
+    if (view === "interest") getUserTopics();
+    if (view === "proposals") getUserTopics();
   };
 
   useEffect(() => {
-    getUserTopics()
-    getPetitionsTopics()
-    getRequestTopics()
-  }, [])
+    getUserTopics();
+    getPetitionsTopics();
+    getRequestTopics();
+    getRequestAccepted();
+  }, []);
 
   return (
     <Layout>

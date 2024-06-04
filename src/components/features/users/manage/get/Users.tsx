@@ -25,13 +25,13 @@ import { EditIcon, DeleteIcon, EyeIcon } from "@/assets/icons";
 import { roles } from "@/data/roles";
 import userServices from "@/services/UserServices";
 import { SelectRole } from "@/components/features/ui";
-import { Information } from "@/types";
+//import { Information } from "@/types";
 
 type User = {
   id: string;
+  fullName: string;
   email: string;
   roles: string[];
-  userInformation: Information;
 };
 
 interface Props {
@@ -77,7 +77,7 @@ export const Users = ({ users, setUsers }: Props) => {
       );
 
       const cellValue = user[columnKey as keyof User];
-      const userName = user.userInformation.name
+      const userName = user.userInformation
         ? `${user.userInformation.name.split(" ")[0]} ${
             user.userInformation.fatherLastName
           }`

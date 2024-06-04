@@ -23,7 +23,7 @@ export const TopicItem = ({ topic, view }: Props) => {
         user.userInformation.fatherLastName
       }`
     : "Usuario";
-  const collaboratorName = collaborator !== null
+  const collaboratorName = collaborator !== null && collaborator.userInformation
       ? `${collaborator.userInformation.name.split(" ")[0]} ${
         collaborator.userInformation.fatherLastName
       }`

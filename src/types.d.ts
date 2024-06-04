@@ -8,7 +8,7 @@ export interface User {
   password?: string;
   email?: string;
   roles?: string[];
-  userInformation: Information;
+  userInformation?: Information;
 }
 
 export type Information = {
@@ -112,4 +112,13 @@ export interface TopicAcceptedRequest {
   id: string;
   items: TopicAccepted[];
   total: number;
+}
+
+export interface Appointment {
+  topic: string;
+  location: string;
+  date: string;
+  time: string;
+  participants: string[];
+  invitee: string;
 }

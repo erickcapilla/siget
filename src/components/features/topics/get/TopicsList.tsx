@@ -1,6 +1,7 @@
 import { TopicItem } from "./TopicItem";
 import { RequestItem } from "./RequestItem";
 import { PetitionItem } from "./PetitionItem";
+import { RequestAcceptedItem } from "./RequestAcceptedItem";
 import { useTopic } from "@/hooks/useTopic";
 
 interface Props {
@@ -8,7 +9,13 @@ interface Props {
 }
 
 export const TopicsList = ({ view }: Props) => {
-  const { topics, userTopics, userRequests, userPetitions } = useTopic();
+  const {
+    topics,
+    userTopics,
+    userRequests,
+    userPetitions,
+    userRequestsAccepted,
+  } = useTopic();
   return (
     <div className="grid gap-2">
       {view === "all" &&
@@ -24,6 +31,11 @@ export const TopicsList = ({ view }: Props) => {
       {view === "interest" &&
         userRequests.map((request) => (
           <RequestItem key={request.id} request={request} />
+        ))}
+
+      {view === "interest" &&
+        userRequestsAccepted.items.map((request) => (
+          <RequestAcceptedItem key={request.id} request={request} />
         ))}
 
       {view === "proposals" &&

@@ -7,7 +7,7 @@ import {
   StudentForm,
   Details,
   Information,
-} from "@/components/features/users/user";
+} from "@/components/features";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 

@@ -97,7 +97,7 @@ export const LoginForm = () => {
           </form>
         </CardBody>
         <CardFooter className="flex justify-center">
-          <Link href="#" color="secondary" underline="always">
+          <Link href="/reset" color="secondary" underline="always">
             ¿Olvidaste tu contraseña?
           </Link>
         </CardFooter>

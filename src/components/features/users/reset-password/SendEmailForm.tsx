@@ -30,6 +30,7 @@ export const SendEmailForm = () => {
           variant="bordered"
           color="primary"
           radius="sm"
+          isRequired
           onChange={handleChange}
         />
         <Button

@@ -14,11 +14,9 @@ import { User, Appointment } from "@/types";
 import userServices from "@/services/UserServices";
 import scheduleServices from "@/services/ScheduleServices"
 import { useState, useEffect } from "react";
-import { useAuth } from '@/hooks'
 
 export const ScheduleForm = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const { token } = useAuth();
   const [appointment, setAppointment] = useState<Appointment>({
     topic: "",
     location: "",
@@ -46,7 +44,7 @@ export const ScheduleForm = () => {
 
   const handleSubmit = (e: React.FormEvent<EventTarget | HTMLFormElement>) => {
     e.preventDefault()
-    scheduleServices.createAppointment(token, appointment)
+    scheduleServices.createAppointment(appointment)
       .then(() => console.log("Cita agendada"))
       .catch(error => console.error(error))
     console.log(appointment)

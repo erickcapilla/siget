@@ -1,22 +1,20 @@
 import { NoAppointments } from "./NoAppointments";
 import { useEffect, useState } from "react";
 import scheduleServices from "@/services/ScheduleServices";
-import { useAuth } from "@/hooks";
 import { ScheduleItem } from "./ScheduleItem";
 
 export const ScheduleList = () => {
   const [appointments, setAppointments] = useState([]);
   const [appointmentsOther, setAppointmentsOther] = useState([]);
-  const { token } = useAuth();
 
   useEffect(() => {
     scheduleServices
-      .getPetitionAppointment(token)
+      .getPetitionAppointment()
       .then((res) => res.json())
       .then((data) => setAppointmentsOther(data.schedules))
       .catch((error) => console.error(error));
     scheduleServices
-      .getRequestAppointment(token)
+      .getRequestAppointment()
       .then((res) => res.json())
       .then((data) => setAppointments(data.schedules))
       .catch((error) => console.error(error));

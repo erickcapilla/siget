@@ -5,7 +5,7 @@ import { TopicResponse, UserResponse } from "@/types";
 import { optionNames } from "@/utils/utils";
 import userServices from "@/services/UserServices";
 import requestTopicServices from "@/services/RequestTopicServices";
-import { useTopic, useAuth } from "@/hooks";
+import { useTopic } from "@/hooks";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -15,7 +15,6 @@ interface Props {
 
 export const TopicItem = ({ topic, view }: Props) => {
   const { deleteTopic } = useTopic();
-  const { token } = useAuth();
   const [user, setUser] = useState<UserResponse>(null);
   const [collaborator, setCollaborator] = useState<UserResponse>(null);
   const userName = user
@@ -30,7 +29,7 @@ export const TopicItem = ({ topic, view }: Props) => {
       : "Usuario";
 
   const createRequest = () => {
-    requestTopicServices.createRequestTopic(token, topic.id)
+    requestTopicServices.createRequestTopic(topic.id)
       .then(() => console.log("todo god"))
       .catch(e => console.error(e))
   }

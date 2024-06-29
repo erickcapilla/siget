@@ -2,7 +2,7 @@ import { Dropzone, FileMosaic } from "@dropzone-ui/react";
 import { useState } from "react";
 import { Button } from "@nextui-org/react";
 import documentServices from '@/services/DocumentServices';
-import { useAuth, useUser } from "@/hooks";
+import { useUser } from "@/hooks";
 
 interface Props {
   id: string;
@@ -10,7 +10,6 @@ interface Props {
 
 export const DocumentForm = ({ id }: Props) => {
   const [files, setFiles] = useState([]);
-  const { token } = useAuth()
   const {document} = useUser()
 
   const updateFiles = (incommingFiles) => {
@@ -24,11 +23,11 @@ export const DocumentForm = ({ id }: Props) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if(!document[0].url) {
-      documentServices.uploadFile(token, files[0].file, id)
+      documentServices.uploadFile(files[0].file, id)
         .then(() => console.log("Documento uploaded"))
         .catch(error => console.error(error))
     } else {
-      documentServices.updateFile(token, files[0].file, document[0].id)
+      documentServices.updateFile(files[0].file, document[0].id)
         .then(() => console.log("Documento actualizado"))
         .catch(error => console.error(error))
     }

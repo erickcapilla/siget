@@ -2,14 +2,12 @@ import { Input, Button, DateInput, Textarea } from "@nextui-org/react";
 import { Advisory } from "@/types";
 import { useState } from 'react'
 import advisoryServices from "@/services/AdvisoryServices";
-import { useAuth } from '@/hooks'
 
 interface Props {
   setAdvisories: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 export const AdviceForm = ({setAdvisories}: Props) => {
-  const { token } = useAuth();
   const [advisory, setAdvisory] = useState<Advisory>({
     reviewedTopic: "",
     observations: "",
@@ -26,7 +24,7 @@ export const AdviceForm = ({setAdvisories}: Props) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log(advisory)
-    advisoryServices.saveAdvisory(token, advisory)
+    advisoryServices.saveAdvisory(advisory)
       .then(() => setAdvisories(prev => [...prev, {id: 0, ...advisory}]))
       .then(() => console.log("Nueva asesoria"))
       .catch((error) => console.error(error))

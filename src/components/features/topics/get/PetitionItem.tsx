@@ -2,17 +2,14 @@ import { LayoutItem } from "@/components/layouts";
 import { PetitionTopic } from "@/types";
 import { Chip, Button } from "@nextui-org/react";
 import requestTopicServices from "@/services/RequestTopicServices";
-import { useAuth } from "@/hooks"; 
 
 interface Props {
   petition: PetitionTopic;
 }
 
 export const PetitionItem = ({ petition }: Props) => {
-  const { token } = useAuth();
-
   const acceptPetition = () => {
-    requestTopicServices.acceptPetition(token, petition.id)
+    requestTopicServices.acceptPetition(petition.id)
       .then(res => res.json())
       .then(data => console.log(data))
       .then(() => console.log("aceptado"))
@@ -20,7 +17,7 @@ export const PetitionItem = ({ petition }: Props) => {
   }
 
   const rejectPetition = () => {
-    requestTopicServices.deletePetition(token, petition.id)
+    requestTopicServices.deletePetition(petition.id)
       .then(() => console.log("rechazado"))
       .catch((e) => console.error(e))
   }

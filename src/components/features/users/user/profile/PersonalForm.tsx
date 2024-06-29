@@ -1,12 +1,11 @@
 import { Input, Button } from "@nextui-org/react";
-import { useUser, useAuth } from "@/hooks";
+import { useUser } from "@/hooks";
 import { useState } from "react";
 import userServices from "@/services/UserServices";
 import { Information } from "@/types";
 
 export const PersonalForm = () => {
   const { information, setInformation } = useUser();
-  const { token } = useAuth();
   const [values, setValues] = useState<Information>({
     name: "",
     fatherLastName: "",
@@ -27,7 +26,7 @@ export const PersonalForm = () => {
     e.preventDefault();
 
     try {
-      const res = await userServices.setInformation(token, values);
+      const res = await userServices.setInformation(values);
       setInformation(await res.json());
     } catch (error) {
       console.error(error);

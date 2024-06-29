@@ -8,7 +8,7 @@ import styles from "./Header.module.css";
 import { useAuth } from '@hooks/useAuth'
 
 interface Props {
-  handleOpenPanel: (type?: string) => void;
+  handleOpenPanel?: (type?: string) => void;
 }
 
 export const Header = ({ handleOpenPanel }: Props) => {

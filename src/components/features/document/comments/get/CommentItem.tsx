@@ -2,7 +2,7 @@ import { LayoutItem } from "@/components/layouts";
 import { Comment, CommentResponse } from "@/types";
 import { DeleteIcon, CalendarIcon, ClockIcon } from "@/assets/icons";
 import { Chip, Button } from "@nextui-org/react";
-import { useUser, useAuth } from "@/hooks";
+import { useUser } from "@/hooks";
 import documentCommentsServices from "@/services/DocumentCommentsServices";
 
 interface Props {
@@ -12,14 +12,13 @@ interface Props {
 
 export const CommentItem = ({ comment, setComments }: Props) => {
   const { role } = useUser();
-  const { token } = useAuth();
   const dateString = comment.date;
   const date = new Date(dateString);
   const formattedDate = date.toLocaleDateString();
   const formattedTime = date.toLocaleTimeString();
 
   const deleteComment = () => {
-    documentCommentsServices.deleteComment(token, comment.id)
+    documentCommentsServices.deleteComment(comment.id)
       .then(() => console.log("Comment deleted"))
       .then(() => setComments(prev => {
         return {

@@ -1,6 +1,6 @@
 import { LayoutItem } from "@/components/layouts";
 import { Chip, User, Button, Tooltip, AvatarIcon } from "@nextui-org/react";
-import { useUser, useAuth } from "@/hooks";
+import { useUser } from "@/hooks";
 import advisoryServices from "@/services/AdvisoryServices";
 
 interface Props {
@@ -10,11 +10,10 @@ interface Props {
 
 export const AdviceItem = ({ advisory, setAdvisories }: Props) => {
   const { role } = useUser();
-  const { token } = useAuth();
 
   const deleteAdvisory = () => {
     advisoryServices
-      .deleteAdvisory(token, advisory.id)
+      .deleteAdvisory(advisory.id)
       .then(() => setAdvisories((prev) => prev.filter((user) => advisory.id !== user.id)))
       .then(() => console.log("Advisory deleted"))
       .catch((error) => console.error(error));
@@ -22,7 +21,7 @@ export const AdviceItem = ({ advisory, setAdvisories }: Props) => {
 
   const signAdvisory = () => {
     advisoryServices
-      .signAdvisory(token, advisory.id)
+      .signAdvisory(advisory.id)
       .then(() => console.log("Advisory Firmada"))
       .catch((error) => console.error(error));
   };

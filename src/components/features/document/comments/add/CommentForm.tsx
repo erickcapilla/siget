@@ -1,6 +1,5 @@
 import { Textarea, Button } from "@nextui-org/react";
 import documentCommentsServices from "@/services/DocumentCommentsServices";
-import { useAuth } from "@/hooks";
 import { useState } from 'react'
 
 interface Props {
@@ -8,13 +7,12 @@ interface Props {
 }
 
 export const CommentForm = ({ id }: Props) => {
-  const { token } = useAuth();
   const [comment, setComment] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    documentCommentsServices.saveComment(token, comment, id);
+    documentCommentsServices.saveComment(comment, id);
   };
 
   return (

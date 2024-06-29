@@ -5,12 +5,13 @@ class RequestTopicServices {
   API_URL_USER_REQUESTS = `${import.meta.env.VITE_API_URL}/topic-request/my-requests`;
   API_URL_DELETE_PETITION = `${import.meta.env.VITE_API_URL}/topic-request/reject-a-petition/`;
   API_URL_ACCEPTED_TOPICS = `${import.meta.env.VITE_API_URL}/accepted-topics`;
+  token = localStorage.getItem("siget") || "";
 
-  async createRequestTopic(token: string, id: string) {
+  async createRequestTopic(id: string) {
     const response = await fetch(this.API_URL_TOPIC_REQUEST, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ topic: id }),
@@ -25,11 +26,11 @@ class RequestTopicServices {
     throw new Error(error.message);
   }
 
-  async acceptPetition(token: string, id: string) {
+  async acceptPetition(id: string) {
     const response = await fetch(this.API_URL_TOPIC_ACCEPT + id, {
       method: "PATCH",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
       },
     });
 
@@ -42,11 +43,11 @@ class RequestTopicServices {
     throw new Error(error.message);
   }
 
-  async getUserPetitions(token: string) {
+  async getUserPetitions() {
     const response = await fetch(this.API_URL_USER_PETITIONS, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
         "Content-Type": "application/json",
       },
     });
@@ -60,11 +61,11 @@ class RequestTopicServices {
     throw new Error(error.message);
   }
 
-  async getUserRequests(token: string) {
+  async getUserRequests() {
     const response = await fetch(this.API_URL_USER_REQUESTS, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
         "Content-Type": "application/json",
       },
     });
@@ -78,11 +79,11 @@ class RequestTopicServices {
     throw new Error(error.message);
   }
 
-  async getAcceptedTopics(token: string) {
+  async getAcceptedTopics() {
     const response = await fetch(this.API_URL_ACCEPTED_TOPICS, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
         "Content-Type": "application/json",
       },
     });
@@ -96,11 +97,11 @@ class RequestTopicServices {
     throw new Error(error.message);
   }
 
-  async deletePetition(token: string, id: string) {
+  async deletePetition(id: string) {
     const response = await fetch(this.API_URL_DELETE_PETITION + id, {
       method: "DELETE",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
       },
     });
 

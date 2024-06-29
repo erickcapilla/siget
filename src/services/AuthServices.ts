@@ -4,6 +4,7 @@ class AuthService {
   API_URL_REGISTER = `${import.meta.env.VITE_API_URL}/auth/register`;
   API_URL_FORGOT_PASSWORD = `${import.meta.env.VITE_API_URL}/auth/forgot-password`;
   API_URL_NEW_PASSWORD = `${import.meta.env.VITE_API_URL}/auth/reset-password`;
+  token = localStorage.getItem("siget") || "";
 
   async login({ email, password }) {
     const response = await fetch(this.API_URL_LOGIN, {
@@ -55,8 +56,8 @@ class AuthService {
     throw new Error("Email not found");
   }
 
-  async resetPassword(token: string, password: string) {
-    const response = await fetch(`${this.API_URL_NEW_PASSWORD}/${token}`, {
+  async resetPassword(password: string) {
+    const response = await fetch(`${this.API_URL_NEW_PASSWORD}/${this.token}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

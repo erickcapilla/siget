@@ -9,7 +9,6 @@ import {
 } from "@/types";
 import topicServices from "@/services/TopicServices";
 import requestTopicServices from "@/services/RequestTopicServices";
-import { useAuth } from "@/hooks";
 
 type TopicContext = {
   setTopics: React.Dispatch<React.SetStateAction<TopicResponse[]>>;
@@ -58,13 +57,12 @@ export const TopicProvider = ({ children }: Props) => {
   const [userRequestsAccepted, setUserRequestsAccepted] =
     useState<TopicAcceptedRequest>();
   const [userPetitions, setUserPetitions] = useState<PetitionTopic[]>([]);
-  const { token } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const getTopics = async () => {
     setLoading(true);
     try {
-      const res = await topicServices.getTopics(token);
+      const res = await topicServices.getTopics();
       const data = await res.json();
       setTopics(data);
     } catch (error) {
@@ -77,7 +75,7 @@ export const TopicProvider = ({ children }: Props) => {
   const getUserTopics = async () => {
     setLoading(true);
     try {
-      const res = await topicServices.getUserTopics(token);
+      const res = await topicServices.getUserTopics();
       const data = await res.json();
       setUserTopics(data);
     } catch (error) {
@@ -90,7 +88,7 @@ export const TopicProvider = ({ children }: Props) => {
   const getRequestTopics = async () => {
     setLoading(true);
     try {
-      const res = await requestTopicServices.getUserRequests(token);
+      const res = await requestTopicServices.getUserRequests();
       const data = await res.json();
       setUserRequests(data);
     } catch (error) {
@@ -103,7 +101,7 @@ export const TopicProvider = ({ children }: Props) => {
   const getRequestAccepted = async () => {
     setLoading(true);
     try {
-      const res = await requestTopicServices.getAcceptedTopics(token);
+      const res = await requestTopicServices.getAcceptedTopics();
       const data = await res.json();
       setUserRequestsAccepted(data);
     } catch (error) {
@@ -116,7 +114,7 @@ export const TopicProvider = ({ children }: Props) => {
   const getPetitionsTopics = async () => {
     setLoading(true);
     try {
-      const res = await requestTopicServices.getUserPetitions(token);
+      const res = await requestTopicServices.getUserPetitions();
       const data = await res.json();
       setUserPetitions(data);
       console.log(data);
@@ -129,7 +127,7 @@ export const TopicProvider = ({ children }: Props) => {
 
   const saveTopic = async (topic: Topic) => {
     try {
-      const res = await topicServices.saveTopic(token, topic);
+      const res = await topicServices.saveTopic(topic);
       const data = await res.json();
       return data;
     } catch (error) {
@@ -139,7 +137,7 @@ export const TopicProvider = ({ children }: Props) => {
 
   const deleteTopic = async (id: string) => {
     try {
-      await topicServices.deleteTopic(token, id);
+      await topicServices.deleteTopic(id);
       setTopics((prev) => prev.filter((topic) => topic.id !== id));
       setUserTopics((prev) => prev.filter((topic) => topic.id !== id));
     } catch (error) {

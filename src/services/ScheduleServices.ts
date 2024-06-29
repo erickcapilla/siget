@@ -3,12 +3,13 @@ class ScheduleServices {
   API_URL_SCHEDULE = `${import.meta.env.VITE_API_URL}/schedule`;
   API_URL_REQUEST_SCHEDULE = `${import.meta.env.VITE_API_URL}/schedule/my-request`;
   API_URL_PETITION_SCHEDULE = `${import.meta.env.VITE_API_URL}/schedule/my-petition`;
+  token = localStorage.getItem("siget") || "";
 
-  async createAppointment(token: string, appointment: Appointment) {
+  async createAppointment(appointment: Appointment) {
     const response = await fetch(this.API_URL_SCHEDULE, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(appointment),
@@ -23,11 +24,11 @@ class ScheduleServices {
     throw new Error(error.message); 
   }
 
-  async getRequestAppointment(token: string) {
+  async getRequestAppointment() {
     const response = await fetch(this.API_URL_REQUEST_SCHEDULE, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
         "Content-Type": "application/json",
       },
     })
@@ -41,11 +42,11 @@ class ScheduleServices {
     throw new Error(error.message)
   }
 
-  async getPetitionAppointment(token: string) {
+  async getPetitionAppointment() {
     const response = await fetch(this.API_URL_PETITION_SCHEDULE, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
         "Content-Type": "application/json",
       },
     })

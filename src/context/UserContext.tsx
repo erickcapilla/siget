@@ -66,7 +66,7 @@ export const UserProvider = ({ children }: Props) => {
   const [document, setDocument] = useState<DocumentUrl[]>([]);
   const [myTopics, setMyTopics] = useState<TopicAcceptedRequest>();
 
-  const { isAuth, userAuthed, token } = useAuth();
+  const { isAuth, userAuthed } = useAuth();
 
   const getUser = useCallback(async () => {
     try {
@@ -90,14 +90,14 @@ export const UserProvider = ({ children }: Props) => {
 
   const getUserDocument = async () => {
     documentServices
-      .getUserDocuments(token)
+      .getUserDocuments()
       .then((res) => res.json())
       .then((data) => setDocument(data))
       .catch((error) => console.error(error));
   };
 
   const getMyTopics = async () => {
-    requestTopicServices.getAcceptedTopics(token)
+    requestTopicServices.getAcceptedTopics()
       .then(res => res.json())
       .then(data => setMyTopics(data))
       .catch(error => console.log(error))

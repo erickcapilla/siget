@@ -4,6 +4,7 @@ class UserService {
   API_URL_USER_INFORMATION = `${import.meta.env.VITE_API_URL}/user-information`;
   API_URL_DEGREE = `${import.meta.env.VITE_API_URL}/degree-programs`;
   API_URL_USERS = `${import.meta.env.VITE_API_URL}/auth/users`;
+  token = localStorage.getItem("siget") || "";
 
   async getUser(id: string) {
     const response = await fetch(`${this.API_URL_USERS}/${id}`, {
@@ -92,12 +93,11 @@ class UserService {
     throw new Error(error.message);
   }
 
-  async setInformation(token: string, information: Information) {
-    console.log(token)
+  async setInformation(information: Information) {
     const response = await fetch(this.API_URL_USER_INFORMATION, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(information),

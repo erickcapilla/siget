@@ -1,12 +1,13 @@
 class DocumentCommentsServices {
   API_URL_COMMENTS = `${import.meta.env.VITE_API_URL}/topic-document-comments`;
   API_URL_DOCUMENT_COMMENTS = `${import.meta.env.VITE_API_URL}/topic-document-comments/comments`;
+  token = localStorage.getItem("siget") || "";
 
-  async saveComment(token: string, comment: string, topicDocument: string) {
+  async saveComment(comment: string, topicDocument: string) {
     const response = await fetch(this.API_URL_COMMENTS, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({comment, topicDocument }),
@@ -21,12 +22,12 @@ class DocumentCommentsServices {
     throw new Error(error.message);
   }
 
-  async getComments(token: string, topicDocumentId: string) {
+  async getComments(topicDocumentId: string) {
     console.log("Hola", topicDocumentId)
     const response = await fetch(`${this.API_URL_DOCUMENT_COMMENTS}/${topicDocumentId}`, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
         "Content-Type": "application/json",
       },
     })
@@ -40,11 +41,11 @@ class DocumentCommentsServices {
     throw new Error(error.message);
   }
 
-  async updateComment(token: string, comment: string, id: string) {
+  async updateComment(comment: string, id: string) {
     const response = await fetch(`${this.API_URL_COMMENTS}/${id}`, {
       method: "PATCH",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(comment),
@@ -59,11 +60,11 @@ class DocumentCommentsServices {
     throw new Error(error.message);
   }
 
-  async deleteComment(token: string, id: string) {
+  async deleteComment(id: string) {
     const response = await fetch(`${this.API_URL_COMMENTS}/${id}`, {
       method: "DELETE",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
       },
     });
 

@@ -4,12 +4,13 @@ class TopicServices {
   API_URL_ALL_TOPICS = `${import.meta.env.VITE_API_URL}/topic/all-topics`;
   API_URL_USER_TOPICS = `${import.meta.env.VITE_API_URL}/topic/my-topics`;
   API_URL_TOPIC = `${import.meta.env.VITE_API_URL}/topic`;
+  token = localStorage.getItem("siget") || "";
 
-  async saveTopic(token: string, topic: Topic) {
+  async saveTopic(topic: Topic) {
     const response = await fetch(this.API_URL_TOPIC, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(topic),
@@ -42,11 +43,11 @@ class TopicServices {
     throw new Error(error.message);
   }
 
-  async getTopics(token: string) {
+  async getTopics() {
     const response = await fetch(this.API_URL_ALL_TOPICS, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
         "Content-Type": "application/json",
       },
     });
@@ -60,11 +61,11 @@ class TopicServices {
     throw new Error(error.message);
   }
 
-  async getUserTopics(token: string) {
+  async getUserTopics() {
     const response = await fetch(this.API_URL_USER_TOPICS, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
         "Content-Type": "application/json",
       },
     });
@@ -78,11 +79,11 @@ class TopicServices {
     throw new Error(error.message);
   }
 
-  async deleteTopic(token: string, id: string) {
+  async deleteTopic(id: string) {
     const response = await fetch(`${this.API_URL_TOPIC}/${id}`, {
       method: "DELETE",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        "Authorization": `Bearer ${this.token}`,
       }
     });
 

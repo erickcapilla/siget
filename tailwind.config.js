@@ -26,7 +26,6 @@ export default {
             danger: {
               DEFAULT: "#F31260",
             },
-            foreground: "#000"
           }
         }
       }

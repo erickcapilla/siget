@@ -11,7 +11,7 @@ import {
   Profile,
   Schedule,
   ResetPassword,
-  NewPassword
+  NewPassword,
 } from "@/pages";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { useAuth, useUser } from "@/hooks";
@@ -22,18 +22,19 @@ export const MainRoutes = () => {
 
   return (
     <Routes>
-      <Route path="/reset" element={<ResetPassword />} />
-      <Route path="/reset-password/:id" element={<NewPassword />} />
-        <Route
+      <Route
         element={<ProtectedRoute isAllowed={!isAuth} redirectTo="/home" />}
       >
         <Route index path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/reset" element={<ResetPassword />} />
+        <Route path="/reset-password/:id" element={<NewPassword />} />
       </Route>
 
-
       <Route
-        element={<ProtectedRoute isAllowed={!!information} redirectTo="/home" />}
+        element={
+          <ProtectedRoute isAllowed={!!information} redirectTo="/home" />
+        }
       >
         <Route path="/topics" element={<Topics />} />
         <Route path="/manage" element={<Manage />} />
@@ -62,7 +63,6 @@ export const MainRoutes = () => {
     </Routes>
   );
 };
-
 
 /*
 

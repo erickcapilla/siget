@@ -36,8 +36,12 @@ export const LoginForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
-    await login(credentials);
-    navigate("/home");
+    try {
+      await login(credentials);
+      navigate("/home");
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   return (

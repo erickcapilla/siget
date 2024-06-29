@@ -58,14 +58,12 @@ export const AuthProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    if (token === "") {
-      navigate("/login");
-    } else {
+    if (token !== "") {
       const decodedToken = jwtDecode<customJwtPayload>(token);
       setUserAuthed(decodedToken.id);
       setIsAuth(true);
     }
-  }, [token, navigate]);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ isAuth, userAuthed, token, login, logout }}>

@@ -1,0 +1,4 @@
+.panel {
+  width: var(--panel-size);
+  height: 100%;
+}

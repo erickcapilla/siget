@@ -1,0 +1,5 @@
+export * from './Menu'
+export * from './PersonalForm'
+export * from './StudentForm'
+export * from './Details'
+export * from './Information'

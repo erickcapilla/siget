@@ -1,0 +1,16 @@
+export const paths = {
+  home: "/",
+  login: "/login",
+  reset: "/reset",
+  newPassword: "/reset-password/",
+  topics: "/topics",
+  manage: "/manage",
+  profile: "/profile/",
+  document: "/document/",
+  advice: "/advice",
+  degree: "/degree",
+  graduates: "/graduates",
+  schedule: "/schedule",
+  userProfile: "/profile",
+  admin: "/admin",
+}

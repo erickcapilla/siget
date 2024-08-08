@@ -1,3 +1,4 @@
 export * from "./PetitionItem";
-export * from "./RequestAcceptedItem";
+export * from "./AcceptedItem";
 export * from "./RequestItem";
+export * from "./TopicItem";

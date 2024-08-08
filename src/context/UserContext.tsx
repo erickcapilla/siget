@@ -2,6 +2,7 @@ import { useState, createContext, useEffect, useCallback } from "react";
 import { useAuth } from "@/hooks";
 import { User, Information, Degree } from "@/types";
 import userServices from "@/services/UserServices";
+import Cookies from "js-cookie";
 
 type UserContext = {
   information: Information;
@@ -20,7 +21,7 @@ interface Props {
 }
 
 export const UserProvider = ({ children }: Props) => {
-  const [role, setRole] = useState(localStorage.getItem("siget-role") || "");
+  const [role, setRole] = useState(Cookies.get("role"));
   const [information, setInformation] = useState<Information>();
   const [userRoles, setUserRoles] = useState([]);
   const [degrees, setDegrees] = useState<Degree[]>([]);
@@ -42,9 +43,9 @@ export const UserProvider = ({ children }: Props) => {
         setUserRoles(res.user && res.user.roles);
         console.log(res)
 
-        if (role === "") {
+        if (role) {
           setRole(res.user && res.user.roles[0]);
-          res.user && localStorage.setItem("siget-role", res.user.roles[0]);
+          res.user && Cookies.set("role", res.user.roles[0], { sameSite: 'none' });
         }
       }
     } catch (error) {

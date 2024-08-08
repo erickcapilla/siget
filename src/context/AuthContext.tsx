@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { Credentials } from "@/types/user";
 import { paths } from "@/utils";
 import { AuthContext as AuthType, customJwtPayload } from "@/types/context";
+import Cookies from "js-cookie";
 
 import authServices from "@/services/AuthServices";
 import toast from "react-hot-toast";
@@ -15,7 +16,7 @@ interface Props {
 }
 
 export const AuthProvider = ({ children }: Props) => {
-  const [token, setToken] = useState(localStorage.getItem("siget-token") || "");
+  const [token, setToken] = useState(Cookies.get("token"));
   const [userAuthed, setUserAuthed] = useState("");
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -30,7 +31,7 @@ export const AuthProvider = ({ children }: Props) => {
       if (data.token) {
         setIsAuth(true);
         setToken(data.token);
-        localStorage.setItem("siget-token", data.token);
+        Cookies.set("token", data.token, { sameSite: 'none' });
         navigate(paths.login);
         return;
       }
@@ -44,13 +45,13 @@ export const AuthProvider = ({ children }: Props) => {
     setIsAuth(false);
     setToken("");
     setUserAuthed("");
-    localStorage.removeItem("siget-token");
-    localStorage.removeItem("siget-role");
+    Cookies.remove("token");
+    Cookies.remove("role");
     navigate(paths.login);
   };
 
   useEffect(() => {
-    if (token !== "") {
+    if (token) {
       const decodedToken = jwtDecode<customJwtPayload>(token);
       setUserAuthed(decodedToken.id);
       setIsAuth(true);

@@ -32,3 +32,12 @@ export type PetitionTopic = {
   requestedBy: EnableUserResponse & {id: string};
   topic: TopicResponse;
 }
+
+export type AcceptedTopic = {
+  id: string;
+  description: string;
+  collaborator: UserTopic;
+  title: string;
+  acceptedBy: EnableUserResponse & {id: string}; 
+  requestedBy: EnableUserResponse & {id: string}; 
+}

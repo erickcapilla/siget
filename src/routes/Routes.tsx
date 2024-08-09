@@ -45,6 +45,7 @@ export const AppRoutes = () => {
         <Route path={paths.degree} element={<Degree />} />
         <Route path={paths.graduates} element={<Graduates />} />
         <Route path={paths.schedule} element={<Schedule />} />
+        <Route path={paths.admin} element={<Admin />} />
       </Route>
 
       <Route

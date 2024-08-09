@@ -1,5 +1,5 @@
-import { AuthProvider } from "./context/AuthContext";
-import { UserProvider } from "./context/UserContext";
+import { AuthProvider } from "./context/AuthProvider";
+import { UserProvider } from "./context/UserProvider";
 import { AppRoutes } from "./routes/Routes";
 import { Toaster } from "react-hot-toast";
 

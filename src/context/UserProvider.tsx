@@ -56,6 +56,7 @@ export const UserProvider = ({ children }: Props) => {
         information,
         isLoading,
         setRole,
+        setInformation,
       }}
     >
       {children}

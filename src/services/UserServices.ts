@@ -112,6 +112,25 @@ class UserService {
     throw new Error(error.message);
   }
 
+  async updateInformation(token: string, information: Information) {
+    const response = await fetch(this.API_URL_USER_INFORMATION, {
+      method: "PATCH",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(information),
+    });
+
+    if (response.ok) {
+      return response;
+    }
+
+    const error = await response.json();
+
+    throw new Error(error.message);
+  }
+
   async enableUsers(token: string) {
     const response = await fetch(this.API_URL_ENABLE_USERS, {
       method: "GET",

@@ -13,6 +13,7 @@ import {
   ResetPassword,
   NewPassword,
   Admin,
+  UserProfile
 } from "@/pages";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { useAuth, useUser } from "@/hooks";
@@ -52,8 +53,8 @@ export const AppRoutes = () => {
         element={<ProtectedRoute isAllowed={isAuth} redirectTo="/login" />}
       >
         <Route path={paths.home} index element={<Home />} />
-        <Route path={paths.userProfile} element={<Profile />} />
         <Route path={`${paths.profile}:id`} element={<Profile />} />
+        <Route path={`${paths.userProfile}`} element={<UserProfile />} />
         <Route path={paths.topics} element={<Topics />} />
         <Route path={paths.manage} element={<Manage />} />
         <Route path={`${paths.document}:id`} element={<Document />} />

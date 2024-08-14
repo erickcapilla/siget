@@ -1,17 +1,18 @@
 import { Input, Button } from "@nextui-org/react";
-import { useUser } from "@/hooks";
+import { useUser, useAuth } from "@/hooks";
 import { useState } from "react";
 import userServices from "@/services/UserServices";
 import { Information } from "@/types";
 
 export const PersonalForm = () => {
   const { information, setInformation } = useUser();
+  const { token } = useAuth();
   const [values, setValues] = useState<Information>({
-    name: "",
-    fatherLastName: "",
-    motherLastName: "",
-    address: "",
-    phoneNumber: "",
+    name: information?.name,
+    fatherLastName: information?.fatherLastName,
+    motherLastName: information?.motherLastName,
+    address: information?.address,
+    phoneNumber: information?.phoneNumber,
   });
 
   const handleChange = (
@@ -25,16 +26,30 @@ export const PersonalForm = () => {
   ) => {
     e.preventDefault();
 
-    try {
-      const res = await userServices.setInformation(values);
-      setInformation(await res.json());
-    } catch (error) {
-      console.error(error);
+    if (information) {
+      try {
+        const res = await userServices.updateInformation(token, values);
+        const data = await res.json();
+        setInformation(data);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const res = await userServices.setInformation(token, values);
+        const data = await res.json();
+        setInformation(data);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
   return (
-    <form className="flex flex-col gap-3 justify-between h-full w-full" onSubmit={handleSubmit}>
+    <form
+      className="flex flex-col gap-3 justify-between h-full w-full"
+      onSubmit={handleSubmit}
+    >
       <div className="flex flex-col gap-3">
         <Input
           name="name"
@@ -43,8 +58,9 @@ export const PersonalForm = () => {
           color="primary"
           isRequired
           variant="bordered"
-          value={information?.name}
+          value={values.name}
           onChange={handleChange}
+          radius="sm"
         />
         <Input
           name="fatherLastName"
@@ -53,8 +69,9 @@ export const PersonalForm = () => {
           color="primary"
           isRequired
           variant="bordered"
-          value={information?.fatherLastName}
+          value={values.fatherLastName}
           onChange={handleChange}
+          radius="sm"
         />
         <Input
           name="motherLastName"
@@ -63,8 +80,9 @@ export const PersonalForm = () => {
           color="primary"
           isRequired
           variant="bordered"
-          value={information?.motherLastName}
+          value={values.motherLastName}
           onChange={handleChange}
+          radius="sm"
         />
         <Input
           name="address"
@@ -73,8 +91,9 @@ export const PersonalForm = () => {
           color="primary"
           isRequired
           variant="bordered"
-          value={information?.address}
+          value={values.address}
           onChange={handleChange}
+          radius="sm"
         />
         <Input
           name="phoneNumber"
@@ -83,12 +102,19 @@ export const PersonalForm = () => {
           color="primary"
           isRequired
           variant="bordered"
-          value={information?.phoneNumber}
+          value={values.phoneNumber}
           onChange={handleChange}
+          radius="sm"
         />
       </div>
       <div className="w-full">
-        <Button type="submit" color="primary" variant="solid" radius="sm" className="w-full">
+        <Button
+          type="submit"
+          color="primary"
+          variant="solid"
+          radius="sm"
+          className="w-full"
+        >
           Guardar
         </Button>
       </div>

@@ -69,7 +69,9 @@ export const Details = ({ id }: Props) => {
           <div className="grid gap-5">
             <Input
               label="Número de teléfono"
-              value={user.userInformation ? user.userInformation.phoneNumber : ""}
+              value={
+                user.userInformation ? user.userInformation.phoneNumber : ""
+              }
               variant="underlined"
               color="secondary"
               classNames={{
@@ -79,16 +81,18 @@ export const Details = ({ id }: Props) => {
             />
             <div className="grid gap-3">
               <h3 className="text-black text-sm">Programas académicos</h3>
-              {user.userInformation && user.userDegreePrograms.map((degree) => (
-                <Chip
-                  key={degree.id}
-                  color="secondary"
-                  variant="bordered"
-                  className="text-black"
-                >
-                  {degree.name}
-                </Chip>
-              ))}
+              {user.userInformation &&
+                user.userDegreePrograms.map((degree) => (
+                  <Chip
+                    key={degree.id}
+                    color="secondary"
+                    variant="bordered"
+                    className="text-black"
+                  >
+                    {degree.name.charAt(0).toUpperCase() +
+                      degree.name.slice(1).replace(/-/g, " ")}
+                  </Chip>
+                ))}
             </div>
           </div>
         </section>

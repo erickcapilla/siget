@@ -19,6 +19,7 @@ type UserType = {
   role: string;
   isLoading: boolean;
   setRole: React.Dispatch<React.SetStateAction<string>>;
+  setInformation: React.Dispatch<React.SetStateAction<userInformation>>;
 };
 
 export type customJwtPayload = JwtPayload & { id: string };

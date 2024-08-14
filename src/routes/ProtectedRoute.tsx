@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { AppSkeleton } from "@/components/features";
 
 interface Props {
   isAllowed: boolean;
@@ -14,7 +15,7 @@ export const ProtectedRoute = ({
 }: Props) => {
   const { loading } = useAuth();
 
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <AppSkeleton />;
   
   if (!isAllowed) {
     return <Navigate to={redirectTo} replace />;

@@ -7,6 +7,7 @@ export const paths = {
   manage: "/manage",
   profile: "/profile/",
   document: "/document/",
+  userDocument: "/document",
   advice: "/advice",
   degree: "/degree",
   graduates: "/graduates",

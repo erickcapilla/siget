@@ -5,10 +5,22 @@ export type MenuItems = {
   path: string;
   icon?: React.FC<IconProps>;
   iconActive?: React.FC<IconProps>;
-}
+};
 
-import { HomeOutline, ClipboardOutline, TopicOutline, UsersOutline } from "@/components/icons";
-import { HomeSolid, ClipboardSolid, TopicSolid, UsersSolid } from "@/components/icons";
+import {
+  HomeOutline,
+  ClipboardOutline,
+  TopicOutline,
+  UsersOutline,
+  UserOutline,
+} from "@/components/icons";
+import {
+  HomeSolid,
+  ClipboardSolid,
+  TopicSolid,
+  UsersSolid,
+  UserSolid,
+} from "@/components/icons";
 
 export const menuItems: MenuItems[] = [
   {
@@ -57,8 +69,8 @@ export const menuItems: MenuItems[] = [
     id: "profile",
     name: "Perfil",
     path: "/profile",
-    icon: HomeOutline,
-    iconActive: HomeSolid,
+    icon: UserOutline,
+    iconActive: UserSolid,
   },
   {
     id: "schedule",
@@ -81,4 +93,4 @@ export const menuItems: MenuItems[] = [
     icon: HomeOutline,
     iconActive: HomeSolid,
   },
-]
+];

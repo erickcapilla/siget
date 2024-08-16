@@ -1,8 +1,17 @@
-import { Dropzone, FileMosaic } from "@dropzone-ui/react";
 import { useState } from "react";
-import { Button } from "@nextui-org/react";
-import documentServices from '@/services/DocumentServices';
-import { useUser } from "@/hooks";
+import documentServices from "@/services/DocumentServices";
+import { FilePond, registerPlugin } from "react-filepond";
+import { useAuth } from "@/hooks";
+import toast from "react-hot-toast";
+
+// Import FilePond styles
+import "filepond/dist/filepond.min.css";
+
+// Import the File Type Validation plugin
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+
+// Register the plugin with FilePond
+registerPlugin(FilePondPluginFileValidateType);
 
 interface Props {
   id: string;
@@ -10,58 +19,42 @@ interface Props {
 
 export const DocumentForm = ({ id }: Props) => {
   const [files, setFiles] = useState([]);
-  const {document} = useUser()
+  const { token } = useAuth();
 
-  const updateFiles = (incommingFiles) => {
-    setFiles(incommingFiles);
+  const uploadFile = () => {
+    documentServices
+      .uploadFile(token, files[0].file, id)
+      .then(() => console.log("Documento uploaded"))
+      .catch((error) => console.error(error));
   };
-
-  const removeFile = (id) => {
-    setFiles(files.filter((x) => x.id !== id));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if(!document[0].url) {
-      documentServices.uploadFile(files[0].file, id)
-        .then(() => console.log("Documento uploaded"))
-        .catch(error => console.error(error))
-    } else {
-      documentServices.updateFile(files[0].file, document[0].id)
-        .then(() => console.log("Documento actualizado"))
-        .catch(error => console.error(error))
-    }
-  }
 
   return (
-    <form className="flex flex-col justify-between h-full" onSubmit={handleSubmit}>
-      <div>
-        <Dropzone
-          onChange={updateFiles}
-          value={files}
-          accept=".pdf"
-          maxFiles={1}
-          label="Arrastra tu archivo aquí o da click para abrir el explorador de archivos"
-          localization="ES-es"
-          header={false}
-          style={{ fontSize: "1rem" }}
-        >
-          {files.map((file) => (
-            <FileMosaic key={file.name} {...file} preview onDelete={removeFile} />
-          ))}
-        </Dropzone>
-      </div>
-      <div>
-        <Button
-          type="submit"
-          color="primary"
-          variant="solid"
-          radius="sm"
-          className="w-full"
-        >
-          { document[0].url ? "Nueva versión" : "Subir documento" }
-        </Button>
-      </div>
-    </form>
+    <div>
+      <FilePond
+        acceptedFileTypes={["application/pdf"]}
+        files={files}
+        onupdatefiles={setFiles}
+        maxFiles={1}
+        instantUpload={false}
+        server={{
+          process: {
+            url: `${
+              import.meta.env.VITE_API_URL
+            }/files/upload-topic?acceptedTopicId=${id}`,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            ondata: (formData) => {
+              formData.append("file", files[0].file);
+              return formData;
+            },
+          },
+        }}
+        onprocessfilestart={() => uploadFile()}
+        labelInvalidField="Asegurate que tu archivo sea PDF"
+        name="files" /* sets the file input name, it's filepond by default */
+        labelIdle='Arrastra tu archivo aquí o <span class="filepond--label-action">Browse</span>'
+      />
+    </div>
   );
 };

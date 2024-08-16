@@ -1,16 +1,15 @@
 class DocumentServices {
   API_URL_FILE = `${import.meta.env.VITE_API_URL}/files`;
   API_URL_CHAPTER = `${import.meta.env.VITE_API_URL}/files/complete-chapter`;
-  token = localStorage.getItem("siget") || "";
 
-  async uploadFile(file: File, id: string) {
+  async uploadFile(token: string, file: File, id: string) {
     const formData = new FormData();
     formData.append("file", file);
 
     const response = await fetch(`${this.API_URL_FILE}/upload-topic?acceptedTopicId=${id}`, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${this.token}`,
+        "Authorization": `Bearer ${token}`,
       },
       body: formData,
     });
@@ -24,14 +23,14 @@ class DocumentServices {
     throw new Error(error.message);
   }
 
-  async updateFile(file: File, id: string) {
+  async updateFile(token: string, file: File, id: string) {
     const formData = new FormData();
     formData.append("file", file);
 
     const response = await fetch(`${this.API_URL_FILE}/update-topic?topic-document=${id}`, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${this.token}`,
+        "Authorization": `Bearer ${token}`,
       },
       body: formData,
     });
@@ -45,11 +44,11 @@ class DocumentServices {
     throw new Error(error.message);
   }
 
-  async getUrlDocument(id: string) {
+  async getUrlDocument(token: string, id: string) {
     const response = await fetch(`${this.API_URL_FILE}/document/${id}.pdf`, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${this.token}`,
+        "Authorization": `Bearer ${token}`,
       },
     });
 
@@ -62,11 +61,11 @@ class DocumentServices {
     throw new Error(error.message);
   }
 
-  async getUserDocuments() {
+  async getUserDocuments(token: string) {
     const response = await fetch(`${this.API_URL_FILE}/my-documents`, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${this.token}`,
+        "Authorization": `Bearer ${token}`,
       },
     });
 
@@ -79,11 +78,11 @@ class DocumentServices {
     throw new Error(error.message);
   }
 
-  async updateChapter(chapter: number, id: string) {
+  async updateChapter(token: string, chapter: number, id: string) {
     const response = await fetch(`${this.API_URL_CHAPTER}/${id}`, {
       method: "PATCH",
       headers: {
-        "Authorization": `Bearer ${this.token}`,
+        "Authorization": `Bearer ${token}`,
       },
       body: JSON.stringify({chapter}),
     });

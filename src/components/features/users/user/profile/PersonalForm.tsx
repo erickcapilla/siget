@@ -3,10 +3,13 @@ import { useUser, useAuth } from "@/hooks";
 import { useState } from "react";
 import userServices from "@/services/UserServices";
 import { Information } from "@/types";
+import toast from "react-hot-toast";
 
 export const PersonalForm = () => {
   const { information, setInformation } = useUser();
   const { token } = useAuth();
+  const [loading, setLoading] = useState(false);
+
   const [values, setValues] = useState<Information>({
     name: information?.name,
     fatherLastName: information?.fatherLastName,
@@ -25,22 +28,30 @@ export const PersonalForm = () => {
     e: React.FormEvent<EventTarget> | React.FormEvent
   ) => {
     e.preventDefault();
-
+    setLoading(true);
     if (information) {
       try {
         const res = await userServices.updateInformation(token, values);
         const data = await res.json();
         setInformation(data);
+        toast.success("Información actualizada");
       } catch (error) {
         console.error(error);
+        toast.error("Error al actualizar la información");
+      } finally {
+        setLoading(false);
       }
     } else {
       try {
         const res = await userServices.setInformation(token, values);
         const data = await res.json();
         setInformation(data);
+        toast.success("Información agregada");
       } catch (error) {
         console.error(error);
+        toast.error("Error al agregar la información");
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -114,8 +125,10 @@ export const PersonalForm = () => {
           variant="solid"
           radius="sm"
           className="w-full"
+          isLoading={loading}
         >
-          Guardar
+          {information ? "Actualizar" : "Agregar"}
+          {loading && "..."}
         </Button>
       </div>
     </form>

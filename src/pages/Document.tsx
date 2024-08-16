@@ -53,8 +53,8 @@ export const Document = () => {
     if (document[0].chapter5) chapter = 6;
     if (document[0].chapter6) chapter = 7;
     //documentServices.updateChapter(token, chapter, document[0].id)
-      //.then(() => setDocument(prev => [...prev, ]))
-  }
+    //.then(() => setDocument(prev => [...prev, ]))
+  };
 
   useEffect(() => {
     getUserDocument();
@@ -62,7 +62,12 @@ export const Document = () => {
   }, []);
 
   return (
-    <DoublePanelLayout>
+    <DoublePanelLayout
+      title="Documento"
+      contentLeft={<h1>Hola</h1>}
+      subtitleLeft="Presiona para ver comentarios o agregar nueva versión"
+      titleLeft="Comentarios"
+    >
       <div className="max-[639px]:hidden h-full w-full">
         <Panel title="Agregar nueva versión">
           {role === "ASESOR_ROLE" ? (
@@ -109,7 +114,6 @@ export const Document = () => {
                   />
                 )}
               </div>
-              
             </section>
           </article>
         </Panel>

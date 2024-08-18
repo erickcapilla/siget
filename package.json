@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.3.6",
+    "@pdfslick/react": "^1.5.1",
     "@types/invariant": "^2.2.37",
     "@types/react-transition-group": "^4.4.10",
     "filepond": "^4.31.2",

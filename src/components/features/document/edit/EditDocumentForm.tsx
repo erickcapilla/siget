@@ -15,7 +15,7 @@ interface Props {
   id: string;
 }
 
-export const DocumentForm = ({ id }: Props) => {
+export const EditDocumentForm = ({ id }: Props) => {
   const [files, setFiles] = useState([]);
   const { token } = useAuth();
 
@@ -31,7 +31,7 @@ export const DocumentForm = ({ id }: Props) => {
           process: {
             url: `${
               import.meta.env.VITE_API_URL
-            }/files/upload-topic?acceptedTopicId=${id}`,
+            }/files/update-topic?topic-document=${id}`,
             headers: {
               Authorization: `Bearer ${token}`,
             },

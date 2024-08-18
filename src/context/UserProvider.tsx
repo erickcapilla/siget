@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/hooks";
 import { userInformation, Degree, UserTopic } from "@/types/user";
+import { AcceptedTopic } from "@/types/topic";
 import userServices from "@/services/UserServices";
+import requestTopicServices from "@/services/RequestTopicServices";
 import UserContext from "./UserContext";
 
 interface Props {
@@ -15,8 +17,9 @@ export const UserProvider = ({ children }: Props) => {
   const [degrees, setDegrees] = useState<Degree[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<UserTopic>();
+  const [acceptedTopics, setAcceptedTopics] = useState<AcceptedTopic[]>([]);
 
-  const { isAuth, userAuthed } = useAuth();
+  const { isAuth, userAuthed, token } = useAuth();
 
   const getUser = useCallback(async () => {
     setIsLoading(true);
@@ -44,7 +47,18 @@ export const UserProvider = ({ children }: Props) => {
     if (isAuth) {
       getUser();
     }
-  }, [getUser]);
+
+    if(role === "STUDENT_ROLE") {
+      requestTopicServices
+        .getAcceptedTopics(token)
+        .then((response) => response.json())
+        .then((data) => {
+          setAcceptedTopics(data.items);
+          console.log(data);
+        })
+        .catch((error) => console.error(error));
+    }
+  }, [getUser, role]);
 
   return (
     <UserContext.Provider
@@ -57,6 +71,7 @@ export const UserProvider = ({ children }: Props) => {
         isLoading,
         setRole,
         setInformation,
+        acceptedTopics,
       }}
     >
       {children}

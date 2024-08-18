@@ -41,3 +41,26 @@ export type AcceptedTopic = {
   acceptedBy: EnableUserResponse & {id: string}; 
   requestedBy: EnableUserResponse & {id: string}; 
 }
+
+export type Comment = {
+  id: string;
+  comment: string;
+  date: string;
+}
+
+export type CommentResponse = {
+  result: Comment[];
+  total: number;
+}
+
+export type DocumentResponse = {
+  id: string;
+  chapter1: boolean;
+  chapter2: boolean;
+  chapter3: boolean;
+  chapter4: boolean;
+  chapter5: boolean;
+  chapter6: boolean;
+  chapter7: boolean;
+  url: string;
+}

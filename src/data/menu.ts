@@ -13,6 +13,7 @@ import {
   TopicOutline,
   UsersOutline,
   UserOutline,
+  DocumentOutline,
 } from "@/components/icons";
 import {
   HomeSolid,
@@ -20,6 +21,7 @@ import {
   TopicSolid,
   UsersSolid,
   UserSolid,
+  DocumentSolid,
 } from "@/components/icons";
 
 export const menuItems: MenuItems[] = [
@@ -55,8 +57,8 @@ export const menuItems: MenuItems[] = [
     id: "document",
     name: "Documento",
     path: "/document",
-    icon: HomeOutline,
-    iconActive: HomeSolid,
+    icon: DocumentOutline,
+    iconActive: DocumentSolid,
   },
   {
     id: "advice",

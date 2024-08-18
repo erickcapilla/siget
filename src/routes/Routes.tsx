@@ -15,6 +15,7 @@ import {
   Admin,
   UserProfile,
   UserDocument,
+  UserAdvice,
 } from "@/pages";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { useAuth, useUser } from "@/hooks";
@@ -44,11 +45,12 @@ export const AppRoutes = () => {
         <Route path={`${paths.profile}:id`} element={<Profile />} />
         <Route path={`${paths.document}:id`} element={<Document />} />
         <Route path={`${paths.userDocument}`} element={<UserDocument />} />
-        <Route path={paths.advice} element={<Advice />} />
+        <Route path={`${paths.advice}:id`} element={<Advice />} />
         <Route path={paths.degree} element={<Degree />} />
         <Route path={paths.graduates} element={<Graduates />} />
         <Route path={paths.schedule} element={<Schedule />} />
         <Route path={paths.admin} element={<Admin />} />
+        <Route path={paths.userAdvice} element={<UserAdvice />} />
       </Route>
 
       <Route
@@ -61,11 +63,12 @@ export const AppRoutes = () => {
         <Route path={paths.manage} element={<Manage />} />
         <Route path={`${paths.document}:id`} element={<Document />} />
         <Route path={`${paths.userDocument}`} element={<UserDocument />} />
-        <Route path={paths.advice} element={<Advice />} />
+        <Route path={`${paths.advice}:id`} element={<Advice />} />
         <Route path={paths.degree} element={<Degree />} />
         <Route path={paths.graduates} element={<Graduates />} />
         <Route path={paths.schedule} element={<Schedule />} />
         <Route path={paths.admin} element={<Admin />} />
+        <Route path={paths.userAdvice} element={<UserAdvice />} />
       </Route>
     </Routes>
   );

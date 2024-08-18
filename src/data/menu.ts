@@ -14,6 +14,7 @@ import {
   UsersOutline,
   UserOutline,
   DocumentOutline,
+  PaperCheckOutline,
 } from "@/components/icons";
 import {
   HomeSolid,
@@ -22,6 +23,7 @@ import {
   UsersSolid,
   UserSolid,
   DocumentSolid,
+  PaperCheckSolid,
 } from "@/components/icons";
 
 export const menuItems: MenuItems[] = [
@@ -64,8 +66,8 @@ export const menuItems: MenuItems[] = [
     id: "advice",
     name: "Asesorías",
     path: "/advice",
-    icon: HomeOutline,
-    iconActive: HomeSolid,
+    icon: PaperCheckOutline,
+    iconActive: PaperCheckSolid,
   },
   {
     id: "profile",

@@ -1,37 +1,47 @@
 import { LayoutItem } from "@/layouts";
-import { Chip, User, Button, Tooltip, AvatarIcon } from "@nextui-org/react";
+import { Chip, Button, Tooltip } from "@nextui-org/react";
 import { useUser } from "@/hooks";
 import advisoryServices from "@/services/AdvisoryServices";
+import { AdvisoryResponse } from "@/types/advisory";
+import { useAuth } from "@/hooks";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 interface Props {
-  advisory: [];
-  setAdvisories: React.Dispatch<React.SetStateAction<any[]>>;
+  advisory: AdvisoryResponse;
+  setAdvisories: React.Dispatch<React.SetStateAction<AdvisoryResponse[]>>;
 }
 
 export const AdviceItem = ({ advisory, setAdvisories }: Props) => {
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const { role } = useUser();
+  const { token } = useAuth();
 
   const deleteAdvisory = () => {
+    setDeleteLoading(true);
     advisoryServices
-      .deleteAdvisory(advisory.id)
-      .then(() => setAdvisories((prev) => prev.filter((user) => advisory.id !== user.id)))
-      .then(() => console.log("Advisory deleted"))
-      .catch((error) => console.error(error));
+      .deleteAdvisory(token, advisory.id)
+      .then(() =>
+        setAdvisories((prev) => prev.filter((user) => advisory.id !== user.id))
+      )
+      .then(() => toast.success("Asesoría eliminada"))
+      .catch((error) => toast.error(error.toString()))
+      .finally(() => setDeleteLoading(false));
   };
 
   const signAdvisory = () => {
     advisoryServices
-      .signAdvisory(advisory.id)
+      .signAdvisory(token, advisory.id)
       .then(() => console.log("Advisory Firmada"))
       .catch((error) => console.error(error));
   };
   return (
-    <LayoutItem className="border-primary">
-      <section className="grid gap-3 w-full">
+    <LayoutItem className="flex-col @lg:flex-row gap-3 border-l-primary">
+      <section className="grid gap-5 w-full">
         <h3 className="text-primary font-bold">{advisory.reviewedTopic}</h3>
         <p className="text-sm">{advisory.observations}</p>
-        <div className="flex items-center w-full">
-          <div className="flex gap-2 items-center">
+        <div className="flex flex-col @md:flex-row @md:justify-between @md:items-center gap-5 w-full">
+          <div className="flex gap-3 items-center flex-wrap">
             <Chip size="sm" color="success" variant="flat">
               {advisory.date}
             </Chip>
@@ -42,81 +52,78 @@ export const AdviceItem = ({ advisory, setAdvisories }: Props) => {
             >
               {advisory.isSigned ? "Firmado" : "No firmado"}
             </Chip>
-            <User
-              name="Erick Capilla"
-              description="Colaborador"
-              avatarProps={{
-                showFallback: false,
-                size: "sm",
-                fallback: <AvatarIcon />,
-                classNames: {
-                  fallback: `text-white w-full`,
-                },
-              }}
-              className="w-full justify-start"
-              classNames={{
-                description: "text-[0.7rem] text-gray-700",
-                name: "text-xs font-bold",
-              }}
-            />
+          </div>
+          <div className="w-full @md:max-w-20">
+            <>
+              {role === "ASESOR_ROLE" && !advisory.isSigned ? (
+                <Tooltip
+                  content="Firmar"
+                  radius="sm"
+                  className="text-primary font-bold w-full"
+                >
+                  <Button
+                    color="primary"
+                    variant="ghost"
+                    size="md"
+                    isIconOnly
+                    radius="sm"
+                    className="group w-full"
+                    onPress={signAdvisory}
+                  >
+                    Firmar asesoría
+                  </Button>
+                </Tooltip>
+              ) : (
+                <Tooltip
+                  content="Eliminar"
+                  radius="sm"
+                  className="text-primary font-bold w-full"
+                >
+                  <Button
+                    color="primary"
+                    variant="ghost"
+                    size="md"
+                    isIconOnly
+                    radius="sm"
+                    className="group w-full"
+                    onPress={() => {
+                      toast((t) => (
+                        <span>
+                          ¿Estás seguro de eliminar esta asesoria?
+                          <Button
+                            color="danger"
+                            size="sm"
+                            variant="flat"
+                            className="m-2"
+                            onPress={() => {
+                              deleteAdvisory();
+                              toast.dismiss(t.id);
+                            }}
+                          >
+                            Eliminar
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="flat"
+                            className="m-2"
+                            onPress={() => {
+                              toast.dismiss(t.id);
+                            }}
+                          >
+                            Cancelar
+                          </Button>
+                        </span>
+                      ));
+                    }}
+                    isLoading={deleteLoading}
+                  >
+                    {deleteLoading ? "Eliminando" : "Eliminar"}
+                  </Button>
+                </Tooltip>
+              )}
+            </>
           </div>
         </div>
-      </section>
-      <section className="flex min-[500px]:flex-col min-[550px]:w-[220px] justify-between w-full">
-        <User
-          name="Josa Perez"
-          description="Autor"
-          avatarProps={{
-            showFallback: false,
-            size: "sm",
-            fallback: <AvatarIcon />,
-            classNames: {
-              fallback: `text-white w-full`,
-            },
-          }}
-          className="font-bold w-full justify-center"
-          classNames={{
-            description: "text-[0.7rem] text-gray-700",
-            name: "font-bold",
-          }}
-        />
-        {role === "ASESOR_ROLE" && !advisory.isSigned ? (
-          <Tooltip
-            content="Firmar"
-            radius="sm"
-            className="text-primary font-bold w-full"
-          >
-            <Button
-              color="primary"
-              variant="ghost"
-              size="md"
-              isIconOnly
-              radius="sm"
-              className="group w-full"
-              onPress={signAdvisory}
-            >
-              Firmar asesoría
-            </Button>
-          </Tooltip>
-        ) : (
-          <Tooltip
-            content="Eliminar"
-            radius="sm"
-            className="text-primary font-bold w-full"
-          >
-            <Button
-              color="primary"
-              variant="ghost"
-              size="md"
-              isIconOnly
-              radius="sm"
-              className="group w-full"
-              onPress={deleteAdvisory}
-            >
-              Eliminar asesoría
-            </Button>
-          </Tooltip>
-        )}
       </section>
     </LayoutItem>
   );

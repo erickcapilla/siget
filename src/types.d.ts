@@ -130,7 +130,7 @@ export interface Appointment {
   invitee: string;
 }
 
-export interface Advisory {
+export interface AdvisoryData {
   reviewedTopic: string;
   observations: string;
   date: string;

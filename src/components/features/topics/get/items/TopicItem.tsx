@@ -32,7 +32,7 @@ export const TopicItem = ({ topic, isUser, setUserTopics }: Props) => {
       ? `${collaborator.userInformation.name} ${collaborator.userInformation.fatherLastName}`
       : "Usuario";
 
-  const createRequest = () => {
+  const createRequest = () => { 
     setIsLoading(true);
     requestTopicServices
       .createRequestTopic(token, topic.id)

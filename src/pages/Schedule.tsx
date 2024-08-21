@@ -8,7 +8,7 @@ export const Schedule = () => {
   const localDate = today(getLocalTimeZone());
 
   return (
-    <DoublePanelLayout>
+    <DoublePanelLayout title="Citas" >
       <div className="max-[639px]:hidden h-full w-full">
         <Panel title="Agregar cita">
           <ScheduleForm />

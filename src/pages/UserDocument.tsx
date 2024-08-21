@@ -17,7 +17,6 @@ export const UserDocument = () => {
   const { acceptedTopics } = useUser();
   const [comments, setComments] = useState<CommentResponse>();
   const [document, setDocument] = useState<DocumentResponse[]>([]);
-  console.log(acceptedTopics);
 
   const getComments = useCallback(() => {
     document.length > 0 &&
@@ -36,7 +35,6 @@ export const UserDocument = () => {
       .getUserDocuments(token)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setDocument(data);
       })
       .catch((error) => console.error(error));

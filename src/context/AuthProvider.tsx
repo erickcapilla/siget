@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }: Props) => {
   const [userAuthed, setUserAuthed] = useState("");
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [roles, setRoles] = useState<string[]>([]);
 
   const navigate = useNavigate();
 
@@ -25,8 +26,7 @@ export const AuthProvider = ({ children }: Props) => {
     try {
       const res = await authServices.login(credentials);
       const data = await res.json();
-
-      console.log(data)
+      setRoles(data.roles);
 
       if (data.token) {
         setIsAuth(true);
@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }: Props) => {
   }, [token, isAuth]);
 
   return (
-    <AuthContext.Provider value={{ isAuth, userAuthed, token, login, logout, loading }}>
+    <AuthContext.Provider value={{ isAuth, userAuthed, token, login, logout, loading, roles }}>
       {children}
     </AuthContext.Provider>
   );

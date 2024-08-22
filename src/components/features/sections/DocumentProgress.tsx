@@ -42,13 +42,22 @@ export const DocumentProgressSection = () => {
         {!loading && (
           <div className="size-full px-10 overflow-x-auto">
             <h3 className="mx-auto text-center text-xl font-semibold text-secondary mb-10">
-              Capítulos
+              Capítulos completados
             </h3>
-            {document.length > 0 && <div className="min-w-[600px]"><ProgressDocumentBar document={document} /></div>}
+            {document.length > 0 && (
+              <div className="min-w-[600px]">
+                <ProgressDocumentBar document={document} />
+              </div>
+            )}
           </div>
         )}
         <div className="w-full items-center justify-between pt-3">
-          <Chip size="sm" avatar={<Avatar color="secondary" />} variant="flat" color="secondary">
+          <Chip
+            size="sm"
+            avatar={<Avatar color="secondary" />}
+            variant="flat"
+            color="secondary"
+          >
             {" "}
             {`${asesor.name} ${asesor.fatherLastName} (Asesor)`}{" "}
           </Chip>

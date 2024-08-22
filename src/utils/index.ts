@@ -16,3 +16,13 @@ export const paths = {
   userProfile: "/profile",
   admin: "/admin",
 }
+
+export enum ROLES {
+  ADMIN = "ADMIN_ROLE",
+  STUDENT = "STUDENT_ROLE",
+  ADVISOR = "ASESOR_ROLE",
+  REVIEWER = "REVISOR_ROLE",
+  SUBJECT_HOLDER = "TITULAR_MATERIA_ROLE",
+  ADMINISTRATIVE = "ADMINISTRATIVO_ROLE",
+  COORDINATOR = "COORDINADOR_ROLE",
+}

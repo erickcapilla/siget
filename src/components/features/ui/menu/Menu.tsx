@@ -7,7 +7,7 @@ export const Menu = () => {
   const { setRole, userRoles, role } = useUser();
 
   return (
-    <div className="h-full flex flex-col gap-2 justify-between">
+    <div className="h-full flex flex-col gap-3">
       <Select
         label="Roles"
         placeholder={roleNames[role as keyof typeof roleNames]}

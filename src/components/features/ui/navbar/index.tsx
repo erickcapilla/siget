@@ -8,11 +8,12 @@ import {
 } from "@nextui-org/react";
 import { LogoutOutline } from "@/components/icons";
 import { menuItems } from "@/data/menu";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks";
+import toast from "react-hot-toast";
 
 export const Navbar = () => {
-  const { logout } = useAuth();
-
+  const { logout, roles } = useAuth();
+  const items = menuItems.filter((item) => roles.every((r) => item.roles.includes(r)));
   const itemActive = (href: string) => {
     return window.location.pathname.toString() === href;
   };
@@ -25,7 +26,7 @@ export const Navbar = () => {
       }}
     >
       <NavbarContent className="flex flex-col overflow-y-auto h-full">
-        {menuItems.map((item) => (
+        {items.map((item) => (
           <NavbarItem key={item.id}>
             <Tooltip content={item.name} color="primary">
               <Link href={item.path}>
@@ -46,7 +47,35 @@ export const Navbar = () => {
               isIconOnly
               color="primary"
               radius="sm"
-              onPress={logout}
+              onPress={() => {
+                toast((t) => (
+                  <span>
+                    ¿Estás seguro de cerrar sesión?
+                    <Button
+                      color="danger"
+                      size="sm"
+                      variant="flat"
+                      className="m-2"
+                      onPress={() => {
+                        logout();
+                        toast.dismiss(t.id);
+                      }}
+                    >
+                      Cerrar sesión
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="flat"
+                      className="m-2"
+                      onPress={() => {
+                        toast.dismiss(t.id);
+                      }}
+                    >
+                      Cancelar
+                    </Button>
+                  </span>
+                ));
+              }}
             >
               <LogoutOutline />
             </Button>

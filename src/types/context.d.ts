@@ -9,6 +9,7 @@ export type AuthType = {
   login: (credentials: Credentials) => Promise<void>;
   logout: () => void;
   loading: boolean
+  roles: string[];
 };
 
 type UserType = {

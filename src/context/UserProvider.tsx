@@ -30,9 +30,8 @@ export const UserProvider = ({ children }: Props) => {
       setDegrees(data.userDegreePrograms);
       setInformation(data.userInformation);
       setUserRoles(data.user && data.user.roles);
-      console.log(data);
-
-      if (role !== "") {
+      
+      if (role === "") {
         setRole(data.user && data.user.roles[0]);
         data.user && localStorage.setItem("siget-role", data.user.roles[0]);
       }
@@ -48,7 +47,7 @@ export const UserProvider = ({ children }: Props) => {
       getUser();
     }
 
-    if(role === "STUDENT_ROLE") {
+    if(role.includes("STUDENT_ROLE")) {
       requestTopicServices
         .getAcceptedTopics(token)
         .then((response) => response.json())

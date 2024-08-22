@@ -5,6 +5,7 @@ export type MenuItems = {
   path: string;
   icon?: React.FC<IconProps>;
   iconActive?: React.FC<IconProps>;
+  roles: string[];
 };
 
 import {
@@ -35,6 +36,15 @@ export const menuItems: MenuItems[] = [
     path: "/",
     icon: HomeOutline,
     iconActive: HomeSolid,
+    roles: [
+      "ADMIN_ROLE",
+      "STUDENT_ROLE",
+      "ASESOR_ROLE",
+      "REVISOR_ROLE",
+      "TITULAR_MATERIA_ROLE",
+      "ADMINISTRATIVO_ROLE",
+      "COORDINADOR_ROLE",
+    ],
   },
   {
     id: "admin",
@@ -42,6 +52,7 @@ export const menuItems: MenuItems[] = [
     path: "/admin",
     icon: SettingsOutline,
     iconActive: SettingsSolid,
+    roles: ["ADMIN_ROLE"],
   },
   {
     id: "topics",
@@ -49,6 +60,7 @@ export const menuItems: MenuItems[] = [
     path: "/topics",
     icon: TopicOutline,
     iconActive: TopicSolid,
+    roles: ["STUDENT_ROLE", "ASESOR_ROLE"],
   },
   {
     id: "manage",
@@ -56,6 +68,7 @@ export const menuItems: MenuItems[] = [
     path: "/manage",
     icon: UsersOutline,
     iconActive: UsersSolid,
+    roles: ["ADMIN_ROLE", "TITULAR_MATERIA_ROLE", "ADMINISTRATIVO_ROLE"],
   },
   {
     id: "document",
@@ -63,6 +76,7 @@ export const menuItems: MenuItems[] = [
     path: "/document",
     icon: DocumentOutline,
     iconActive: DocumentSolid,
+    roles: ["STUDENT_ROLE"]
   },
   {
     id: "advice",
@@ -70,6 +84,7 @@ export const menuItems: MenuItems[] = [
     path: "/advice",
     icon: PaperCheckOutline,
     iconActive: PaperCheckSolid,
+    roles: ["STUDENT_ROLE"],
   },
   {
     id: "profile",
@@ -77,6 +92,15 @@ export const menuItems: MenuItems[] = [
     path: "/profile",
     icon: UserOutline,
     iconActive: UserSolid,
+    roles: [
+      "ADMIN_ROLE",
+      "STUDENT_ROLE",
+      "ASESOR_ROLE",
+      "REVISOR_ROLE",
+      "TITULAR_MATERIA_ROLE",
+      "ADMINISTRATIVO_ROLE",
+      "COORDINADOR_ROLE",
+    ],
   },
   {
     id: "schedule",
@@ -84,5 +108,14 @@ export const menuItems: MenuItems[] = [
     path: "/schedule",
     icon: CalendarOutline,
     iconActive: CalendarSolid,
+    roles: [
+      "ADMIN_ROLE",
+      "STUDENT_ROLE",
+      "ASESOR_ROLE",
+      "REVISOR_ROLE",
+      "TITULAR_MATERIA_ROLE",
+      "ADMINISTRATIVO_ROLE",
+      "COORDINADOR_ROLE",
+    ],
   },
 ];

@@ -15,7 +15,7 @@ export const UserProvider = ({ children }: Props) => {
   const [information, setInformation] = useState<userInformation>();
   const [userRoles, setUserRoles] = useState<string[]>([]);
   const [degrees, setDegrees] = useState<Degree[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<UserTopic>();
   const [acceptedTopics, setAcceptedTopics] = useState<AcceptedTopic[]>([]);
 

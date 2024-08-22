@@ -26,6 +26,8 @@ export const AuthProvider = ({ children }: Props) => {
       const res = await authServices.login(credentials);
       const data = await res.json();
 
+      console.log(data)
+
       if (data.token) {
         setIsAuth(true);
         setToken(data.token);

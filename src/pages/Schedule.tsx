@@ -1,51 +1,63 @@
+import type { AppointmentResponse } from "@/types/schedule";
 import { DoublePanelLayout } from "@/layouts";
-import { Panel } from "@components/features/ui";
-import { Accordion, AccordionItem, Calendar } from "@nextui-org/react";
-import { ScheduleForm, ScheduleList } from "@/components/features";
-import { today, getLocalTimeZone } from "@internationalized/date";
+import { ScheduleForm } from "@/components/features";
+import { Chip, Button } from "@nextui-org/react";
+import { useState } from "react";
+import { Appointments, Invitations } from "@/components/features";
 
 export const Schedule = () => {
-  const localDate = today(getLocalTimeZone());
+  const [section, setSection] = useState("appointments");
+  const [isLoading, setIsLoading] = useState(false);
+  const [userAppointments, setUserAppointments] = useState<
+    AppointmentResponse[]
+  >([]);
 
+  const handleView = async (type: string) => {
+    setSection(type);
+  };
   return (
-    <DoublePanelLayout title="Citas" >
-      <div className="max-[639px]:hidden h-full w-full">
-        <Panel title="Agregar cita">
-          <ScheduleForm />
-        </Panel>
-      </div>
-      <div className="min-[640px]:hidden h-auto">
-        <Accordion
-          variant="shadow"
-          itemClasses={{
-            title: "text-primary font-bold",
-            subtitle: "text-gray-500",
-          }}
-        >
-          <AccordionItem
-            title="Agregar cita"
-            aria-label="Accordion form"
-            subtitle="Presiona para agendar una cita"
+    <DoublePanelLayout
+      title="Citas"
+      titleLeft="Agrega una nueva cita"
+      subtitleLeft="Presiona para gregar una nueva cita"
+      contentLeft={<ScheduleForm setUserAppointments={setUserAppointments} />}
+    >
+      <article className="w-full grid gap-3">
+        <section className="w-full flex gap-3 overflow-auto scrollbar-hide">
+          <Chip
+            as={Button}
+            size="md"
+            variant="flat"
+            color={section === "appointments" ? "primary" : "default"}
+            onPress={() => handleView("appointments")}
+            isLoading={section === "appointments" && isLoading}
           >
-            <ScheduleForm />
-          </AccordionItem>
-        </Accordion>
-      </div>
-      <div className="min-[640px]:min-w-[70%] h-full">
-        <Panel title="Citas">
-          <Calendar
-            aria-label="Date (No Selection)"
-            defaultValue={localDate}
-            visibleMonths={3}
-            isReadOnly
-            showShadow={true}
-            className="shadow-none rounded-sm"
+            Mis citas
+          </Chip>
+          <Chip
+            as={Button}
+            size="md"
+            variant="flat"
+            color={section === "invitations" ? "primary" : "default"}
+            onPress={() => handleView("invitations")}
+            isLoading={section === "invitations" && isLoading}
+          >
+            Invitaciones
+          </Chip>
+        </section>
+        {section === "appointments" && (
+          <Appointments
+            setIsLoading={setIsLoading}
+            setUserAppointments={setUserAppointments}
+            userAppointments={userAppointments}
           />
-          <div className="mt-3 h-[200px] overflow-y-auto">
-            <ScheduleList />
-          </div>
-        </Panel>
-      </div>
+        )}
+        {section === "invitations" && (
+          <Invitations
+            setIsLoading={setIsLoading}
+          />
+        )}
+      </article>
     </DoublePanelLayout>
   );
 };

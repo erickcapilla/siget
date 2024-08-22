@@ -9,21 +9,23 @@ export type MenuItems = {
 
 import {
   HomeOutline,
-  ClipboardOutline,
+  SettingsOutline,
   TopicOutline,
   UsersOutline,
   UserOutline,
   DocumentOutline,
   PaperCheckOutline,
+  CalendarOutline,
 } from "@/components/icons";
 import {
   HomeSolid,
-  ClipboardSolid,
+  SettingsSolid,
   TopicSolid,
   UsersSolid,
   UserSolid,
   DocumentSolid,
   PaperCheckSolid,
+  CalendarSolid,
 } from "@/components/icons";
 
 export const menuItems: MenuItems[] = [
@@ -38,8 +40,8 @@ export const menuItems: MenuItems[] = [
     id: "admin",
     name: "Administrar",
     path: "/admin",
-    icon: ClipboardOutline,
-    iconActive: ClipboardSolid,
+    icon: SettingsOutline,
+    iconActive: SettingsSolid,
   },
   {
     id: "topics",
@@ -80,21 +82,7 @@ export const menuItems: MenuItems[] = [
     id: "schedule",
     name: "Agenda",
     path: "/schedule",
-    icon: HomeOutline,
-    iconActive: HomeSolid,
-  },
-  {
-    id: "degree",
-    name: "Titulación",
-    path: "/degree",
-    icon: HomeOutline,
-    iconActive: HomeSolid,
-  },
-  {
-    id: "graduates",
-    name: "Titulados",
-    path: "/graduates",
-    icon: HomeOutline,
-    iconActive: HomeSolid,
+    icon: CalendarOutline,
+    iconActive: CalendarSolid,
   },
 ];

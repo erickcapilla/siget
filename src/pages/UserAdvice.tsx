@@ -15,7 +15,6 @@ export const UserAdvice = () => {
       .getAdvisories(token, acceptedTopics[0].id)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setAdvisories(data);
       })
       .catch((error) => console.error(error));

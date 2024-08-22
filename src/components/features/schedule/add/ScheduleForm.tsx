@@ -1,30 +1,28 @@
-import {
-  Input,
-  Button,
-  TimeInput,
-  DateInput,
-  Select,
-  SelectedItems,
-  Chip,
-  SelectItem,
-  Avatar,
-  AvatarIcon,
-} from "@nextui-org/react";
-import { User, Appointment } from "@/types";
-import userServices from "@/services/UserServices";
-import scheduleServices from "@/services/ScheduleServices"
-import { useState, useEffect } from "react";
+import { Input, Button, TimeInput, DateInput } from "@nextui-org/react";
+import { AppointmentData, AppointmentResponse } from "@/types/schedule";
+import scheduleServices from "@/services/ScheduleServices";
+import { useState } from "react";
+import { UsersSelect } from "@/components/features";
+import { useAuth } from "@/hooks/useAuth";
+import toast from "react-hot-toast";
 
-export const ScheduleForm = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [appointment, setAppointment] = useState<Appointment>({
+interface Props {
+  setUserAppointments: React.Dispatch<
+    React.SetStateAction<AppointmentResponse[]>
+  >;
+}
+
+export const ScheduleForm = ({ setUserAppointments }: Props) => {
+  const { token } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [appointment, setAppointment] = useState<AppointmentData>({
     topic: "",
     location: "",
     date: "",
     time: "",
     participants: [""],
     invitee: "",
-  })
+  });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -32,29 +30,24 @@ export const ScheduleForm = () => {
     setAppointment({ ...appointment, [e.target.name]: e.target.value });
   };
 
-  const handleGetUsers = async () => {
-    try {
-      const res = await userServices.getUsers();
-      const data = await res.json();
-      setUsers(data);
-    } catch (error) {
-      console.error(error);
-    }
+  const handleSubmit = (e: React.FormEvent<EventTarget | HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    scheduleServices
+      .createAppointment(token, appointment)
+      .then((response) => response.json())
+      .then((data) => setUserAppointments(prev => [...prev, data]))
+      .then(() => toast.success("Cita agendada"))
+      .catch((error) => toast.error(error.toString()))
+      .finally(() => setLoading(false));
   };
 
-  const handleSubmit = (e: React.FormEvent<EventTarget | HTMLFormElement>) => {
-    e.preventDefault()
-    scheduleServices.createAppointment(appointment)
-      .then(() => console.log("Cita agendada"))
-      .catch(error => console.error(error))
-    console.log(appointment)
-  }
-
-  useEffect(() => {
-    handleGetUsers();
-  }, []);
   return (
-    <form className="flex flex-col justify-between h-full" onSubmit={handleSubmit}>
+    <form
+      className="flex flex-col justify-between h-full"
+      onSubmit={handleSubmit}
+    >
       <div className="grid gap-3 overflow-y-auto pr-2">
         <Input
           name="topic"
@@ -84,7 +77,10 @@ export const ScheduleForm = () => {
           radius="sm"
           isRequired
           onChange={(e) => {
-            setAppointment({ ...appointment, date: e.toDate() });
+            setAppointment({
+              ...appointment,
+              date: e.toDate("UTC").toISOString(),
+            });
           }}
         />
         <TimeInput
@@ -98,110 +94,15 @@ export const ScheduleForm = () => {
             setAppointment({ ...appointment, time: `${e.hour}:${e.minute}` });
           }}
         />
-        <Select
-          name="participants"
-          items={users}
-          label="Selecciona participantes"
-          variant="bordered"
-          color="primary"
-          isRequired
-          placeholder="Selecciona usuarios"
-          labelPlacement="outside"
-          selectionMode="multiple"
-          classNames={{
-            trigger: "h-auto py-2",
-            label: "text-left text-black",
-          }}
-          renderValue={(items: SelectedItems<User>) => {
-            return (
-              <div className="flex flex-wrap gap-2">
-                {items.map((item) => (
-                  <Chip key={item.key} color="primary" variant="flat">
-                    {item.data.userInformation ? item.data.userInformation.name +
-                      " " +
-                      item.data.userInformation.fatherLastName : "Usuario"}
-                  </Chip>
-                ))}
-              </div>
-            );
-          }}
-          onChange={(e) => setAppointment({ ...appointment, participants: e.target.value.split(",") })}
-        >
-          {(user) => (
-            <SelectItem key={user.id} textValue={"User"}>
-              <div className="flex gap-2 items-center">
-                <Avatar
-                  alt={"User"}
-                  className="flex-shrink-0"
-                  size="sm"
-                  icon={<AvatarIcon />}
-                />
-                <div className="flex flex-col">
-                  <span className="text-small">
-                    {user.userInformation ? user.userInformation.name +
-                      " " +
-                      user.userInformation.fatherLastName : "Usuario"}
-                  </span>
-                  <span className="text-tiny text-default-400">
-                    {user.email}
-                  </span>
-                </div>
-              </div>
-            </SelectItem>
-          )}
-        </Select>
-        <Select
-          name="invitee"
-          items={users}
-          label="Dirigido a"
-          variant="bordered"
-          color="primary"
-          isRequired
-          placeholder="Selecciona un usuario"
-          labelPlacement="outside"
-          className="mb-3"
-          onChange={handleChange}
-          classNames={{
-            trigger: "h-auto py-2",
-            label: "text-left text-black",
-          }}
-          renderValue={(items: SelectedItems<User>) => {
-            return (
-              <div className="flex flex-wrap gap-2">
-                {items.map((item) => (
-                  <Chip key={item.key} color="primary" variant="flat">
-                    {item.data.userInformation ? item.data.userInformation.name +
-                      " " +
-                      item.data.userInformation.fatherLastName : "Usuario"}
-                  </Chip>
-                ))}
-              </div>
-            );
-          }}
-        >
-          {(user) => (
-            <SelectItem key={user.id} textValue={"User"}>
-              <div className="flex gap-2 items-center">
-                <Avatar
-                  alt={"User"}
-                  className="flex-shrink-0"
-                  size="sm"
-                  icon={<AvatarIcon />}
-                />
-                <div className="flex flex-col">
-                  <span className="text-small">
-                    {user.userInformation ? user.userInformation.name +
-                      " " +
-                      user.userInformation.fatherLastName : "Usuario"}
-                  </span>
-                  <span className="text-tiny text-default-400">
-                    {user.email}
-                  </span>
-                </div>
-              </div>
-            </SelectItem>
-          )}
-        </Select>
+        <UsersSelect
+          onChange={(e) =>
+            setAppointment({
+              ...appointment,
+              invitee: e?.toString(),
+              participants: [e?.toString()],
+            })
+          }
+        />
       </div>
       <div>
         <Button
@@ -210,8 +111,9 @@ export const ScheduleForm = () => {
           variant="solid"
           radius="sm"
           className="w-full"
+          isLoading={loading}
         >
-          Agendar
+          {loading ? "Agendando" : "Agendar"}
         </Button>
       </div>
     </form>

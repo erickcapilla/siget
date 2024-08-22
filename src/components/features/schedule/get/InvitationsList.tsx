@@ -1,4 +1,4 @@
-import { ScheduleItem } from "@/components/features";
+import { InvitationItem } from "@/components/features";
 import { AppointmentResponse } from "@/types/schedule";
 
 interface Props {
@@ -6,11 +6,11 @@ interface Props {
   appointments: AppointmentResponse[];
 }
 
-export const ScheduleList = ({ setUsersAppointments, appointments }: Props) => {
+export const InvitationsList = ({ setUsersAppointments, appointments }: Props) => {
   return (
     <>
       {appointments?.map((appointment) => (
-        <ScheduleItem key={appointment.id} appointment={appointment} setUsersAppointments={setUsersAppointments} />
+        <InvitationItem key={appointment.id} appointment={appointment} setUsersAppointments={setUsersAppointments} />
       ))}
     </>
   );

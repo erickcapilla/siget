@@ -1,6 +1,6 @@
 import { JwtPayload } from "jwt-decode";
-import { Credentials } from "@/types/user";
-import { UserTopic, userInformation, Degree } from "@/types/user";
+import { UserTopic, userInformation, Degree, Credentials } from "@/types/user";
+import { AcceptedTopic } from "@/types/topic";
 
 export type AuthType = {
   isAuth: boolean;

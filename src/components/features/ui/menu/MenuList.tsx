@@ -6,11 +6,13 @@ import { LayoutItem } from "@/layouts";
 import toast from "react-hot-toast";
 
 export const MenuList = () => {
-  const { logout } = useAuth();
+  const { logout, roles, loading} = useAuth();
+  const items = menuItems.filter((item) => roles.some((r) => item.roles.includes(r)));
+  console.log(items);
 
   return (
     <>
-      {menuItems.map((item) => (
+      {!loading && items.map((item) => (
         <MenuItem key={item.id} item={item} />
       ))}
       <Button

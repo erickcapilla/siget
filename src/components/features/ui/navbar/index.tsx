@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 
 export const Navbar = () => {
   const { logout, roles } = useAuth();
-  const items = menuItems.filter((item) => roles.every((r) => item.roles.includes(r)));
+  const items = menuItems.filter((item) => roles.some((r) => item.roles.includes(r)));
   const itemActive = (href: string) => {
     return window.location.pathname.toString() === href;
   };

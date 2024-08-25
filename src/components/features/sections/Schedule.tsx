@@ -1,5 +1,4 @@
 import { ScheduleList, InvitationsList } from "@/components/features/schedule";
-import { Panel } from "@/components/features";
 import { Spinner } from "@nextui-org/react";
 import { useAuth } from "@/hooks";
 import { useEffect, useState } from "react";
@@ -30,25 +29,23 @@ export const ScheduleSection = () => {
   }, []);
 
   return (
-      <Panel title="Agenda" className="w-full h-full">
-        <div className="size-full grid gap-2">
-          {loading && <Spinner />}
-          {appointments.length > 0 && (
-            <ScheduleList
-              setUsersAppointments={setAppointments}
-              appointments={appointments}
-            />
-          )}
-          {invitations.length > 0 && (
-            <InvitationsList
-              setUsersAppointments={setInvitations}
-              appointments={invitations}
-            />
-          )}
-          {!loading && !appointments.length && !invitations.length && (
-            <p>No hay citas</p>
-          )}
-        </div>
-      </Panel>
+    <div className="size-full grid gap-2">
+      {loading && <Spinner />}
+      {appointments.length > 0 && (
+        <ScheduleList
+          setUsersAppointments={setAppointments}
+          appointments={appointments}
+        />
+      )}
+      {invitations.length > 0 && (
+        <InvitationsList
+          setUsersAppointments={setInvitations}
+          appointments={invitations}
+        />
+      )}
+      {!loading && !appointments.length && !invitations.length && (
+        <p>No hay citas</p>
+      )}
+    </div>
   );
 };

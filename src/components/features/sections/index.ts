@@ -1,3 +1,4 @@
 export * from "./Schedule"
 export * from "./DocumentProgress"
-export * from "./advices"
+export * from "./Advices"
+export * from "./Adviceds"

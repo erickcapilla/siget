@@ -22,13 +22,13 @@ export type UsersResponse = {
   email: string;
   roles: string[];
   userInformation: usersInformation;
-}
+};
 
 export type UserTopic = {
   id: string;
   email: string;
   roles: string[];
-}
+};
 
 type Degree = {
   id: string;
@@ -44,19 +44,23 @@ type Rol = {
 export type EnableUserResponse = {
   id: string;
   userInformation: usersInformation;
-}
+};
 
 export type userInformation = {
-  id: number;  
+  id: number;
   address: string;
-  fatherLastName: string; 
-  motherLastName: string
-  name: string; 
-  phoneNumber: string; 
-}
+  fatherLastName: string;
+  motherLastName: string;
+  name: string;
+  phoneNumber: string;
+};
 
 export type TopicUser = {
   user: UserTopic;
   userDegreePrograms: DegreeResponse[];
   userInformation: userInformation;
-}
+};
+
+export type UserTopicResponse = {
+  id: string;
+} & usersInformation;

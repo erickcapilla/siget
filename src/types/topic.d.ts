@@ -1,4 +1,4 @@
-import { UserTopic, EnableUserResponse } from "@/types/user";
+import { UserTopic, EnableUserResponse, UserTopicResponse } from "@/types/user";
 import { DegreeResponse, GraduationResponse } from "@/types/admin";
 
 export interface TopicData {
@@ -36,10 +36,10 @@ export type PetitionTopic = {
 export type AcceptedTopic = {
   id: string;
   description: string;
-  collaborator: UserTopic;
+  collaborator: UserTopicResponse;
   title: string;
-  acceptedBy: EnableUserResponse & {id: string}; 
-  requestedBy: EnableUserResponse & {id: string}; 
+  acceptedBy: UserTopicResponse; 
+  requestedBy: UserTopicResponse; 
 }
 
 export type Comment = {

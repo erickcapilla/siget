@@ -2,7 +2,7 @@ import type { DocumentResponse } from "@/types/topic";
 import { useEffect, useState } from "react";
 import { useAuth, useUser } from "@/hooks";
 import documentServices from "@/services/DocumentServices";
-import { ProgressDocumentBar, Panel } from "@/components/features";
+import { ProgressDocumentBar } from "@/components/features";
 import { Spinner, Chip, Avatar } from "@nextui-org/react";
 
 export const DocumentProgressSection = () => {
@@ -10,11 +10,6 @@ export const DocumentProgressSection = () => {
   const [document, setDocument] = useState<DocumentResponse[]>([]);
   const { token, userAuthed } = useAuth();
   const { acceptedTopics } = useUser();
-  const asesor =
-    acceptedTopics[0].acceptedBy &&
-    acceptedTopics[0].acceptedBy?.id !== userAuthed
-      ? acceptedTopics[0].acceptedBy
-      : acceptedTopics[0].requestedBy;
 
   useEffect(() => {
     setLoading(true);
@@ -29,46 +24,48 @@ export const DocumentProgressSection = () => {
   }, []);
 
   return (
-    <Panel
-      title={`${acceptedTopics[0].title} - Progreso`}
-      className="size-full"
-    >
-      <div className="size-full flex flex-col justify-between">
-        {loading && (
-          <div className="size-full flex items-center justify-center">
-            <Spinner />
+    <>
+      {loading ? (
+        <div className="size-full flex items-center justify-center">
+          <Spinner />
+        </div>
+      ) : document.length > 0 ? (
+        <div className="size-full flex flex-col justify-between">
+          <div>
+            <Chip size="sm" color="secondary" variant="dot">
+              {acceptedTopics[0].title}
+            </Chip>
           </div>
-        )}
-        {!loading && (
-          <div className="size-full px-10 overflow-x-auto">
-            <h3 className="mx-auto text-center text-xl font-semibold text-secondary mb-10">
-              Capítulos completados
-            </h3>
-            {document.length > 0 && (
+          <h3 className="mx-auto text-center text-xl font-semibold text-secondary mb-8">
+            Capítulos completados
+          </h3>
+          <div className="size-full px-10 py-3 overflow-x-auto">
+            {document.length > 0 ? (
               <div className="min-w-[600px]">
                 <ProgressDocumentBar document={document} />
               </div>
+            ) : (
+              <p> No hay documentos </p>
             )}
           </div>
-        )}
-        <div className="w-full items-center justify-between pt-3">
-          <Chip
-            size="sm"
-            avatar={<Avatar color="secondary" />}
-            variant="flat"
-            color="secondary"
-          >
-            {" "}
-            {`${asesor.name} ${asesor.fatherLastName} (Asesor)`}{" "}
-          </Chip>
-          {acceptedTopics[0].collaborator && (
-            <Chip size="sm" avatar={<Avatar />} variant="flat">
-              {" "}
-              {`${acceptedTopics[0].collaborator?.name} ${acceptedTopics[0].collaborator?.fatherLastName} (Colaborador)`}{" "}
+          <div className="w-full items-center justify-between pt-3">
+            <Chip
+              size="sm"
+              avatar={<Avatar color="secondary" />}
+              variant="flat"
+              color="secondary"
+            >
+              {`${
+                acceptedTopics[0].acceptedBy.id !== userAuthed
+                  ? `${acceptedTopics[0].acceptedBy.name} ${acceptedTopics[0].acceptedBy.fatherLastName}`
+                  : `${acceptedTopics[0].requestedBy.name} ${acceptedTopics[0].requestedBy.fatherLastName}`
+              } (Asesor)`}
             </Chip>
-          )}
+          </div>
         </div>
-      </div>
-    </Panel>
+      ) : (
+        <p> No tienes tema asignado </p>
+      )}
+    </>
   );
 };

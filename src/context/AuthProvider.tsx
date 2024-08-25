@@ -27,11 +27,13 @@ export const AuthProvider = ({ children }: Props) => {
       const res = await authServices.login(credentials);
       const data = await res.json();
       setRoles(data.roles);
-
+      console.log(data);
+      
       if (data.token) {
         setIsAuth(true);
         setToken(data.token);
         localStorage.setItem("siget-token", data.token);
+        localStorage.setItem("siget-role", JSON.stringify(data.roles[0]));
         navigate(paths.login);
         return;
       }
@@ -45,6 +47,7 @@ export const AuthProvider = ({ children }: Props) => {
     setIsAuth(false);
     setToken("");
     setUserAuthed("");
+    setRoles([]);
     localStorage.removeItem("siget-token");
     localStorage.removeItem("siget-role");
     navigate(paths.login);

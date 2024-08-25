@@ -15,7 +15,7 @@ export const Menu = () => {
         variant="underlined"
         onChange={(e) => {
           localStorage.setItem("siget-role", e?.target.value);
-          setRole(e?.target.value || "");
+          setRole(e?.target.value);
         }}
         classNames={{
           base: "text-black",

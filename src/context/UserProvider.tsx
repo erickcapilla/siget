@@ -5,6 +5,7 @@ import { AcceptedTopic } from "@/types/topic";
 import userServices from "@/services/UserServices";
 import requestTopicServices from "@/services/RequestTopicServices";
 import UserContext from "./UserContext";
+import { ROLES } from "@/utils";
 
 interface Props {
   children?: React.ReactNode;
@@ -30,7 +31,15 @@ export const UserProvider = ({ children }: Props) => {
       setDegrees(data.userDegreePrograms);
       setInformation(data.userInformation);
       setUserRoles(data.user && data.user.roles);
-      
+
+      if (data.user.roles.includes(ROLES.STUDENT) || data.user.roles.includes(ROLES.ADVISOR)) {
+        const res = await requestTopicServices.getAcceptedTopics(token);
+        const data = await res.json();
+
+        setAcceptedTopics(data.items);
+        console.log(data.items);
+      }
+
       if (role === "") {
         setRole(data.user && data.user.roles[0]);
         data.user && localStorage.setItem("siget-role", data.user.roles[0]);
@@ -45,17 +54,6 @@ export const UserProvider = ({ children }: Props) => {
   useEffect(() => {
     if (isAuth) {
       getUser();
-    }
-
-    if(role.includes("STUDENT_ROLE")) {
-      requestTopicServices
-        .getAcceptedTopics(token)
-        .then((response) => response.json())
-        .then((data) => {
-          setAcceptedTopics(data.items);
-          console.log(data);
-        })
-        .catch((error) => console.error(error));
     }
   }, [getUser, role]);
 

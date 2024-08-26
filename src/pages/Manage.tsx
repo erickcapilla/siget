@@ -4,17 +4,19 @@ import { useState, useEffect } from "react";
 import userServices from "@/services/UserServices";
 import { Spinner } from "@nextui-org/react";
 import toast from "react-hot-toast";
+import { useAuth } from "@/hooks"
 
 import { UsersResponse  } from "@/types/user"
 
 export const Manage = () => {
   const [users, setUsers] = useState<UsersResponse[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { token } = useAuth();
 
   useEffect(() => {
     setIsLoading(true);
       userServices
-        .getUsers()
+        .getUsers(token)
         .then((res) => res.json())
         .then((data) => setUsers(data))
         .catch(error => toast.error(error.toString()))

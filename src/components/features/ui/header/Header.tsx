@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const Header = ({ handleOpenPanel }: Props) => {
-  const { isAuth } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   return (
     <header className={styles.header}>
@@ -25,7 +25,7 @@ export const Header = ({ handleOpenPanel }: Props) => {
           className="min-[400px]:w-32"
         />
       </Link>
-      {isAuth ? (
+      {isAuthenticated ? (
         <ActionBar handleOpenPanel={handleOpenPanel} />
       ) : (
         <picture className={styles.headerPicture}>

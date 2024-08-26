@@ -5,7 +5,7 @@ import {
   SelectItem,
   Button,
 } from "@nextui-org/react";
-import { useUser } from "@/hooks";
+import { useAuth } from "@/hooks";
 import { roleNames } from "@/utils/utils";
 import { LayoutItem } from "@/layouts";
 
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const MenuInformation = ({ setMenu }: Props) => {
-  const { information, userRoles, role, setRole, user } = useUser();
+  const { role, setRole, user } = useAuth();
 
   return (
     <article className="flex flex-col items-center gap-10 w-full h-full">
@@ -31,11 +31,11 @@ export const MenuInformation = ({ setMenu }: Props) => {
             }}
           />
           <h3 className="text-center font-bold text-base">
-            {information &&
-              `${information.name} ${information.fatherLastName} ${information.motherLastName}`}
+            {user.userInformation &&
+              `${user.userInformation.name} ${user.userInformation.fatherLastName} ${user.userInformation.motherLastName}`}
           </h3>
           <h3 className="text-center mt-[-.5rem] text-sm text-gray-500">
-            {information && user.email}
+            {user.userInformation && user.user.email}
           </h3>
           <Select
             label="Roles"
@@ -50,7 +50,7 @@ export const MenuInformation = ({ setMenu }: Props) => {
               base: "text-black",
             }}
           >
-            {userRoles.map((role) => (
+            {user.user.roles.map((role) => (
               <SelectItem key={role} value={role}>
                 {roleNames[role as keyof typeof roleNames]}
               </SelectItem>

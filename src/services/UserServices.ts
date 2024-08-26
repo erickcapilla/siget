@@ -6,10 +6,11 @@ class UserService {
   API_URL_USERS = `${import.meta.env.VITE_API_URL}/auth/users`;
   API_URL_ENABLE_USERS = `${import.meta.env.VITE_API_URL}/accepted-topics/students`;
 
-  async getUser(id: string) {
+  async getUser(token: string, id: string) {
     const response = await fetch(`${this.API_URL_USERS}/${id}`, {
       method: "GET",
       headers: {
+        "Authorization": `Bearer ${token}`,
         "content-type": "application/json",
       },
     });
@@ -23,10 +24,11 @@ class UserService {
     throw new Error(error.message);
   }
 
-  async getUsers() {
+  async getUsers(token: string) {
     const response = await fetch(this.API_URL_USERS, {
       method: 'GET',
       headers: {
+        'Authorization': `Bearer ${token}`,
         'content-type': 'application/json',
       },
     })
@@ -40,10 +42,11 @@ class UserService {
     throw new Error(error.message)
   }
 
-  async editUser(id: string, data: object) {
+  async editUser(token: string, id: string, data: object) {
     const response = await fetch(`${this.API_URL_USERS}/${id}`, {
       method: "PATCH",
       headers: {
+        "Authorization": `Bearer ${token}`,
         "content-type": "application/json",
       },
       body: JSON.stringify(data),
@@ -58,9 +61,12 @@ class UserService {
     throw new Error(error.message);
   }
 
-  async deleteUser(id: string) {
+  async deleteUser(token: string, id: string) {
     const response = await fetch(`${this.API_URL_USERS}/${id}`, {
       method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
     });
 
     if (response.ok) {
@@ -72,12 +78,13 @@ class UserService {
     throw new Error(error.message);
   }
 
-  async setDegrees(userID: string, degrees: string[]) {
+  async setDegrees(token: string, userID: string, degrees: string[]) {
     const response = await fetch(
       `${this.API_URL_DEGREE}/${userID}/enroll-degree-programs`,
       {
         method: "POST",
         headers: {
+          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ degreeProgramsId: degrees }),

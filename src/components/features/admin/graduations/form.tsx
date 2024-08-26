@@ -2,10 +2,12 @@ import { Select, SelectItem, Button } from "@nextui-org/react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import graduationServices from "@/services/GraduationsOptionsServices";
+import { useAuth } from "@/hooks";
 
 export const GraduationForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
+  const { token } = useAuth();
 
   const graduations = [
     { key: "prototype", label: "Prototipo" },
@@ -17,7 +19,7 @@ export const GraduationForm = () => {
     e.preventDefault();
     setIsLoading(true);
     graduationServices
-      .saveOption(name)
+      .saveOption(token, name)
       .then(() => {
         setName("");
         toast.success(

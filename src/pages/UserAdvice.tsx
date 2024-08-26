@@ -1,13 +1,12 @@
 import { DoublePanelLayout } from "@/layouts";
 import { AdviceForm, AdviceList } from "@/components/features";
 import advisoryServices from "@/services/AdvisoryServices";
-import { useAuth, useUser } from "@/hooks";
+import { useAuth } from "@/hooks";
 import { useEffect, useState } from "react";
 import { AdvisoryResponse } from "@/types/advisory";
 
 export const UserAdvice = () => {
-  const { token } = useAuth();
-  const { acceptedTopics } = useUser();
+  const { token, acceptedTopics } = useAuth();
   const [advisories, setAdvisories] = useState<AdvisoryResponse[]>([]);
 
   useEffect(() => {

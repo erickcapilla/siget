@@ -1,6 +1,6 @@
 import type { DocumentResponse } from "@/types/topic";
 import { useEffect, useState } from "react";
-import { useAuth, useUser } from "@/hooks";
+import { useAuth } from "@/hooks";
 import documentServices from "@/services/DocumentServices";
 import { ProgressDocumentBar } from "@/components/features";
 import { Spinner, Chip, Avatar } from "@nextui-org/react";
@@ -8,8 +8,7 @@ import { Spinner, Chip, Avatar } from "@nextui-org/react";
 export const DocumentProgressSection = () => {
   const [loading, setLoading] = useState(false);
   const [document, setDocument] = useState<DocumentResponse[]>([]);
-  const { token, userAuthed } = useAuth();
-  const { acceptedTopics } = useUser();
+  const { token, user, acceptedTopics } = useAuth();
 
   useEffect(() => {
     setLoading(true);
@@ -56,7 +55,7 @@ export const DocumentProgressSection = () => {
               color="secondary"
             >
               {`${
-                acceptedTopics[0].acceptedBy.id !== userAuthed
+                acceptedTopics[0].acceptedBy.id !== user?.user.id
                   ? `${acceptedTopics[0].acceptedBy.name} ${acceptedTopics[0].acceptedBy.fatherLastName}`
                   : `${acceptedTopics[0].requestedBy.name} ${acceptedTopics[0].requestedBy.fatherLastName}`
               } (Asesor)`}

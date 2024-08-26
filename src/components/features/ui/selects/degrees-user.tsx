@@ -1,12 +1,12 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { useUser } from "@/hooks";
+import { useAuth } from "@/hooks";
 
 interface Props {
   onChange?: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
 export const DegreesUserSelect = ({ onChange }: Props) => {
-  const { degrees } = useUser();
+  const { user } = useAuth();
 
   return (
     <Select
@@ -23,7 +23,7 @@ export const DegreesUserSelect = ({ onChange }: Props) => {
       onChange={onChange}
       radius="sm"
     >
-      {degrees.map((degree) => (
+      {user.userDegreePrograms.map((degree) => (
         <SelectItem key={degree.id} value={degree.id}>
           {degree.name.charAt(0).toUpperCase() +
             degree.name.slice(1).replace(/-/g, " ")}

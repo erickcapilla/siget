@@ -1,4 +1,4 @@
-import { useUser, useAuth } from "@/hooks";
+import { useAuth } from "@/hooks";
 import {
   Chip,
   Avatar,
@@ -14,8 +14,7 @@ import {
 import { DocumentOutline, PaperCheckOutline } from "@/components/icons";
 
 export const AdvicedsTable = () => {
-  const { acceptedTopics } = useUser();
-  const { userAuthed } = useAuth();
+  const { acceptedTopics, user } = useAuth();
 
   return (
     <Table
@@ -40,7 +39,7 @@ export const AdvicedsTable = () => {
                 variant="flat"
                 avatar={<Avatar />}
               >{`${
-                acceptedTopics[0].acceptedBy.id !== userAuthed
+                acceptedTopics[0].acceptedBy.id !== user.user.id
                   ? `${acceptedTopics[0].acceptedBy.name} ${acceptedTopics[0].acceptedBy.fatherLastName}`
                   : `${acceptedTopics[0].requestedBy.name} ${acceptedTopics[0].requestedBy.fatherLastName}`
               }`}</Chip>

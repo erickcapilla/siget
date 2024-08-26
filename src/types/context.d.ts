@@ -11,6 +11,7 @@ export type AuthType = {
   role: string;
   user: LoginResponse;
   acceptedTopics: AcceptedTopic[];
+  setRole: React.Dispatch<React.SetStateAction<string>>;
 };
 
 type UserType = {

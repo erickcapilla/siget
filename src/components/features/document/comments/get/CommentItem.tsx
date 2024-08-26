@@ -2,7 +2,7 @@ import type { CommentResponse } from "@/types/topic";
 import { LayoutItem } from "@/layouts";
 import { DeleteIcon, CalendarIcon, ClockIcon } from "@/components/icons";
 import { Chip, Button } from "@nextui-org/react";
-import { useUser, useAuth } from "@/hooks";
+import { useAuth } from "@/hooks";
 import documentCommentsServices from "@/services/DocumentCommentsServices";
 import toast from "react-hot-toast";
 import { ROLES } from "@/utils";
@@ -14,8 +14,7 @@ interface Props {
 }
 
 export const CommentItem = ({ comment, setComments }: Props) => {
-  const { role } = useUser();
-  const { token } = useAuth();
+  const { token, role } = useAuth();
   const dateString = comment.date;
   const date = new Date(dateString);
   const formattedDate = date.toLocaleDateString();

@@ -20,7 +20,6 @@ export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<LoginResponse>();
   const [role, setRole] = useState(localStorage.getItem("siget-role") || "");
   const [acceptedTopics, setAcceptedTopics] = useState<AcceptedTopic[]>([]);
-
   const navigate = useNavigate();
 
   const login = async (credentials: Credentials) => {
@@ -31,27 +30,26 @@ export const AuthProvider = ({ children }: Props) => {
       setUser(data);
       setToken(data.token);
       setIsAuthenticated(true);
+      setRole(data.user.roles[0]);
+      localStorage.setItem("siget-role", data.user.roles[0]);
       localStorage.setItem("siget-token", data.token);
 
       if (
         data.user.roles.includes(ROLES.STUDENT) ||
         data.user.roles.includes(ROLES.ADVISOR)
       ) {
-        const res = await requestTopicServices.getAcceptedTopics(token);
-        const data = await res.json();
+        const res = await requestTopicServices.getAcceptedTopics(data.token);
+        const da = await res.json();
 
-        setAcceptedTopics(data.items);
+        setAcceptedTopics(da.items);
       }
 
-      if (role === "") {
-        setRole(data.user.roles[0]);
-        localStorage.setItem("siget-role", data.user.roles[0]);
-      }
-
-      navigate(paths.login);
+      navigate(paths.home);
     } catch (error) {
       toast.error(error.toString());
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,7 +68,8 @@ export const AuthProvider = ({ children }: Props) => {
 
       if (token === "") {
         setLoading(false);
-
+        setIsAuthenticated(false);
+        
         return;
       }
 
@@ -87,10 +86,10 @@ export const AuthProvider = ({ children }: Props) => {
           data.user.roles.includes(ROLES.STUDENT) ||
           data.user.roles.includes(ROLES.ADVISOR)
         ) {
-          const res = await requestTopicServices.getAcceptedTopics(token);
-          const data = await res.json();
+          const res = await requestTopicServices.getAcceptedTopics(data.token);
+          const da = await res.json();
 
-          setAcceptedTopics(data.items);
+          setAcceptedTopics(da.items);
         }
 
         if (role === "") {
@@ -109,7 +108,17 @@ export const AuthProvider = ({ children }: Props) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, token, login, logout, loading, role, user, acceptedTopics }}
+      value={{
+        isAuthenticated,
+        token,
+        login,
+        logout,
+        loading,
+        role,
+        user,
+        acceptedTopics,
+        setRole,
+      }}
     >
       {children}
     </AuthContext.Provider>

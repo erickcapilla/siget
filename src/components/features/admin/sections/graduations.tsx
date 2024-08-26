@@ -4,15 +4,17 @@ import { useState, useEffect } from "react";
 import { GraduationResponse } from "@/types/admin";
 import graduationsServices from "@/services/GraduationsOptionsServices";
 import toast from "react-hot-toast";
+import { useAuth } from "@/hooks";
 
 export const GraduationsAdmin = () => {
   const [graduations, setGraduations] = useState<GraduationResponse[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { token } = useAuth();
 
   useEffect(() => {
     setIsLoading(true);
     graduationsServices
-      .getOptions()
+      .getOptions(token)
       .then((res) => res.json())
       .then((data) => setGraduations(data))
       .catch((error) => toast.error(error.toString()))

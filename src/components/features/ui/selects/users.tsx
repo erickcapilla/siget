@@ -7,6 +7,7 @@ import {
 import userServices from "@/services/UserServices";
 import { UsersResponse } from "@/types/user";
 import { useState, useEffect } from "react";
+import { useAuth } from "@/hooks";
 
 interface Props {
   onChange?: (key: React.Key | null) => void;
@@ -14,10 +15,11 @@ interface Props {
 
 export const UsersSelect = ({ onChange }: Props) => {
   const [users, setUsers] = useState<UsersResponse[]>([]);
+  const { token } = useAuth();
 
   useEffect(() => {
     userServices
-      .getUsers()
+      .getUsers(token)
       .then((response) => response.json())
       .then((data) => setUsers(data))
       .catch((error) => console.error(error));

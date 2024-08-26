@@ -1,15 +1,14 @@
 import type { AdvisoryResponse } from "@/types/advisory";
 import { useEffect, useState } from "react";
 import { Spinner } from "@nextui-org/react";
-import { useAuth, useUser } from "@/hooks";
+import { useAuth } from "@/hooks";
 import advisoryServices from "@/services/AdvisoryServices";
 import { AdviceList } from "@/components/features";
 
 export const AdviceSection = () => {
   const [loading, setLoading] = useState(false);
   const [advices, setAdvices] = useState<AdvisoryResponse[]>([]);
-  const { token } = useAuth();
-  const { acceptedTopics } = useUser();
+  const { token, acceptedTopics } = useAuth();
 
   useEffect(() => {
     if (acceptedTopics.length > 0) {

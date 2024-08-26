@@ -18,17 +18,16 @@ import {
   UserAdvice,
 } from "@/pages";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { useAuth, useUser } from "@/hooks";
+import { useAuth } from "@/hooks";
 import { paths } from "@/utils";
 
 export const AppRoutes = () => {
-  const { isAuth } = useAuth();
-  const { information } = useUser();
+  const { isAuthenticated, user } = useAuth();
 
   return (
     <Routes>
       <Route
-        element={<ProtectedRoute isAllowed={!isAuth} redirectTo={paths.home} />}
+        element={<ProtectedRoute isAllowed={!isAuthenticated} redirectTo={paths.home} />}
       >
         <Route path={paths.login} element={<Login />} />
         <Route path={paths.reset} element={<ResetPassword />} />
@@ -37,7 +36,7 @@ export const AppRoutes = () => {
 
       <Route
         element={
-          <ProtectedRoute isAllowed={!!information} redirectTo={paths.home} />
+          <ProtectedRoute isAllowed={!!user?.userInformation} redirectTo={paths.home} />
         }
       >
         <Route path={paths.topics} element={<Topics />} />
@@ -54,7 +53,7 @@ export const AppRoutes = () => {
       </Route>
 
       <Route
-        element={<ProtectedRoute isAllowed={isAuth} redirectTo="/login" />}
+        element={<ProtectedRoute isAllowed={isAuthenticated} redirectTo={paths.login} />}
       >
         <Route path={paths.home} index element={<Home />} />
         <Route path={`${paths.profile}:id`} element={<Profile />} />
@@ -73,65 +72,3 @@ export const AppRoutes = () => {
     </Routes>
   );
 };
-
-/*
-
-<Routes>
-        <Route index path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/reset" element={<ResetPassword />} />
-        <Route path="/reset" element={<ResetPassword />} />
-
-        <Route path="/home" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/topics" element={<Topics />} />
-        <Route path="/manage" element={<Manage />} />
-        <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/document/:id" element={<Document />} />
-        <Route path="/advice" element={<Advice />} />
-        <Route path="/degree" element={<Degree />} />
-        <Route path="/graduates" element={<Graduates />} />
-        <Route path="/schedule" element={<Schedule />} />
-    </Routes>
-
-<Routes>
-      <Route
-        element={<ProtectedRoute isAllowed={!isAuth} redirectTo="/home" />}
-      >
-        <Route path="/reset" element={<ResetPassword />} />
-        <Route index path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-      </Route>
-
-
-      <Route
-        element={<ProtectedRoute isAllowed={!!information} redirectTo="/home" />}
-      >
-        <Route path="/topics" element={<Topics />} />
-        <Route path="/manage" element={<Manage />} />
-        <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/document/:id" element={<Document />} />
-        <Route path="/advice" element={<Advice />} />
-        <Route path="/degree" element={<Degree />} />
-        <Route path="/graduates" element={<Graduates />} />
-        <Route path="/schedule" element={<Schedule />} />
-      </Route>
-
-      <Route
-        element={<ProtectedRoute isAllowed={isAuth} redirectTo="/login" />}
-      >
-        <Route path="/home" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/topics" element={<Topics />} />
-        <Route path="/manage" element={<Manage />} />
-        <Route path="/document/:id" element={<Document />} />
-        <Route path="/advice" element={<Advice />} />
-        <Route path="/degree" element={<Degree />} />
-        <Route path="/graduates" element={<Graduates />} />
-        <Route path="/schedule" element={<Schedule />} />
-      </Route>
-    </Routes>
-
-
-*/

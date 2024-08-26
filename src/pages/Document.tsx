@@ -6,7 +6,7 @@ import {
   CommentList,
   CommentForm,
 } from "@/components/features";
-import { useUser, useAuth } from "@/hooks";
+import { useAuth } from "@/hooks";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import documentCommentsServices from "@/services/DocumentCommentsServices";
@@ -14,8 +14,7 @@ import documentServices from "@/services/DocumentServices";
 import { ROLES } from "@/utils";
 
 export const Document = () => {
-  const { role } = useUser();
-  const { token } = useAuth();
+  const { token, role } = useAuth();
   const { id } = useParams();
   const [comments, setComments] = useState<CommentResponse[]>([]);
   const [document, setDocument] = useState<DocumentResponse>();

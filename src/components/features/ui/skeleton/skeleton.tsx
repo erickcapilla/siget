@@ -10,12 +10,7 @@ import styles from "@/components/features/ui/header/Header.module.css";
 export const AppSkeleton = () => {
   return (
     <>
-      <header className={`${styles.header} py-3 bg-[#FEFCEE] shadow-sm`}>
-        <Skeleton className="min-[400px]:w-32 h-full w-60 rounded-md" />
-        <div className="flex gap-3 w-auto items-center">
-          <Skeleton className="min-[400px]:mb-2 max-[400px]:w-28 size-10 rounded-full" />
-          <Skeleton className="min-[400px]:mb-2 max-[400px]:w-28 h-3 w-40 rounded-full" />
-        </div>
+      <header className={`${styles.header} py-3 bg-primary shadow-sm`}>
       </header>
       <main>
         <article className="flex flex-col gap-2 w-full h-full">

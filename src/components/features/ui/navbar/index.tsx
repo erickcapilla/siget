@@ -12,8 +12,8 @@ import { useAuth } from "@/hooks";
 import toast from "react-hot-toast";
 
 export const Navbar = () => {
-  const { logout, roles } = useAuth();
-  const items = menuItems.filter((item) => roles.some((r) => item.roles.includes(r)));
+  const { logout, role } = useAuth();
+  const items = menuItems.filter((item) => item.roles.includes(role));
   const itemActive = (href: string) => {
     return window.location.pathname.toString() === href;
   };

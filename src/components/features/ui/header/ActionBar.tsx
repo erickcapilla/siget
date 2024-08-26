@@ -9,7 +9,7 @@ import {
   Spinner,
 } from "@nextui-org/react";
 import { MenuIcon } from "@/components/icons";
-import { useUser } from "@/hooks";
+import { useAuth } from "@/hooks";
 import { roleNames, roleColors } from "@/utils/utils";
 
 interface Props {
@@ -17,14 +17,15 @@ interface Props {
 }
 
 export const ActionBar = ({ handleOpenPanel }: Props) => {
-  const { userRoles, role, information, isLoading } = useUser();
-  const name = information
-    ? `${information.name.split(" ")[0]} ${information.fatherLastName}`
+  const { role, user, loading } = useAuth();
+
+  const name = user.userInformation
+    ? `${user.userInformation.name.split(" ")[0]} ${user.userInformation.fatherLastName}`
     : "Usuario";
 
   return (
     <>
-      {isLoading ? (
+      {loading ? (
         <Spinner color="secondary" size="sm" />
       ) : (
         <Navbar
@@ -45,7 +46,7 @@ export const ActionBar = ({ handleOpenPanel }: Props) => {
                   classNames: {
                     base: `bg-[${
                       roleColors[
-                        userRoles && (userRoles[0] as keyof typeof roleColors)
+                        user && (user.user.roles[0] as keyof typeof roleColors)
                       ]
                     }]`,
                     fallback: `text-white w-full`,

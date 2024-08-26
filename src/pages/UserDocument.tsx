@@ -5,7 +5,7 @@ import {
   CommentList,
   EditDocumentForm,
 } from "@/components/features";
-import { useUser, useAuth } from "@/hooks";
+import { useAuth } from "@/hooks";
 import { useEffect, useState } from "react";
 import documentCommentsServices from "@/services/DocumentCommentsServices";
 import documentServices from "@/services/DocumentServices";
@@ -13,8 +13,7 @@ import { CommentResponse, DocumentResponse } from "@/types/topic";
 import { Spinner } from "@nextui-org/react";
 
 export const UserDocument = () => {
-  const { token } = useAuth();
-  const { acceptedTopics } = useUser();
+  const { token, acceptedTopics } = useAuth();
   const [comments, setComments] = useState<CommentResponse[]>([]);
   const [document, setDocument] = useState<DocumentResponse[]>([]);
 

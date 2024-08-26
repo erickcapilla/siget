@@ -1,10 +1,10 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { useUser } from "@/hooks";
+import { useAuth } from "@/hooks";
 import { roleNames } from "@/utils/utils";
 import { MenuList } from "./MenuList";
 
 export const Menu = () => {
-  const { setRole, userRoles, role } = useUser();
+  const { setRole, user, role } = useAuth();
 
   return (
     <div className="h-full flex flex-col gap-3">
@@ -21,7 +21,7 @@ export const Menu = () => {
           base: "text-black",
         }}
       >
-        {userRoles.map((role) => (
+        {user.user.roles.map((role) => (
           <SelectItem key={role} value={role}>
             {roleNames[role as keyof typeof roleNames]}
           </SelectItem>

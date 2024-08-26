@@ -1,6 +1,5 @@
 import { LayoutItem } from "@/layouts";
 import { Chip, Button, Tooltip } from "@nextui-org/react";
-import { useUser } from "@/hooks";
 import advisoryServices from "@/services/AdvisoryServices";
 import { AdvisoryResponse } from "@/types/advisory";
 import { useAuth } from "@/hooks";
@@ -15,8 +14,7 @@ interface Props {
 export const AdviceItem = ({ advisory, setAdvisories }: Props) => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [signLoading, setSignLoading] = useState(false);
-  const { role } = useUser();
-  const { token } = useAuth();
+  const { token, role } = useAuth();
 
   const deleteAdvisory = () => {
     setDeleteLoading(true);

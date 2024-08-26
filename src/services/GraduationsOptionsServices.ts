@@ -1,10 +1,11 @@
 class GraduationsOptionsServices {
   API_URL_OPTIONS = `${import.meta.env.VITE_API_URL}/graduation-options`;
 
-  async saveOption(name: string) {
+  async saveOption(token: string, name: string) {
     const response = await fetch(this.API_URL_OPTIONS, {
       method: 'POST',
       headers: {
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ name })
@@ -17,10 +18,11 @@ class GraduationsOptionsServices {
     throw new Error(error.menssage)
   }
 
-  async getOptions() {
+  async getOptions(token: string) {
     const response = await fetch(this.API_URL_OPTIONS, {
       method: "GET",
       headers: {
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json"
       },
     })
@@ -32,10 +34,11 @@ class GraduationsOptionsServices {
     throw new Error(error.message)
   }
 
-  async getOption(id: string) {
+  async getOption(token: string, id: string) {
     const response = await fetch(`${this.API_URL_OPTIONS}/${id}`, {
       method: "GET",
       headers: {
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json"
       },
     })
@@ -47,10 +50,11 @@ class GraduationsOptionsServices {
     throw new Error(error.message)
   }
 
-  async deleteOption(id: string) {
+  async deleteOption(token: string, id: string) {
     const response = await fetch(`${this.API_URL_OPTIONS}/${id}`, {
       method: "DELETE",
       headers: {
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json"
       },
     })

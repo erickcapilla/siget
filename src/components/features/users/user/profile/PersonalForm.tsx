@@ -1,21 +1,20 @@
 import { Input, Button } from "@nextui-org/react";
-import { useUser, useAuth } from "@/hooks";
+import { useAuth } from "@/hooks";
 import { useState } from "react";
 import userServices from "@/services/UserServices";
 import { Information } from "@/types";
 import toast from "react-hot-toast";
 
 export const PersonalForm = () => {
-  const { information, setInformation } = useUser();
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const [values, setValues] = useState<Information>({
-    name: information?.name,
-    fatherLastName: information?.fatherLastName,
-    motherLastName: information?.motherLastName,
-    address: information?.address,
-    phoneNumber: information?.phoneNumber,
+    name: user?.userInformation.name,
+    fatherLastName: user?.userInformation.fatherLastName,
+    motherLastName: user?.userInformation.motherLastName,
+    address: user?.userInformation.address,
+    phoneNumber: user?.userInformation.phoneNumber,
   });
 
   const handleChange = (
@@ -29,11 +28,10 @@ export const PersonalForm = () => {
   ) => {
     e.preventDefault();
     setLoading(true);
-    if (information) {
+    if (user?.userInformation) {
       try {
-        const res = await userServices.updateInformation(token, values);
-        const data = await res.json();
-        setInformation(data);
+        await userServices.updateInformation(token, values);
+
         toast.success("Información actualizada");
       } catch (error) {
         console.error(error);
@@ -43,9 +41,8 @@ export const PersonalForm = () => {
       }
     } else {
       try {
-        const res = await userServices.setInformation(token, values);
-        const data = await res.json();
-        setInformation(data);
+        await userServices.setInformation(token, values);
+
         toast.success("Información agregada");
       } catch (error) {
         console.error(error);
@@ -127,7 +124,7 @@ export const PersonalForm = () => {
           className="w-full"
           isLoading={loading}
         >
-          {information ? "Actualizar" : "Agregar"}
+          {user?.userInformation ? "Actualizar" : "Agregar"}
           {loading && "..."}
         </Button>
       </div>

@@ -214,7 +214,7 @@ export const Users = ({ users, setUsers }: Props) => {
           </div>
         );
       default:
-        return cellValue;
+        return cellValue as React.ReactNode;
     }
   };
   

@@ -4,7 +4,6 @@ import { useState } from "react";
 import advisoryServices from "@/services/AdvisoryServices";
 import { useAuth } from "@/hooks";
 import toast from "react-hot-toast";
-import { parseDate } from "@internationalized/date";
 
 interface Props {
   setAdvisories: React.Dispatch<React.SetStateAction<AdvisoryResponse[]>>;
@@ -30,9 +29,9 @@ export const AdviceForm = ({ setAdvisories, id }: Props) => {
     advisoryServices
       .saveAdvisory(token, advisory)
       .then((res) => res.json())
-      .then((data) => setAdvisories((prev) => [...prev, data]))
+      .then((data) => setAdvisories((prev) => [data, ...prev]))
       .then(() => {
-        toast.success("Nueva asesoria")
+        toast.success("Nueva asesoria agregada")
         setAdvisory({
           reviewedTopic: "",
           observations: "",
@@ -78,7 +77,6 @@ export const AdviceForm = ({ setAdvisories, id }: Props) => {
           color="primary"
           variant="bordered"
           radius="sm"
-          defaultValue={parseDate(new Date().toISOString().split('T')[0])}
           onChange={(e) => {
             setAdvisory({ ...advisory, date: `${e.month}/${e.day}/${e.year}` });
           }}

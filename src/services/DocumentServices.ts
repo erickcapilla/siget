@@ -78,6 +78,23 @@ class DocumentServices {
     throw new Error(error.message);
   }
 
+  async getStudentDocument(token: string, id: string) {
+    const response = await fetch(`${this.API_URL_FILE}/student-document/${id}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      return response;
+    }
+
+    const error = await response.json();
+
+    throw new Error(error.message);
+  }
+
   async updateChapter(token: string, chapter: number, id: string) {
     const response = await fetch(`${this.API_URL_CHAPTER}/${id}`, {
       method: "PATCH",

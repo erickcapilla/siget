@@ -42,15 +42,10 @@ export type AcceptedTopic = {
   requestedBy: UserTopicResponse; 
 }
 
-export type Comment = {
+export type CommentResponse = {
   id: string;
   comment: string;
   date: string;
-}
-
-export type CommentResponse = {
-  result: Comment[];
-  total: number;
 }
 
 export type DocumentResponse = {

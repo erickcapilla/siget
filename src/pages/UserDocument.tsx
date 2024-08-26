@@ -6,7 +6,7 @@ import {
   EditDocumentForm,
 } from "@/components/features";
 import { useUser, useAuth } from "@/hooks";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import documentCommentsServices from "@/services/DocumentCommentsServices";
 import documentServices from "@/services/DocumentServices";
 import { CommentResponse, DocumentResponse } from "@/types/topic";
@@ -15,20 +15,19 @@ import { Spinner } from "@nextui-org/react";
 export const UserDocument = () => {
   const { token } = useAuth();
   const { acceptedTopics } = useUser();
-  const [comments, setComments] = useState<CommentResponse>();
+  const [comments, setComments] = useState<CommentResponse[]>([]);
   const [document, setDocument] = useState<DocumentResponse[]>([]);
 
-  const getComments = useCallback(() => {
-    document.length > 0 &&
+  const getComments = (documentID: string) => {
       documentCommentsServices
-        .getComments(token, document[0].id)
+        .getComments(token, documentID)
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          setComments(data);
+          setComments(data.result);
         })
         .catch((error) => console.error(error));
-  }, [document[0]?.id]);
+      };
 
   useEffect(() => {
     documentServices
@@ -36,10 +35,9 @@ export const UserDocument = () => {
       .then((res) => res.json())
       .then((data) => {
         setDocument(data);
+        getComments(data[0].id);
       })
       .catch((error) => console.error(error));
-
-    getComments();
   }, []);
 
   return (
@@ -50,9 +48,9 @@ export const UserDocument = () => {
           contentLeft={
             <div className="size-full flex flex-col justify-between">
               <div className="h-full">
-                {comments ? (
+                {comments.length > 0 ? (
                   <CommentList
-                    comments={comments.result}
+                    comments={comments}
                     setComments={setComments}
                   />
                 ) : (

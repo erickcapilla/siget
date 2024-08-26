@@ -6,6 +6,7 @@ import {
   AdviceSection,
   AdvicedsSection,
   Panel,
+  TopicsSection
 } from "@/components/features";
 import { useUser, useAuth } from "@/hooks";
 import { Spinner } from "@nextui-org/react";
@@ -32,6 +33,7 @@ export const Home = () => {
                 href="/profile"
               />
             )}
+
             <section className="w-full h-1/2">
               {roles.includes(ROLES.STUDENT) && (
                 <Panel title="Progreso de Documento">
@@ -44,16 +46,23 @@ export const Home = () => {
                 </Panel>
               )}
             </section>
+
             <section className="flex max-md:flex-col gap-2 w-full h-1/2">
               <div className="md:max-w-sm size-full">
                 <Panel title="Agenda">
                   <ScheduleSection />
                 </Panel>
               </div>
+
               <div className="size-full">
                 {roles.includes(ROLES.STUDENT) && (
                   <Panel title="Asesorías">
                     <AdviceSection />
+                  </Panel>
+                )}
+                {roles.includes(ROLES.ADVISOR) && (
+                  <Panel title="Temas">
+                    <TopicsSection />
                   </Panel>
                 )}
               </div>

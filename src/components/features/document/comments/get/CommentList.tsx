@@ -1,9 +1,9 @@
 import { CommentItem } from "./CommentItem";
-import { Comment, CommentResponse } from "@/types";
+import { CommentResponse } from "@/types/topic";
 
 interface Props {
-  comments: Comment[];
-  setComments: React.Dispatch<React.SetStateAction<CommentResponse>>;
+  comments: CommentResponse[];
+  setComments: React.Dispatch<React.SetStateAction<CommentResponse[]>>;
 }
 
 export const CommentList = ({ comments, setComments }: Props) => {

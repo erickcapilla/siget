@@ -14,6 +14,7 @@ interface Props {
 
 export const AdviceItem = ({ advisory, setAdvisories }: Props) => {
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [signLoading, setSignLoading] = useState(false);
   const { role } = useUser();
   const { token } = useAuth();
 
@@ -30,10 +31,14 @@ export const AdviceItem = ({ advisory, setAdvisories }: Props) => {
   };
 
   const signAdvisory = () => {
+    setSignLoading(true);
     advisoryServices
       .signAdvisory(token, advisory.id)
-      .then(() => console.log("Advisory Firmada"))
-      .catch((error) => console.error(error));
+      .then(response => response.json())
+      .then(data => setAdvisories(prev => prev.filter(user => advisory.id !== user.id).concat(data)))
+      .then(() => toast.success("Advisory Firmada"))
+      .catch((error) => toast.error(error.toString()))
+      .finally(() => setSignLoading(false));
   };
   return (
     <LayoutItem className="flex-col @lg:flex-row gap-3 border-l-primary">
@@ -68,9 +73,38 @@ export const AdviceItem = ({ advisory, setAdvisories }: Props) => {
                     isIconOnly
                     radius="sm"
                     className="group w-full"
-                    onPress={signAdvisory}
+                    onPress={() => {
+                      toast((t) => (
+                        <span>
+                          ¿Estás seguro de firmar esta asesoría?
+                          <Button
+                            color="success"
+                            size="sm"
+                            variant="flat"
+                            className="m-2"
+                            onPress={() => {
+                              signAdvisory();
+                              toast.dismiss(t.id);
+                            }}
+                          >
+                            Firmar
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="flat"
+                            className="m-2"
+                            onPress={() => {
+                              toast.dismiss(t.id);
+                            }}
+                          >
+                            Cancelar
+                          </Button>
+                        </span>
+                      ));
+                    }}
+                    isLoading={signLoading} 
                   >
-                    Firmar asesoría
+                    {signLoading ? "Firmando" : "Firmar"}
                   </Button>
                 </Tooltip>
               ) : (

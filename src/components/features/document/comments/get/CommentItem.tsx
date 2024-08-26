@@ -1,32 +1,34 @@
+import type { CommentResponse } from "@/types/topic";
 import { LayoutItem } from "@/layouts";
-import { Comment, CommentResponse } from "@/types";
 import { DeleteIcon, CalendarIcon, ClockIcon } from "@/components/icons";
 import { Chip, Button } from "@nextui-org/react";
-import { useUser } from "@/hooks";
+import { useUser, useAuth } from "@/hooks";
 import documentCommentsServices from "@/services/DocumentCommentsServices";
+import toast from "react-hot-toast";
+import { ROLES } from "@/utils";
+import { useState } from "react";
 
 interface Props {
-  comment: Comment;
-  setComments: React.Dispatch<React.SetStateAction<CommentResponse>>;
+  comment: CommentResponse;
+  setComments: React.Dispatch<React.SetStateAction<CommentResponse[]>>;
 }
 
 export const CommentItem = ({ comment, setComments }: Props) => {
   const { role } = useUser();
+  const { token } = useAuth();
   const dateString = comment.date;
   const date = new Date(dateString);
   const formattedDate = date.toLocaleDateString();
   const formattedTime = date.toLocaleTimeString();
+  const [loading, setLoading] = useState(false);
 
   const deleteComment = () => {
-    documentCommentsServices.deleteComment(comment.id)
-      .then(() => console.log("Comment deleted"))
-      .then(() => setComments(prev => {
-        return {
-          ...prev,
-          result: prev.result.filter(c => c.id !== comment.id)
-        };
-      }))
-      .catch(error => console.error(error));
+    setLoading(true);
+    documentCommentsServices.deleteComment(token, comment.id)
+      .then(() => toast.success("Comentario eliminado"))
+      .then(() => setComments(prev => prev.filter(c => c.id !== comment.id)))
+      .catch(error => toast.error(error.toString()))
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -36,7 +38,7 @@ export const CommentItem = ({ comment, setComments }: Props) => {
         <section className="flex gap-2">
           <Chip
             startContent={<CalendarIcon size={15} color="#bfbfbf" />}
-            variant="bordered"
+            variant="flat"
             size="sm"
             className="text-gray-500"
           >
@@ -44,7 +46,7 @@ export const CommentItem = ({ comment, setComments }: Props) => {
           </Chip>
           <Chip
             startContent={<ClockIcon size={15} color="#bfbfbf" />}
-            variant="bordered"
+            variant="flat"
             size="sm"
             className="text-gray-500"
           >
@@ -53,14 +55,43 @@ export const CommentItem = ({ comment, setComments }: Props) => {
         </section>
       </article>
       <article>
-        {role === "ASESOR_ROLE" && (
+        {role === ROLES.ADVISOR && (
           <Button
             size="sm"
             variant="flat"
             color="danger"
             isIconOnly
             className="bg-transparent"
-            onPress={deleteComment}
+            isLoading={loading}
+            onPress={() => {
+              toast((t) => (
+                <span>
+                  ¿Estás seguro de eliminar el comentario?
+                  <Button
+                    className="m-2"
+                    color="danger"
+                    size="sm"
+                    variant="flat"
+                    onPress={() => {
+                      deleteComment();
+                      toast.dismiss(t.id);
+                    }}
+                  >
+                    Eliminar
+                  </Button>
+                  <Button
+                    className="m-2"
+                    size="sm"
+                    variant="flat"
+                    onPress={() => {
+                      toast.dismiss(t.id);
+                    }}
+                  >
+                    Cancelar
+                  </Button>
+                </span>
+              ));
+            }}
           >
             <DeleteIcon />
           </Button>

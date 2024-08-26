@@ -1,11 +1,16 @@
 import * as React from "react";
 import invariant from "invariant";
-import { Step } from "../step";
 import { getSafePercent, getStepPosition } from "@/utils/utils";
+
+type StepProps = {
+  accomplished: boolean,
+  position: number,
+  index: number,
+};
 
 type ProgressBarProps = {
   percent: number,
-  children: React.ReactElement<typeof Step>[],
+  children: React.ReactElement<StepProps>[],
   stepPositions?: Array<number>,
   unfilledBackground?: string,
   filledBackground?: string,
@@ -46,20 +51,23 @@ export class ProgressBar extends React.Component<ProgressBarProps> {
       >
         {/* Here we're looping over the children to clone them and add them custom props */}
         {React.Children.map(children, (step, index) => {
-          const position =
-            stepPositions.length > 0
-              ? stepPositions[index]
-              : getStepPosition(
-                  React.Children.count(children),
-                  index,
-                  hasStepZero
-                );
+          if (React.isValidElement(step)) {
+            const position =
+              stepPositions.length > 0
+                ? stepPositions[index]
+                : getStepPosition(
+                    React.Children.count(children),
+                    index,
+                    hasStepZero
+                  );
 
-          return React.cloneElement(step, {
-            accomplished: position <= safePercent,
-            position,
-            index,
-          });
+            return React.cloneElement(step, {
+              accomplished: position <= safePercent,
+              position,
+              index,
+            });
+          }
+          return step;
         })}
 
         {text ? <div className="RSPBprogressBarText">{text}</div> : null}

@@ -10,7 +10,7 @@ export default defineConfig({
     tsconfigPaths(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["apple-touch-icon.png", "masked-icon.svg"],
+      includeAssets: ["apple-touc-icon.png", "masked-icon.svg"],
       manifest: {
         name: "SIGET",
         short_name: "siget",
@@ -36,13 +36,13 @@ export default defineConfig({
             purpose: "apple touch icon",
           },
           {
-            src: "/maskable-icon.png",
+            src: "/maskable_icon.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any maskable",
           },
         ],
-        theme_color: "#FEFCEE",
+        theme_color: "#610726",
         background_color: "#FEFCEE",
         display: "standalone",
         scope: "/",

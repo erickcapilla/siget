@@ -5,6 +5,13 @@ export interface Credentials {
   password: string;
 }
 
+export type LoginResponse = {
+  token: string;
+  user: UserTopic;
+  userDegreePrograms: Degree[];
+  userInformation: userInformation;
+}
+
 export interface User {
   email: string;
   password: string;

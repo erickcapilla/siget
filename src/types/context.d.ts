@@ -1,15 +1,16 @@
 import { JwtPayload } from "jwt-decode";
-import { UserTopic, userInformation, Degree, Credentials } from "@/types/user";
+import { UserTopic, userInformation, Degree, Credentials, LoginResponse } from "@/types/user";
 import { AcceptedTopic } from "@/types/topic";
 
 export type AuthType = {
-  isAuth: boolean;
-  userAuthed: string;
+  isAuthenticated: boolean;
   token: string;
   login: (credentials: Credentials) => Promise<void>;
   logout: () => void;
   loading: boolean
-  roles: string[];
+  role: string;
+  user: LoginResponse;
+  acceptedTopics: AcceptedTopic[];
 };
 
 type UserType = {

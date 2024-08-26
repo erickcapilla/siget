@@ -2,9 +2,11 @@ import { User } from "../types";
 class AuthService {
   API_URL_LOGIN = `${import.meta.env.VITE_API_URL}/auth/login`;
   API_URL_REGISTER = `${import.meta.env.VITE_API_URL}/auth/register`;
-  API_URL_FORGOT_PASSWORD = `${import.meta.env.VITE_API_URL}/auth/forgot-password`;
+  API_URL_FORGOT_PASSWORD = `${
+    import.meta.env.VITE_API_URL
+  }/auth/forgot-password`;
   API_URL_NEW_PASSWORD = `${import.meta.env.VITE_API_URL}/auth/reset-password`;
-  token = localStorage.getItem("siget") || "";
+  API_URL_REFRESH_TOKEN = `${import.meta.env.VITE_API_URL}/auth/refresh-token`;
 
   async login({ email, password }) {
     const response = await fetch(this.API_URL_LOGIN, {
@@ -37,7 +39,9 @@ class AuthService {
       return response;
     }
 
-    throw new Error("Register failed");
+    const error = await response.json();
+
+    throw new Error(error.message);
   }
 
   async sendEmailForgotPassword(email: string) {
@@ -53,7 +57,9 @@ class AuthService {
       return response;
     }
 
-    throw new Error("Email not found");
+    const error = await response.json();
+
+    throw new Error(error.message);
   }
 
   async resetPassword(id: string, password: string) {
@@ -69,7 +75,26 @@ class AuthService {
       return response;
     }
 
-    throw new Error("A problem, try later");
+    const error = await response.json();
+
+    throw new Error(error.message);
+  }
+
+  async refreshToken(token: string) {
+    const response = await fetch(`${this.API_URL_REFRESH_TOKEN}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      return response;
+    }
+
+    const error = await response.json();
+
+    throw new Error(error.message);
   }
 }
 

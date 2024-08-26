@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-import { Credentials } from "@/types/user";
-import { paths } from "@/utils";
+import { Credentials, LoginResponse } from "@/types/user";
+import { AcceptedTopic } from "@/types/topic";
+import { paths, ROLES } from "@/utils";
 
 import authServices from "@/services/AuthServices";
+import requestTopicServices from "@/services/RequestTopicServices";
 import toast from "react-hot-toast";
-import { customJwtPayload } from "@/types/context";
 import AuthContext from "./AuthContext";
 
 interface Props {
@@ -15,28 +15,40 @@ interface Props {
 
 export const AuthProvider = ({ children }: Props) => {
   const [token, setToken] = useState(localStorage.getItem("siget-token") || "");
-  const [userAuthed, setUserAuthed] = useState("");
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [roles, setRoles] = useState<string[]>([]);
+  const [user, setUser] = useState<LoginResponse>();
+  const [role, setRole] = useState(localStorage.getItem("siget-role") || "");
+  const [acceptedTopics, setAcceptedTopics] = useState<AcceptedTopic[]>([]);
 
   const navigate = useNavigate();
 
   const login = async (credentials: Credentials) => {
     try {
-      const res = await authServices.login(credentials);
-      const data = await res.json();
-      setRoles(data.roles);
-      console.log(data);
-      
-      if (data.token) {
-        setIsAuth(true);
-        setToken(data.token);
-        localStorage.setItem("siget-token", data.token);
-        localStorage.setItem("siget-role", JSON.stringify(data.roles[0]));
-        navigate(paths.login);
-        return;
+      const response = await authServices.login(credentials);
+      const data = await response.json();
+
+      setUser(data);
+      setToken(data.token);
+      setIsAuthenticated(true);
+      localStorage.setItem("siget-token", data.token);
+
+      if (
+        data.user.roles.includes(ROLES.STUDENT) ||
+        data.user.roles.includes(ROLES.ADVISOR)
+      ) {
+        const res = await requestTopicServices.getAcceptedTopics(token);
+        const data = await res.json();
+
+        setAcceptedTopics(data.items);
       }
+
+      if (role === "") {
+        setRole(data.user.roles[0]);
+        localStorage.setItem("siget-role", data.user.roles[0]);
+      }
+
+      navigate(paths.login);
     } catch (error) {
       toast.error(error.toString());
       console.error(error);
@@ -44,30 +56,61 @@ export const AuthProvider = ({ children }: Props) => {
   };
 
   const logout = () => {
-    setIsAuth(false);
+    setIsAuthenticated(false);
     setToken("");
-    setUserAuthed("");
-    setRoles([]);
+    setRole("");
     localStorage.removeItem("siget-token");
     localStorage.removeItem("siget-role");
     navigate(paths.login);
   };
 
   useEffect(() => {
-    if (token !== "") {
-      const decodedToken = jwtDecode<customJwtPayload>(token);
-      setUserAuthed(decodedToken.id);
-      setIsAuth(true);
-      if (isAuth) {
-        const currentTime = Date.now() / 1000;
-        decodedToken.exp < currentTime && logout();
+    const refreshToken = async () => {
+      const token = localStorage.getItem("siget-token") || "";
+
+      if (token === "") {
+        setLoading(false);
+
+        return;
       }
-    }
-    setLoading(false);
-  }, [token, isAuth]);
+
+      try {
+        const res = await authServices.refreshToken(token);
+        const data = await res.json();
+
+        setUser(data);
+        setToken(data.token);
+        setIsAuthenticated(true);
+        localStorage.setItem("siget-token", data.token);
+
+        if (
+          data.user.roles.includes(ROLES.STUDENT) ||
+          data.user.roles.includes(ROLES.ADVISOR)
+        ) {
+          const res = await requestTopicServices.getAcceptedTopics(token);
+          const data = await res.json();
+
+          setAcceptedTopics(data.items);
+        }
+
+        if (role === "") {
+          setRole(data.user.roles[0]);
+          localStorage.setItem("siget-role", data.user.roles[0]);
+        }
+      } catch (error) {
+        toast.error(error.toString());
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    refreshToken();
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuth, userAuthed, token, login, logout, loading, roles }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, token, login, logout, loading, role, user, acceptedTopics }}
+    >
       {children}
     </AuthContext.Provider>
   );

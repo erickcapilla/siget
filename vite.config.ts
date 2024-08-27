@@ -36,7 +36,7 @@ export default defineConfig({
             purpose: "apple touch icon",
           },
           {
-            src: "/maskable_icon.png",
+            src: "/maskable-icon.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any maskable",

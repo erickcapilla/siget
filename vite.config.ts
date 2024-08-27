@@ -13,7 +13,7 @@ export default defineConfig({
       includeAssets: ["apple-touc-icon.png", "masked-icon.svg"],
       manifest: {
         name: "SIGET",
-        short_name: "SIGET",
+        short_name: "Siget",
         description:
           "Sistema de Gestión del proceso de titulación para la Facultad de ciencias básicas, ingeniería y tecnología de la universidad autónoma de Tlaxcala",
         icons: [

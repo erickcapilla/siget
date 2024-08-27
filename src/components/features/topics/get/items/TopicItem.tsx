@@ -55,14 +55,14 @@ export const TopicItem = ({ topic, isUser, setUserTopics }: Props) => {
 
   useEffect(() => {
     userServices
-      .getUser(topic.proposedBy.id)
+      .getUser(token, topic.proposedBy.id)
       .then((res) => res.json())
       .then((data) => setUser(data))
       .catch((e) => console.error(e));
 
     topic.collaborator != null &&
       userServices
-        .getUser(topic.collaborator.id)
+        .getUser(token, topic.collaborator.id)
         .then((res) => res.json())
         .then((data) => setCollaborator(data))
         .catch((e) => console.error(e));

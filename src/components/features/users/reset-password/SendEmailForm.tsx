@@ -4,8 +4,10 @@ import sendEmailForgotPassword from "@/services/AuthServices";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { paths } from "@/utils";
+import { useAuth } from "@/hooks";
 
 export const SendEmailForm = () => {
+  const { token } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [credentials, setCredentials] = useState({
@@ -22,7 +24,7 @@ export const SendEmailForm = () => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      await sendEmailForgotPassword.sendEmailForgotPassword(credentials.email);
+      await sendEmailForgotPassword.sendEmailForgotPassword(token, credentials.email);
       toast.success("Código envíado. Revisa tu correo electrónico");
       navigate(paths.login)
     } catch (error) {

@@ -4,6 +4,7 @@ import graduationsServices from "@/services/GraduationsOptionsServices";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { optionNames } from "@/utils/utils";
+import { useAuth } from "@/hooks";
 
 interface Props {
   setGraduations: React.Dispatch<React.SetStateAction<GraduationResponse[]>>;
@@ -12,11 +13,12 @@ interface Props {
 
 export const GraduationItem = ({ setGraduations, graduation }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { token } = useAuth();
 
   const deleteGraduation = () => {
     setIsLoading(true);
     graduationsServices
-      .deleteOption(graduation.id)
+      .deleteOption(token, graduation.id)
       .then(() => {
         setGraduations((prev) => prev.filter((item) => item.id !== graduation.id));
         toast.success("Opción de titulación eliminado correctamente");

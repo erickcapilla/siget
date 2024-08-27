@@ -10,10 +10,10 @@ export default defineConfig({
     tsconfigPaths(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["apple-touc-icon.png", "masked-icon.svg"],
+      includeAssets: ["apple-touch-icon.png", "masked-icon.svg"],
       manifest: {
         name: "SIGET",
-        short_name: "Siget",
+        short_name: "SIGET",
         description:
           "Sistema de Gestión del proceso de titulación para la Facultad de ciencias básicas, ingeniería y tecnología de la universidad autónoma de Tlaxcala",
         icons: [

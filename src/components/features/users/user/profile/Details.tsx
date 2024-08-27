@@ -3,31 +3,35 @@ import {
   AvatarIcon,
   Select,
   SelectItem,
-  Input,
   Chip,
+  Button,
 } from "@nextui-org/react";
 import { roleNames } from "@/utils/utils";
-import { useEffect, useState } from "react";
-import userServices from "@/services/UserServices";
-import { UserResponse } from "@/types";
+import { useAuth } from "@/hooks";
+import { CardInfo } from "@/components/features";
+import { useState } from "react";
+import sendEmailForgotPassword from "@/services/AuthServices";
+import toast from "react-hot-toast";
 
-interface Props {
-  id: string;
-}
+export const Details = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const { user, token } = useAuth();
 
-export const Details = ({ id }: Props) => {
-  const [user, setUser] = useState<UserResponse>();
-
-  useEffect(() => {
-    userServices
-      .getUser(id)
-      .then((res) => res.json())
-      .then((data) => setUser(data))
-      .catch((err) => console.log(err));
-  }, [id]);
+  const sendEmail = async () => {
+    try {
+      setIsLoading(true);
+      await sendEmailForgotPassword.sendEmailForgotPassword(token, user.user.email);
+      toast.success("Código envíado. Revisa tu correo electrónico.");
+    } catch (error) {
+      toast.error(error.toString());
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <article className="flex flex-col items-center gap-10 w-full h-full">
+    <article className="flex flex-col items-center justify-between gap-10 size-full">
       {user && (
         <section className="w-full grid gap-8">
           <div className="flex flex-col items-center gap-3 w-full">
@@ -67,36 +71,72 @@ export const Details = ({ id }: Props) => {
             </Select>
           </div>
           <div className="grid gap-5">
-            <Input
-              label="Número de teléfono"
-              value={
-                user.userInformation ? user.userInformation.phoneNumber : ""
-              }
-              variant="underlined"
-              color="secondary"
-              classNames={{
-                base: "text-black",
-              }}
-              isReadOnly
-            />
-            <div className="grid gap-3">
+            <div className="w-full grid gap-3">
               <h3 className="text-black text-sm">Programas académicos</h3>
-              {user.userInformation &&
-                user.userDegreePrograms.map((degree) => (
-                  <Chip
-                    key={degree.id}
-                    color="secondary"
-                    variant="bordered"
-                    className="text-black"
-                  >
-                    {degree.name.charAt(0).toUpperCase() +
-                      degree.name.slice(1).replace(/-/g, " ")}
-                  </Chip>
-                ))}
+              <div className="size-full flex gap-1 flex-wrap">
+                {user.userInformation &&
+                  user.userDegreePrograms.map((degree) => (
+                    <Chip
+                      key={degree.id}
+                      color="secondary"
+                      variant="flat"
+                      size="sm"
+                      radius="sm"
+                    >
+                      {degree.name.charAt(0).toUpperCase() +
+                        degree.name.slice(1).replace(/-/g, " ")}
+                    </Chip>
+                  ))}
+              </div>
             </div>
           </div>
         </section>
       )}
+      <section className="grid gap-2">
+        <CardInfo
+          title="¿Eres nuevo?"
+          description="Te recomendamos cambiar tu contraseña. Presiona el botón, revisa tu correo, sigue las intrucciones que se indican."
+          color="danger"
+        />
+        <Button
+          className="w-full"
+          color="danger"
+          radius="sm"
+          variant="flat"
+          onPress={() => {
+            toast((t) => (
+              <span>
+                ¿Estás seguro de cambiar tu contraseña?
+                <Button
+                  className="m-2"
+                  color="danger"
+                  size="sm"
+                  variant="flat"
+                  onPress={() => {
+                    sendEmail();
+                    toast.dismiss(t.id);
+                  }}
+                >
+                  Cambiar
+                </Button>
+                <Button
+                  className="m-2"
+                  size="sm"
+                  variant="flat"
+                  onPress={() => {
+                    toast.dismiss(t.id);
+                  }}
+                >
+                  Cancelar
+                </Button>
+              </span>
+            ));
+          }}
+          isLoading={isLoading}
+        >
+          Cambiar contraseña
+        </Button>
+      </section>
     </article>
   );
 };

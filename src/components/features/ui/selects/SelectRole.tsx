@@ -1,20 +1,23 @@
 import { Select, SelectItem, Chip, SelectedItems } from "@nextui-org/react";
 import { roles } from "@data/roles";
 import { Rol } from "@/types/user"
+import { useState } from "react";
 
 interface Props {
   onChange?: (e?: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export const SelectRole = ({ onChange }: Props)  => {
+  const [isStudent, setIsStudent] = useState(false);
+
   return (
     <Select
       isRequired
-      items={roles as Iterable<Rol>}
+      items={isStudent ? roles.filter(role => role.value === 'STUDENT_ROLE') : roles}
       label="Roles"
       variant="bordered"
       isMultiline={true}
-      selectionMode="multiple"
+      selectionMode={isStudent ? "single" : "multiple"}
       placeholder="Selecciona los roles"
       radius="sm"
       color="primary"
@@ -33,7 +36,16 @@ export const SelectRole = ({ onChange }: Props)  => {
           </div>
         );
       }}
-      onChange={onChange}
+      onChange={e => {
+        if(e.target.value.includes('STUDENT_ROLE')) {
+          e.target.value = 'STUDENT_ROLE';
+          setIsStudent(true);
+        } else {
+          setIsStudent(false);
+        }
+
+        onChange(e);
+      }}
     >
       {(user) => (
         <SelectItem key={user.value} textValue={user.role}>

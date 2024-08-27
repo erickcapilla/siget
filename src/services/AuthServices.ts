@@ -44,10 +44,11 @@ class AuthService {
     throw new Error(error.message);
   }
 
-  async sendEmailForgotPassword(email: string) {
+  async sendEmailForgotPassword(token: string, email: string) {
     const response = await fetch(this.API_URL_FORGOT_PASSWORD, {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email }),

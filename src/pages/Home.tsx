@@ -7,6 +7,8 @@ import {
   AdvicedsSection,
   Panel,
   TopicsSection,
+  UsersSection,
+  AdminSection,
 } from "@/components/features";
 import { useAuth } from "@/hooks";
 import { ROLES } from "@/utils";
@@ -37,11 +39,16 @@ export const Home = () => {
               <AdvicedsSection />
             </Panel>
           )}
+          {role === ROLES.ADMIN && (
+            <Panel title="Usuarios">
+              <UsersSection />
+            </Panel>
+          )}
         </section>
 
         <section className="flex max-md:flex-col gap-2 w-full h-1/2">
           <div className="md:max-w-sm size-full">
-            <Panel title="Agenda">
+            <Panel title="Agenda" className="pb-2">
               <ScheduleSection />
             </Panel>
           </div>
@@ -55,6 +62,11 @@ export const Home = () => {
             {role === ROLES.ADVISOR && (
               <Panel title="Temas">
                 <TopicsSection />
+              </Panel>
+            )}
+            {role === ROLES.ADMIN && (
+              <Panel title="Administar">
+                <AdminSection />
               </Panel>
             )}
           </div>

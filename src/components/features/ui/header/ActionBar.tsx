@@ -33,7 +33,7 @@ export const ActionBar = ({ handleOpenPanel }: Props) => {
           classNames={{ wrapper: "px-0 gap-2" }}
         >
           <NavbarContent className="gap-2">
-            <NavbarItem className="cursor-pointer ml-0 max-sm:hidden">
+            <NavbarItem className="cursor-pointer ml-0">
               <User
                 name={name}
                 description={roleNames[role as keyof typeof roleNames]}

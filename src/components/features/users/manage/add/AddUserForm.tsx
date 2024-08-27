@@ -6,12 +6,14 @@ import userService from "@/services/UserServices";
 import { User, UsersResponse } from "@/types/user";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useAuth } from "@/hooks";
 
 interface Props {
   setUsers: React.Dispatch<React.SetStateAction<UsersResponse[]>>;
 }
 
 export const AddUserForm = ({ setUsers }: Props) => {
+  const { token } = useAuth();
   const [user, setUser] = useState<User>({
     email: "",
     password: passwordGenerator(),
@@ -25,13 +27,14 @@ export const AddUserForm = ({ setUsers }: Props) => {
     setIsLoading(true);
     const password = passwordGenerator();
     setUser({ ...user, password });
+    console.log({ ...user, password })
 
     try {
       const res = await authService.register(user);
       const data = await res.json();
-      console.log(data);
+      
       setUsers((prev) => [data, ...prev]);
-      await userService.setDegrees(data.id, degrees);
+      await userService.setDegrees(token, data.id, degrees);
       toast.success("Usuario agregado correctamente");
     } catch (error) {
       toast.error(error.toString());

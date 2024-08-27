@@ -31,13 +31,13 @@ export const ScheduleSection = () => {
   return (
     <div className="size-full grid gap-2">
       {loading && <Spinner />}
-      {appointments.length > 0 && (
+      {!loading && appointments.length > 0 && (
         <ScheduleList
           setUsersAppointments={setAppointments}
           appointments={appointments}
         />
       )}
-      {invitations.length > 0 && (
+      {!loading && invitations.length > 0 && (
         <InvitationsList
           setUsersAppointments={setInvitations}
           appointments={invitations}

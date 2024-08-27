@@ -7,8 +7,6 @@ import {
   TableCell,
   User,
   Tooltip,
-  Select,
-  SelectItem,
   AvatarIcon,
   Button,
   Modal,
@@ -17,6 +15,7 @@ import {
   ModalBody,
   useDisclosure,
   Link,
+  Chip,
 } from "@nextui-org/react";
 
 import { columns } from "@data/users";
@@ -27,6 +26,7 @@ import userServices from "@/services/UserServices";
 import { SelectRole } from "@/components/features/ui";
 import { UsersResponse } from "@/types/user";
 import toast from "react-hot-toast";
+import { useAuth } from "@/hooks";
 
 interface Props {
   users: UsersResponse[];
@@ -34,6 +34,7 @@ interface Props {
 }
 
 export const Users = ({ users, setUsers }: Props) => {
+  const { token } = useAuth();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [newRoles, setNewRoles] = useState([]);
   const [idEdit, setIdEdit] = useState("");
@@ -44,7 +45,7 @@ export const Users = ({ users, setUsers }: Props) => {
   const handleDeleteUser = (id: string) => {
     setDeleteIsLoading(true);
     userServices
-      .deleteUser(id)
+      .deleteUser(token, id)
       .then(() => toast.success("Usuario eleminado"))
       .then(() => setUsers((prev) => prev.filter((user) => user.id !== id)))
       .catch((error) => toast.error(error.toString()))
@@ -56,10 +57,12 @@ export const Users = ({ users, setUsers }: Props) => {
     setEditIsLoading(true);
 
     userServices
-      .editUser(idEdit, { roles: newRoles })
+      .editUser(token, idEdit, { roles: newRoles })
       .then(() => {
         onOpenChange();
-        toast.success("Editado correctamente (si no ves cambios recarga la página)")
+        toast.success(
+          "Editado correctamente (si no ves cambios recarga la página)"
+        );
       })
       .catch((error) => toast.error(error.toString()))
       .finally(() => setEditIsLoading(false));
@@ -99,28 +102,17 @@ export const Users = ({ users, setUsers }: Props) => {
         );
       case "role":
         return (
-          <div className="flex flex-col">
-            <Select
-              placeholder={newRoles[0]}
-              className="max-w-xs"
-              color="secondary"
-              variant="underlined"
-              aria-label="Roles"
-              classNames={{
-                base: "text-black",
-              }}
-            >
-              {newRoles.map((role) => (
-                <SelectItem key={role} textValue={role} isReadOnly>
-                  {role}
-                </SelectItem>
-              ))}
-            </Select>
+          <div className="flex gap-2 flex-wrap">
+            {newRoles.map((role) => (
+              <Chip key={role} size="sm" variant="flat" color="primary" radius="sm">
+                {role}
+              </Chip>
+            ))}
           </div>
         );
       case "actions":
         return (
-          <div className="relative flex items-center gap-2">
+          <div className="relative flex items-center gap-1">
             <Tooltip content="Perfil">
               <Button
                 as={Link}
@@ -217,13 +209,18 @@ export const Users = ({ users, setUsers }: Props) => {
         return cellValue as React.ReactNode;
     }
   };
-  
+
   return (
     <>
       <Table
         aria-label="Example table with custom cells"
         shadow="none"
         radius="sm"
+        isHeaderSticky
+        isStriped
+        classNames={{
+          base: "size-full overflow-scroll",
+        }}
       >
         <TableHeader columns={columns}>
           {(column) => (

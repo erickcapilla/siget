@@ -36,16 +36,4 @@ export const roles: Rol[] = [
     value: "TITULAR_MATERIA_ROLE",
     color: "#db2777",
   },
-  {
-    id: 6,
-    role: "Administrativo",
-    value: "ADMINISTRATIVO_ROLE",
-    color: "#ca8a04",
-  },
-  {
-    id: 7,
-    role: "Coordinador",
-    value: "COORDINADOR_ROLE",
-    color: "#65a30d",
-  },
 ];

@@ -22,7 +22,7 @@ export const AdviceSection = () => {
         .catch((error) => console.error(error))
         .finally(() => setLoading(false));
     }
-  }, []);
+  }, [acceptedTopics.length]);
 
   return (
     <>
@@ -31,7 +31,7 @@ export const AdviceSection = () => {
           <Spinner />
         </div>
       ) : advices.length > 0 ? (
-        <div className="@container size-full">
+        <div className="@container size-full h-auto">
           <AdviceList advisories={advices} setAdvisories={setAdvices} />
         </div>
       ) : (

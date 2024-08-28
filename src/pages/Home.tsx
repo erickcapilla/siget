@@ -9,6 +9,7 @@ import {
   TopicsSection,
   UsersSection,
   AdminSection,
+  StudentsSection,
 } from "@/components/features";
 import { useAuth } from "@/hooks";
 import { ROLES } from "@/utils";
@@ -34,6 +35,11 @@ export const Home = () => {
               <DocumentProgressSection />
             </Panel>
           )}
+          {role === ROLES.STUDENT && acceptedTopics.length === 0 && (
+            <Panel title="Temas">
+              <TopicsSection />
+            </Panel>
+          )}
           {role === ROLES.ADVISOR && (
             <Panel title="Asesorados">
               <AdvicedsSection />
@@ -44,9 +50,9 @@ export const Home = () => {
               <UsersSection />
             </Panel>
           )}
-          {role === ROLES.STUDENT && acceptedTopics.length === 0 && (
-            <Panel title="Temas">
-              <TopicsSection />
+          {role === ROLES.SUBJECT_HOLDER && (
+            <Panel title="Estudiantes">
+              <StudentsSection />
             </Panel>
           )}
         </section>

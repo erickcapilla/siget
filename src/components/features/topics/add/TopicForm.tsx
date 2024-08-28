@@ -9,6 +9,7 @@ import {
 import toast from "react-hot-toast";
 import topicService from "@/services/TopicServices";
 import { useAuth } from "@/hooks/useAuth";
+import { ROLES } from "@/utils";
 
 interface Props {
   setUserTopics: React.Dispatch<React.SetStateAction<TopicResponse[]>>;
@@ -17,7 +18,7 @@ interface Props {
 export const TopicForm = ({ setUserTopics }: Props) => {
   const [topic, setTopic] = useState<TopicData>({} as TopicData);
   const [isLoading, setIsLoading] = useState(false);
-  const { token } = useAuth();
+  const { token, role } = useAuth();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -69,15 +70,17 @@ export const TopicForm = ({ setUserTopics }: Props) => {
         />
         <GraduationsSelect onChange={handleChange} />
         <DegreesUserSelect onChange={handleChange} />
-        <EnableUsersSelect
-          onChange={(e) =>
-            setTopic(
-              e !== null
-                ? { ...topic, collaborator: e.toString() }
-                : { ...topic, collaborator: null }
-            )
-          }
-        />
+        {role === ROLES.STUDENT && (
+          <EnableUsersSelect
+            onChange={(e) =>
+              setTopic(
+                e !== null
+                  ? { ...topic, collaborator: e.toString() }
+                  : { ...topic, collaborator: null }
+              )
+            }
+          />
+        )}
       </div>
       <Button
         type="submit"

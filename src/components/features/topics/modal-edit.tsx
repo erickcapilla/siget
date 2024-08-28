@@ -25,8 +25,8 @@ export const EditTopic = ({ setUserTopics, topicData }: Props) => {
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           <>
-            <ModalHeader className="flex flex-col gap-1">
-              Modal Title
+            <ModalHeader className="flex flex-col gap-1 text-primary">
+              Modal Tema
             </ModalHeader>
             <ModalBody>
               <EditTopicForm

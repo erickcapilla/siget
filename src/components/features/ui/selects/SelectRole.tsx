@@ -1,19 +1,26 @@
 import { Select, SelectItem, Chip, SelectedItems } from "@nextui-org/react";
 import { roles } from "@data/roles";
-import { Rol } from "@/types/user"
+import { Rol } from "@/types/user";
 import { useState } from "react";
+import { ROLES } from "@/utils";
+import { useAuth } from "@/hooks";
 
 interface Props {
   onChange?: (e?: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export const SelectRole = ({ onChange }: Props)  => {
+export const SelectRole = ({ onChange }: Props) => {
   const [isStudent, setIsStudent] = useState(false);
+  const { role } = useAuth();
 
   return (
     <Select
       isRequired
-      items={isStudent ? roles.filter(role => role.value === 'STUDENT_ROLE') : roles}
+      items={
+        isStudent || role === ROLES.SUBJECT_HOLDER
+          ? roles.filter((role) => role.value === "STUDENT_ROLE")
+          : roles
+      }
       label="Roles"
       variant="bordered"
       isMultiline={true}
@@ -31,14 +38,16 @@ export const SelectRole = ({ onChange }: Props)  => {
         return (
           <div className="flex flex-wrap gap-2">
             {items.map((item) => (
-              <Chip key={item.key} color="primary" variant="flat">{item.data?.role}</Chip>
+              <Chip key={item.key} color="primary" variant="flat">
+                {item.data?.role}
+              </Chip>
             ))}
           </div>
         );
       }}
-      onChange={e => {
-        if(e.target.value.includes('STUDENT_ROLE')) {
-          e.target.value = 'STUDENT_ROLE';
+      onChange={(e) => {
+        if (e.target.value.includes("STUDENT_ROLE")) {
+          e.target.value = "STUDENT_ROLE";
           setIsStudent(true);
         } else {
           setIsStudent(false);
@@ -58,4 +67,4 @@ export const SelectRole = ({ onChange }: Props)  => {
       )}
     </Select>
   );
-}
+};

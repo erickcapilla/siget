@@ -4,13 +4,18 @@ class UserService {
   API_URL_USER_INFORMATION = `${import.meta.env.VITE_API_URL}/user-information`;
   API_URL_DEGREE = `${import.meta.env.VITE_API_URL}/degree-programs`;
   API_URL_USERS = `${import.meta.env.VITE_API_URL}/auth/users`;
-  API_URL_ENABLE_USERS = `${import.meta.env.VITE_API_URL}/accepted-topics/students`;
+  API_URL_ENABLE_USERS = `${
+    import.meta.env.VITE_API_URL
+  }/accepted-topics/students`;
+  API_URL_USER_ROLE_DEGREE = `${
+    import.meta.env.VITE_API_URL
+  }/auth/users-with-role-and-degree`;
 
   async getUser(token: string, id: string) {
     const response = await fetch(`${this.API_URL_USERS}/${id}`, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -25,27 +30,27 @@ class UserService {
 
   async getUsers(token: string) {
     const response = await fetch(this.API_URL_USERS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+        "content-type": "application/json",
       },
-    })
+    });
 
-    if(response.ok) {
-      return response
+    if (response.ok) {
+      return response;
     }
 
-    const error = await response.json()
+    const error = await response.json();
 
-    throw new Error(error.message)
+    throw new Error(error.message);
   }
 
   async editUser(token: string, id: string, data: object) {
     const response = await fetch(`${this.API_URL_USERS}/${id}`, {
       method: "PATCH",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "content-type": "application/json",
       },
       body: JSON.stringify(data),
@@ -64,7 +69,7 @@ class UserService {
     const response = await fetch(`${this.API_URL_USERS}/${id}`, {
       method: "DELETE",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -83,7 +88,29 @@ class UserService {
       {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ degreeProgramsId: degrees }),
+      }
+    );
+
+    if (response.ok) {
+      return response;
+    }
+
+    const error = await response.json();
+
+    throw new Error(error.message);
+  }
+
+  async unenrollDegree(token: string, userID: string, degrees: string[]) {
+    const response = await fetch(
+      `${this.API_URL_DEGREE}/${userID}/unenroll-degree-programs`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ degreeProgramsId: degrees }),
@@ -103,7 +130,7 @@ class UserService {
     const response = await fetch(this.API_URL_USER_INFORMATION, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(information),
@@ -122,7 +149,7 @@ class UserService {
     const response = await fetch(this.API_URL_USER_INFORMATION, {
       method: "PATCH",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(information),
@@ -141,10 +168,33 @@ class UserService {
     const response = await fetch(this.API_URL_ENABLE_USERS, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ degree }),
+    });
+
+    if (response.ok) {
+      return response;
+    }
+
+    const error = await response.json();
+
+    throw new Error(error.message);
+  }
+
+  async getUsersWithRoleAndDegree(
+    token: string,
+    role: string,
+    degree: string[]
+  ) {
+    const response = await fetch(`${this.API_URL_USER_ROLE_DEGREE}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ role, degree }),
     });
 
     if (response.ok) {

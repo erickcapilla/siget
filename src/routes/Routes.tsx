@@ -16,6 +16,7 @@ import {
   UserProfile,
   UserDocument,
   UserAdvice,
+  Adviceds,
 } from "@/pages";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { useAuth } from "@/hooks";
@@ -27,7 +28,12 @@ export const AppRoutes = () => {
   return (
     <Routes>
       <Route
-        element={<ProtectedRoute isAllowed={!isAuthenticated} redirectTo={paths.home} />}
+        element={
+          <ProtectedRoute
+            isAllowed={!isAuthenticated}
+            redirectTo={paths.home}
+          />
+        }
       >
         <Route path={paths.login} element={<Login />} />
         <Route path={paths.reset} element={<ResetPassword />} />
@@ -36,7 +42,10 @@ export const AppRoutes = () => {
 
       <Route
         element={
-          <ProtectedRoute isAllowed={!!user?.userInformation} redirectTo={paths.home} />
+          <ProtectedRoute
+            isAllowed={!!user?.userInformation}
+            redirectTo={paths.home}
+          />
         }
       >
         <Route path={paths.topics} element={<Topics />} />
@@ -50,10 +59,16 @@ export const AppRoutes = () => {
         <Route path={paths.schedule} element={<Schedule />} />
         <Route path={paths.admin} element={<Admin />} />
         <Route path={paths.userAdvice} element={<UserAdvice />} />
+        <Route path={paths.adviceds} element={<Adviceds />} />
       </Route>
 
       <Route
-        element={<ProtectedRoute isAllowed={isAuthenticated} redirectTo={paths.login} />}
+        element={
+          <ProtectedRoute
+            isAllowed={isAuthenticated}
+            redirectTo={paths.login}
+          />
+        }
       >
         <Route path={paths.home} index element={<Home />} />
         <Route path={`${paths.profile}:id`} element={<Profile />} />
@@ -68,6 +83,7 @@ export const AppRoutes = () => {
         <Route path={paths.schedule} element={<Schedule />} />
         <Route path={paths.admin} element={<Admin />} />
         <Route path={paths.userAdvice} element={<UserAdvice />} />
+        <Route path={paths.adviceds} element={<Adviceds />} />
       </Route>
     </Routes>
   );

@@ -15,6 +15,7 @@ export const paths = {
   schedule: "/schedule",
   userProfile: "/profile",
   admin: "/admin",
+  adviceds: "/adviceds",
 }
 
 export enum ROLES {

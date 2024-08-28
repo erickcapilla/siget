@@ -19,13 +19,13 @@ export const DoublePanelLayout = ({
 }: Props) => {
   return (
     <LayoutMain>
-      <div className="flex max-md:flex-col gap-3 h-full">
-        <div className="max-md:hidden h-full min-w-72 max-w-[345px] w-full">
+      <div className="flex max-lg:flex-col gap-3 h-full">
+        <div className="max-lg:hidden h-full min-w-80 max-w-[345px] w-full">
           <Panel className="min-w-60 max-w-[360px]" title={titleLeft}>
             {contentLeft}
           </Panel>
         </div>
-        <div className="md:hidden h-auto">
+        <div className="lg:hidden h-auto">
           <Accordion
             variant="shadow"
             itemClasses={{
@@ -42,7 +42,7 @@ export const DoublePanelLayout = ({
             </AccordionItem>
           </Accordion>
         </div>
-        <div className="@container w-full h-full md:min-w-[400px] overflow-y-auto">
+        <div className="@container w-full h-full md:min-w-[600px] overflow-y-auto">
           <Panel title={title} className="border border-gray-300 shadow-md">{children}</Panel>
         </div>
       </div>

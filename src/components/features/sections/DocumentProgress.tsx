@@ -35,7 +35,7 @@ export const DocumentProgressSection = () => {
             <Chip size="sm" color="secondary" variant="dot">
               {acceptedTopics[0].title}
             </Chip>
-            <Chip size="sm" color="primary" variant="dot">
+            <Chip size="sm" color="success" variant="dot">
               {optionNames[acceptedTopics[0].graduationOption.name]}
             </Chip>
           </div>

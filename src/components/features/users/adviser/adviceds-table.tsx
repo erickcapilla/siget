@@ -20,8 +20,12 @@ export const AdvicedsTable = () => {
   return (
     <Table
       aria-label="Adviceds table for advisers"
-      className="table-fixed"
       shadow="none"
+      isHeaderSticky
+      isStriped
+      classNames={{
+        base: "size-full overflow-scroll",
+      }}
     >
       <TableHeader>
         <TableColumn>Tema</TableColumn>
@@ -36,11 +40,7 @@ export const AdvicedsTable = () => {
             <TableCell className="px-2 py-2">{topic.title}</TableCell>
             <TableCell className="px-2 py-2">{topic.description}</TableCell>
             <TableCell className="px-2 py-2">
-              <Chip
-                size="sm"
-                variant="flat"
-                avatar={<Avatar />}
-              >{`${
+              <Chip size="sm" variant="flat" avatar={<Avatar />}>{`${
                 topic.acceptedBy.id !== user.user.id
                   ? `${topic.acceptedBy.name} ${topic.acceptedBy.fatherLastName}`
                   : `${topic.requestedBy.name} ${topic.requestedBy.fatherLastName}`
@@ -55,12 +55,7 @@ export const AdvicedsTable = () => {
               )}
             </TableCell>
             <TableCell className="px-2 py-2">
-              <Chip
-                size="sm"
-                variant="flat"
-                color="success"
-                radius="sm"
-              >
+              <Chip size="sm" variant="flat" color="success" radius="sm">
                 {optionNames[topic.graduationOption.name]}
               </Chip>
             </TableCell>
@@ -70,7 +65,7 @@ export const AdvicedsTable = () => {
                 size="sm"
                 startContent={<DocumentOutline />}
                 href={`/document/${topic.id}`}
-                variant="flat"
+                variant="light"
                 color="primary"
                 radius="sm"
               >
@@ -81,7 +76,7 @@ export const AdvicedsTable = () => {
                 size="sm"
                 startContent={<PaperCheckOutline />}
                 href={`/advice/${topic.id}`}
-                variant="flat"
+                variant="light"
                 color="secondary"
                 radius="sm"
               >

@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks";
 import documentServices from "@/services/DocumentServices";
 import { ProgressDocumentBar } from "@/components/features";
 import { Spinner, Chip, Avatar } from "@nextui-org/react";
+import { optionNames } from "@/utils/utils";
 
 export const DocumentProgressSection = () => {
   const [loading, setLoading] = useState(false);
@@ -30,9 +31,12 @@ export const DocumentProgressSection = () => {
         </div>
       ) : document.length > 0 ? (
         <div className="size-full flex flex-col justify-between">
-          <div>
+          <div className="w-full flex gap-2 justify-between">
             <Chip size="sm" color="secondary" variant="dot">
               {acceptedTopics[0].title}
+            </Chip>
+            <Chip size="sm" color="primary" variant="dot">
+              {optionNames[acceptedTopics[0].graduationOption.name]}
             </Chip>
           </div>
           <h3 className="mx-auto text-center text-xl font-semibold text-secondary mb-8">
@@ -40,9 +44,11 @@ export const DocumentProgressSection = () => {
           </h3>
           <div className="size-full px-10 py-3 overflow-x-auto">
             {document.length > 0 ? (
-              <div className="min-w-[600px]">
-                <ProgressDocumentBar document={document} />
-              </div>
+              <>
+                <div className="min-w-[600px]">
+                  <ProgressDocumentBar document={document} />
+                </div>
+              </>
             ) : (
               <p> No hay documentos </p>
             )}

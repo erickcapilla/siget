@@ -9,7 +9,8 @@ import requestTopicServices from "@/services/RequestTopicServices";
 import topicServices from "@/services/TopicServices";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks";
+import { EditTopic } from "@/components/features";
 
 import "@/css/topic.css";
 
@@ -32,7 +33,7 @@ export const TopicItem = ({ topic, isUser, setUserTopics }: Props) => {
       ? `${collaborator.userInformation.name} ${collaborator.userInformation.fatherLastName}`
       : "Usuario";
 
-  const createRequest = () => { 
+  const createRequest = () => {
     setIsLoading(true);
     requestTopicServices
       .createRequestTopic(token, topic.id)
@@ -125,7 +126,8 @@ export const TopicItem = ({ topic, isUser, setUserTopics }: Props) => {
               />
             )}
           </div>
-          <div className="w-full @md:max-w-20">
+          <div className="flex gap-2">
+            {isUser && <EditTopic setUserTopics={setUserTopics} topicData={topic} />}
             <Tooltip
               content={isUser ? "Eliminar tema" : "Solicitar tema"}
               radius="sm"
@@ -138,7 +140,7 @@ export const TopicItem = ({ topic, isUser, setUserTopics }: Props) => {
                 isIconOnly
                 radius="sm"
                 isLoading={isLoading}
-                className="group w-full"
+                className="group w-full @sm:max-w-20"
                 onPress={() => {
                   toast((t) => (
                     <span>

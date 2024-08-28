@@ -90,6 +90,7 @@ export const AuthProvider = ({ children }: Props) => {
           const da = await res.json();
 
           setAcceptedTopics(da.items);
+          console.log(da)
         }
 
         if (role === "") {

@@ -7,9 +7,10 @@ import { useAuth } from "@/hooks";
  
 interface Props {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  defaultValue?: string;
 }
 
-export const GraduationsSelect = ({ onChange }: Props) => {
+export const GraduationsSelect = ({ onChange, defaultValue }: Props) => {
   const [options, setOptions] = useState<GraduationResponse[]>([]);
   const { token } = useAuth();
 
@@ -29,6 +30,7 @@ export const GraduationsSelect = ({ onChange }: Props) => {
       className="text-sm"
       isRequired
       onChange={onChange}
+      defaultValue={defaultValue}
     >
       {options.map((option) => (
         <Radio

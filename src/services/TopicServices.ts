@@ -24,13 +24,14 @@ class TopicServices {
     throw new Error(error.message);
   }
 
-  async updateTopic(id: string, topic: Topic) {
+  async updateTopic(token: string, id: string, topic: Topic) {
     const response = await fetch(`${this.API_URL_TOPIC}/${id}`, {
       method: "PATCH",
       headers: {
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(topic),
+      body: JSON.stringify({ title: topic.title, description: topic.description }),
     });
 
     if (response.ok) {

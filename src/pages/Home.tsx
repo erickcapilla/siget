@@ -14,7 +14,7 @@ import { useAuth } from "@/hooks";
 import { ROLES } from "@/utils";
 
 export const Home = () => {
-  const { user, role } = useAuth();
+  const { user, role, acceptedTopics } = useAuth();
 
   return (
     <LayoutMain>
@@ -29,7 +29,7 @@ export const Home = () => {
         )}
 
         <section className="w-full h-1/2">
-          {role == ROLES.STUDENT && (
+          {role == ROLES.STUDENT && acceptedTopics.length > 0 && (
             <Panel title="Progreso de Documento">
               <DocumentProgressSection />
             </Panel>
@@ -42,6 +42,11 @@ export const Home = () => {
           {role === ROLES.ADMIN && (
             <Panel title="Usuarios">
               <UsersSection />
+            </Panel>
+          )}
+          {role === ROLES.STUDENT && acceptedTopics.length === 0 && (
+            <Panel title="Temas">
+              <TopicsSection />
             </Panel>
           )}
         </section>

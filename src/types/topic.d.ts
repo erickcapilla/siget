@@ -39,7 +39,8 @@ export type AcceptedTopic = {
   collaborator: UserTopicResponse;
   title: string;
   acceptedBy: UserTopicResponse; 
-  requestedBy: UserTopicResponse; 
+  requestedBy: UserTopicResponse;
+  graduationOption: GraduationResponse;
 }
 
 export type CommentResponse = {

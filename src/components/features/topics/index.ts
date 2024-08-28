@@ -1,3 +1,5 @@
 export * from './add'
 export * from './get'
 export * from './sections'
+export * from './modal-edit'
+export * from './edit-form'

@@ -12,6 +12,7 @@ import {
   TableCell,
 } from "@nextui-org/react";
 import { DocumentOutline, PaperCheckOutline } from "@/components/icons";
+import { optionNames } from "@/utils/utils";
 
 export const AdvicedsTable = () => {
   const { acceptedTopics, user } = useAuth();
@@ -26,6 +27,7 @@ export const AdvicedsTable = () => {
         <TableColumn>Tema</TableColumn>
         <TableColumn>Descripción</TableColumn>
         <TableColumn>Estudiante(s)</TableColumn>
+        <TableColumn>Tipo</TableColumn>
         <TableColumn>Acciones</TableColumn>
       </TableHeader>
       <TableBody>
@@ -39,9 +41,9 @@ export const AdvicedsTable = () => {
                 variant="flat"
                 avatar={<Avatar />}
               >{`${
-                acceptedTopics[0].acceptedBy.id !== user.user.id
-                  ? `${acceptedTopics[0].acceptedBy.name} ${acceptedTopics[0].acceptedBy.fatherLastName}`
-                  : `${acceptedTopics[0].requestedBy.name} ${acceptedTopics[0].requestedBy.fatherLastName}`
+                topic.acceptedBy.id !== user.user.id
+                  ? `${topic.acceptedBy.name} ${topic.acceptedBy.fatherLastName}`
+                  : `${topic.requestedBy.name} ${topic.requestedBy.fatherLastName}`
               }`}</Chip>
               {topic.collaborator && (
                 <Chip
@@ -52,12 +54,22 @@ export const AdvicedsTable = () => {
                 >{`${topic.collaborator.name} ${topic.collaborator.fatherLastName}`}</Chip>
               )}
             </TableCell>
+            <TableCell className="px-2 py-2">
+              <Chip
+                size="sm"
+                variant="flat"
+                color="success"
+                radius="sm"
+              >
+                {optionNames[topic.graduationOption.name]}
+              </Chip>
+            </TableCell>
             <TableCell className="px-2 py-2 flex gap-3">
               <Button
                 as={Link}
                 size="sm"
                 startContent={<DocumentOutline />}
-                href={`/document/${topic.acceptedBy.id}`}
+                href={`/document/${topic.id}`}
                 variant="flat"
                 color="primary"
                 radius="sm"

@@ -15,11 +15,13 @@ interface Props {
 
 export const EnableUsersSelect = ({ onChange }: Props) => {
   const [users, setUsers] = useState<EnableUserResponse[]>([]);
-  const { token } = useAuth();
-
+  const { token, user } = useAuth();
+  
   useEffect(() => {
+    const degrees = user?.userDegreePrograms.map(degree => degree.id);
+    console.log(degrees);
     userServices
-      .enableUsers(token)
+      .enableUsers(token, [ "f63edffb-fb4e-409f-b668-86da2a7c6948", "10ccec3a-e36c-4787-b94f-45aec0c387fb" ])
       .then((response) => response.json())
       .then((data) => setUsers(data))
       .catch((error) => console.error(error));

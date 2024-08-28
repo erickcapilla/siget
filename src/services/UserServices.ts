@@ -11,7 +11,6 @@ class UserService {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
-        "content-type": "application/json",
       },
     });
 
@@ -138,13 +137,14 @@ class UserService {
     throw new Error(error.message);
   }
 
-  async enableUsers(token: string) {
+  async enableUsers(token: string, degree: string[]) {
     const response = await fetch(this.API_URL_ENABLE_USERS, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({ degree }),
     });
 
     if (response.ok) {

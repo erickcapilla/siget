@@ -13,23 +13,25 @@ export const UsersSection = () => {
 
   useEffect(() => {
     setIsLoading(true);
-      userServices
-        .getUsers(token)
-        .then((res) => res.json())
-        .then((data) => setUsers(data))
-        .catch(error => toast.error(error.toString()))
-        .finally(() => setIsLoading(false));
+    userServices
+      .getUsers(token)
+      .then((res) => res.json())
+      .then((data) => setUsers(data))
+      .catch((error) => toast.error(error.toString()))
+      .finally(() => setIsLoading(false));
   }, []);
 
   return (
     <>
       {isLoading ? (
-        <Spinner />
+        <div className="size-full flex items-center justify-center">
+          <Spinner />
+        </div>
       ) : users.length > 0 ? (
         <Users setUsers={setUsers} users={users} />
       ) : (
         <p>No hay usuarios</p>
       )}
     </>
-  )
-}
+  );
+};

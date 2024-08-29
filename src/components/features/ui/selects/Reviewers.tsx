@@ -5,23 +5,24 @@ import {
   AvatarIcon,
 } from "@nextui-org/react";
 import userServices from "@/services/UserServices";
-import { EnableUserResponse } from "@/types/user";
+import { UsersResponse } from "@/types/user";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks";
+import { ROLES } from "@/utils";
 
 interface Props {
   onChange?: (key: React.Key | null) => void;
 }
 
-export const EnableUsersSelect = ({ onChange }: Props) => {
-  const [users, setUsers] = useState<EnableUserResponse[]>([]);
+export const ReviewersSelect = ({ onChange }: Props) => {
+  const [users, setUsers] = useState<UsersResponse[]>([]);
   const { token, user } = useAuth();
-  
+
   useEffect(() => {
-    const degrees = user?.userDegreePrograms.map(degree => degree.id);
-    
+    const degrees = user?.userDegreePrograms.map((degree) => degree.id);
+
     userServices
-      .enableUsers(token, degrees)
+      .getUsersWithRoleAndDegree(token, ROLES.REVIEWER, degrees)
       .then((response) => response.json())
       .then((data) => setUsers(data))
       .catch((error) => console.error(error));
@@ -30,11 +31,12 @@ export const EnableUsersSelect = ({ onChange }: Props) => {
   return (
     <Autocomplete
       items={users}
-      label="Selecciona un colaborador (opcional)"
+      label="Selecciona un reviewer"
       variant="bordered"
       color="primary"
       placeholder="Selecciona un usuario"
       onSelectionChange={onChange}
+      isRequired
     >
       {(user) => (
         <AutocompleteItem

@@ -16,6 +16,8 @@ export const paths = {
   userProfile: "/profile",
   admin: "/admin",
   adviceds: "/adviceds",
+  accepteds: "/accepteds",
+  viewDocument: "/view-document/",
 }
 
 export enum ROLES {

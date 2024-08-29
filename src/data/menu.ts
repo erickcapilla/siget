@@ -18,6 +18,7 @@ import {
   PaperCheckOutline,
   CalendarOutline,
   StudentsOutline,
+  DocumentListOutline,
 } from "@/components/icons";
 import {
   HomeSolid,
@@ -29,6 +30,7 @@ import {
   PaperCheckSolid,
   CalendarSolid,
   StudentsSolid,
+  DocumentListSolid,
 } from "@/components/icons";
 
 export const menuItems: MenuItems[] = [
@@ -95,6 +97,14 @@ export const menuItems: MenuItems[] = [
     icon: StudentsOutline,
     iconActive: StudentsSolid,
     roles: ["ASESOR_ROLE"],
+  },
+  {
+    id: "accepteds",
+    name: "Temas aceptados",
+    path: "/accepteds",
+    icon: DocumentListOutline,
+    iconActive: DocumentListSolid,
+    roles: ["TITULAR_MATERIA_ROLE"],
   },
   {
     id: "profile",

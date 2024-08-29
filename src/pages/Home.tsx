@@ -10,6 +10,7 @@ import {
   UsersSection,
   AdminSection,
   StudentsSection,
+  AllAcceptedTopicsSection,
 } from "@/components/features";
 import { useAuth } from "@/hooks";
 import { ROLES } from "@/utils";
@@ -48,6 +49,11 @@ export const Home = () => {
           {role === ROLES.ADMIN && (
             <Panel title="Usuarios">
               <UsersSection />
+            </Panel>
+          )}
+          {role === ROLES.SUBJECT_HOLDER && (
+            <Panel title="Temas aceptados">
+              <AllAcceptedTopicsSection />
             </Panel>
           )}
         </section>

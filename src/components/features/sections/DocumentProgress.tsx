@@ -39,7 +39,7 @@ export const DocumentProgressSection = () => {
               {optionNames[acceptedTopics[0].graduationOption.name]}
             </Chip>
           </div>
-          <h3 className="mx-auto text-center text-xl font-semibold text-secondary mb-8">
+          <h3 className="mx-auto text-center text-lg font-semibold text-secondary mb-5 mt-2">
             Capítulos completados
           </h3>
           <div className="size-full px-10 py-3 overflow-x-auto">
@@ -53,7 +53,7 @@ export const DocumentProgressSection = () => {
               <p> No hay documentos </p>
             )}
           </div>
-          <div className="w-full items-center justify-between pt-3">
+          <div className="w-full flex items-center justify-between py-3 overflow-y-hidden overflow-x-auto">
             <Chip
               size="sm"
               avatar={<Avatar color="secondary" />}

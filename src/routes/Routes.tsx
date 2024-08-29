@@ -17,6 +17,8 @@ import {
   UserDocument,
   UserAdvice,
   Adviceds,
+  AcceptedTopics,
+  ViewDocument,
 } from "@/pages";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { useAuth } from "@/hooks";
@@ -54,12 +56,14 @@ export const AppRoutes = () => {
         <Route path={`${paths.document}:id`} element={<Document />} />
         <Route path={`${paths.userDocument}`} element={<UserDocument />} />
         <Route path={`${paths.advice}:id`} element={<Advice />} />
+        <Route path={`${paths.viewDocument}:id`} element={<ViewDocument />} />
         <Route path={paths.degree} element={<Degree />} />
         <Route path={paths.graduates} element={<Graduates />} />
         <Route path={paths.schedule} element={<Schedule />} />
         <Route path={paths.admin} element={<Admin />} />
         <Route path={paths.userAdvice} element={<UserAdvice />} />
         <Route path={paths.adviceds} element={<Adviceds />} />
+        <Route path={paths.accepteds} element={<AcceptedTopics />} />
       </Route>
 
       <Route
@@ -78,12 +82,14 @@ export const AppRoutes = () => {
         <Route path={`${paths.document}:id`} element={<Document />} />
         <Route path={`${paths.userDocument}`} element={<UserDocument />} />
         <Route path={`${paths.advice}:id`} element={<Advice />} />
+        <Route path={`${paths.viewDocument}:id`} element={<ViewDocument />} />
         <Route path={paths.degree} element={<Degree />} />
         <Route path={paths.graduates} element={<Graduates />} />
         <Route path={paths.schedule} element={<Schedule />} />
         <Route path={paths.admin} element={<Admin />} />
         <Route path={paths.userAdvice} element={<UserAdvice />} />
         <Route path={paths.adviceds} element={<Adviceds />} />
+        <Route path={paths.accepteds} element={<AcceptedTopics />} />
       </Route>
     </Routes>
   );

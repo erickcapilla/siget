@@ -41,6 +41,7 @@ export type AcceptedTopic = {
   acceptedBy: UserTopicResponse; 
   requestedBy: UserTopicResponse;
   graduationOption: GraduationResponse;
+  proposedByRole: string;
 }
 
 export type CommentResponse = {

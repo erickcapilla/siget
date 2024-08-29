@@ -50,11 +50,6 @@ export const Home = () => {
               <UsersSection />
             </Panel>
           )}
-          {role === ROLES.SUBJECT_HOLDER && (
-            <Panel title="Estudiantes">
-              <StudentsSection />
-            </Panel>
-          )}
         </section>
 
         <section className="flex max-md:flex-col gap-2 w-full h-1/2">
@@ -80,6 +75,11 @@ export const Home = () => {
                 <AdminSection />
               </Panel>
             )}
+            {role === ROLES.SUBJECT_HOLDER && (
+            <Panel title="Estudiantes">
+              <StudentsSection />
+            </Panel>
+          )}
           </div>
         </section>
       </article>

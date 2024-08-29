@@ -46,7 +46,7 @@ export const DocumentProgressSection = () => {
             {document.length > 0 ? (
               <>
                 <div className="min-w-[600px]">
-                  <ProgressDocumentBar document={document} />
+                  <ProgressDocumentBar document={document} type={acceptedTopics[0].graduationOption.name} />
                 </div>
               </>
             ) : (

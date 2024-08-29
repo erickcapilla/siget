@@ -51,12 +51,8 @@ export type CommentResponse = {
 
 export type DocumentResponse = {
   id: string;
-  chapter1: boolean;
-  chapter2: boolean;
-  chapter3: boolean;
-  chapter4: boolean;
-  chapter5: boolean;
-  chapter6: boolean;
-  chapter7: boolean;
   url: string;
+  chapters: number;
+  updatedAt: string;
+  uploadedAt: string;
 }

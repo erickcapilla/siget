@@ -1,6 +1,6 @@
 import type { DocumentResponse, CommentResponse } from "@/types/topic";
 import { DoublePanelLayout } from "@/layouts";
-import { Button } from "@nextui-org/react";
+import { Button, Chip } from "@nextui-org/react";
 import {
   DocumentViewer,
   CommentList,
@@ -11,13 +11,56 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import documentCommentsServices from "@/services/DocumentCommentsServices";
 import documentServices from "@/services/DocumentServices";
-import { ROLES } from "@/utils";
+import { ROLES, formatDate } from "@/utils";
+import { chapters } from "@/data/chapters";
+import toast from "react-hot-toast";
 
 export const Document = () => {
-  const { token, role } = useAuth();
+  const { token, role, acceptedTopics } = useAuth();
   const { id } = useParams();
   const [comments, setComments] = useState<CommentResponse[]>([]);
   const [document, setDocument] = useState<DocumentResponse>();
+  const topic = acceptedTopics.filter((topic) => topic.id === id);
+
+  const updateChapter = () => {
+    const chapter =
+      chapters[topic[0].graduationOption.name].reverse[document?.chapters];
+    const newChapter =
+      chapters[topic[0].graduationOption.name].percent[chapter + 1];
+    documentServices
+
+      .updateChapter(token, parseInt(newChapter), document.id)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .then(() =>
+        toast.success(
+          `Capítulo ${
+            chapters[topic[0].graduationOption.name].reverse[
+              document?.chapters
+            ] + 1
+          } aprobado`
+        )
+      )
+      .catch((error) => console.error(error));
+  };
+
+  const backChapter = () => {
+    const chapter =
+      chapters[topic[0].graduationOption.name].reverse[document?.chapters];
+    const newChapter =
+      chapters[topic[0].graduationOption.name].percent[chapter - 1];
+    documentServices
+
+      .updateChapter(token, parseInt(newChapter), document.id)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .then(() => toast.success("Capítulo regresado"))
+      .catch((error) => console.error(error));
+  };
 
   const getComments = (DocumentID: string) => {
     documentCommentsServices
@@ -48,7 +91,7 @@ export const Document = () => {
       contentLeft={
         <div className="size-full flex gap-3 flex-col justify-between">
           {comments.length > 0 ? (
-            <div className="size-full flex flex-col gap-2 overflow-y-auto">
+            <div className="size-full flex flex-col gap-2 overflow-y-auto pr-2">
               <CommentList comments={comments} setComments={setComments} />
             </div>
           ) : (
@@ -57,9 +100,89 @@ export const Document = () => {
           {role === ROLES.ADVISOR && (
             <div className="w-full grid gap-2">
               <CommentForm id={document?.id} setComments={setComments} />
-              <Button className="w-full" radius="sm" color="success" variant="flat">
-                Aprobar capítulo 1
-              </Button>
+              <div className="max-w-full flex gap-2">
+                {document?.chapters > 0 && (
+                  <Button
+                    className="w-full"
+                    radius="sm"
+                    color="danger"
+                    variant="flat"
+                    onPress={() => {
+                      toast((t) => (
+                        <span>
+                          ¿Estás seguro de regresar el capítulo?
+                          <Button
+                            className="m-2"
+                            color="danger"
+                            size="sm"
+                            variant="flat"
+                            onPress={() => {
+                              backChapter();
+                              toast.dismiss(t.id);
+                            }}
+                          >
+                            Regresar
+                          </Button>
+                          <Button
+                            className="m-2"
+                            size="sm"
+                            variant="flat"
+                            onPress={() => {
+                              toast.dismiss(t.id);
+                            }}
+                          >
+                            Cancelar
+                          </Button>
+                        </span>
+                      ));
+                    }}
+                  >
+                    Regresar
+                  </Button>
+                )}
+                {document?.chapters < 100 && (
+                  <Button
+                    className="w-full"
+                    radius="sm"
+                    color="success"
+                    variant="flat"
+                    onPress={() => {
+                      toast((t) => (
+                        <span>
+                          ¿Estás seguro de aprobar el capítulo?
+                          <Button
+                            className="m-2"
+                            color="success"
+                            size="sm"
+                            variant="flat"
+                            onPress={() => {
+                              updateChapter();
+                              toast.dismiss(t.id);
+                            }}
+                          >
+                            Aprobar
+                          </Button>
+                          <Button
+                            className="m-2"
+                            size="sm"
+                            variant="flat"
+                            onPress={() => {
+                              toast.dismiss(t.id);
+                            }}
+                          >
+                            Cancelar
+                          </Button>
+                        </span>
+                      ));
+                    }}
+                  >
+                    Aprobar capítulo{" "}
+                    {chapters[topic[0].graduationOption.name].reverse[
+                      document?.chapters
+                    ] + 1}
+                  </Button>
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -68,7 +191,17 @@ export const Document = () => {
       titleLeft="Comentarios"
     >
       {document ? (
-        <DocumentViewer pdfFilePath={document.url} />
+        <>
+          <div className="fixed top-3 right-3 z-100">
+            <Chip
+              size="sm"
+              color="primary"
+              variant="flat"
+              radius="sm"
+            >{`Últ. actualización ${formatDate(document.updatedAt)}`}</Chip>
+          </div>
+          <DocumentViewer pdfFilePath={document.url} />
+        </>
       ) : (
         <p> No hay documento </p>
       )}

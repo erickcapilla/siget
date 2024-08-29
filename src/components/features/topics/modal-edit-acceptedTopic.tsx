@@ -6,7 +6,7 @@ import {
   Button,
   useDisclosure,
 } from "@nextui-org/react";
-import { EditTopicForm } from "@/components/features";
+import { EditAcceptedTopicForm } from "@/components/features";
 import { TopicResponse } from "@/types/topic";
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
   classButton?: string;
 }
 
-export const EditTopic = ({ classButton, topicData }: Props) => {
+export const EditAcceptedTopic = ({ classButton, topicData }: Props) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -29,7 +29,7 @@ export const EditTopic = ({ classButton, topicData }: Props) => {
               Editar Tema
             </ModalHeader>
             <ModalBody>
-              <EditTopicForm
+              <EditAcceptedTopicForm
                 topicData={topicData}
               />
             </ModalBody>

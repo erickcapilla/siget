@@ -27,3 +27,17 @@ export enum ROLES {
   ADMINISTRATIVE = "ADMINISTRATIVO_ROLE",
   COORDINATOR = "COORDINADOR_ROLE",
 }
+
+export const formatDate = (dateStr) => {
+  const date = new Date(dateStr);
+  const formattedDate = date.toLocaleDateString("es-MX", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const formattedTime = date.toLocaleTimeString("es-MX", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return `${formattedDate} - ${formattedTime} hrs`;
+};

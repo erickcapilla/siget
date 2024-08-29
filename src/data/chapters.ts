@@ -1,30 +1,69 @@
-export const chapters: object = [
-  {
-    value: 0,
-    label: "Capítulo 1"
+export const chapters = {
+  prototype: {
+    chapters: [1, 2, 3, 4, 5, 6, 7],
+    percent: {
+      0: 0,
+      1: 1,
+      2: 18,
+      3: 35,
+      4: 52,
+      5: 67,
+      6: 84,
+      7: 100,
+    },
+    reverse: {
+      0: 0,
+      1: 1,
+      18: 2,
+      35: 3,
+      52: 4,
+      67: 5,
+      84: 6,
+      100: 7,
+    },
   },
-  {
-    value: 15,
-    label: "Capítulo 2"
+  thesis: {
+    chapters: [1, 2, 3, 4, 5, 6, 7],
+    percent: {
+      0: 0,
+      1: 1,
+      2: 18,
+      3: 35,
+      4: 52,
+      5: 67,
+      6: 84,
+      7: 100,
+    },
+    reverse: {
+      0: 0,
+      1: 1,
+      18: 2,
+      35: 3,
+      52: 4,
+      67: 5,
+      84: 6,
+      100: 7,
+    },
   },
-  {
-    value: 30,
-    label: "Capítulo 3"
+  memoirs: {
+    chapters: [1, 2, 3, 4, 5, 6],
+    percent: {
+      0: 0,
+      1: 1,
+      2: 20,
+      3: 40,
+      4: 62,
+      5: 80,
+      6: 100,
+    },
+    reverse: {
+      0: 0,
+      1: 1,
+      20: 2,
+      40: 3,
+      62: 4,
+      80: 5,
+      100: 6,
+    },
   },
-  {
-    value: 45,
-    label: "Capítulo 4"
-  },
-  {
-    value: 60,
-    label: "Capítulo 5"
-  },
-  {
-    value: 75,
-    label: "Capítulo 6"
-  },
-  {
-    value: 100,
-    label: "Capítulo 7"
-  },
-]
+};

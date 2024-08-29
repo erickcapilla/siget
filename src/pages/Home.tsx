@@ -11,7 +11,10 @@ import {
   AdminSection,
   StudentsSection,
   AllAcceptedTopicsSection,
+  NotFoundLayout,
+  ReviewsSection,
 } from "@/components/features";
+import { Features } from "@/components/unDraws";
 import { useAuth } from "@/hooks";
 import { ROLES } from "@/utils";
 
@@ -56,6 +59,11 @@ export const Home = () => {
               <AllAcceptedTopicsSection />
             </Panel>
           )}
+          {role === ROLES.REVIEWER && (
+            <Panel title="Temas asignados">
+              <ReviewsSection />
+            </Panel>
+          )}
         </section>
 
         <section className="flex max-md:flex-col gap-2 w-full h-1/2">
@@ -82,10 +90,20 @@ export const Home = () => {
               </Panel>
             )}
             {role === ROLES.SUBJECT_HOLDER && (
-            <Panel title="Estudiantes">
-              <StudentsSection />
-            </Panel>
-          )}
+              <Panel title="Estudiantes">
+                <StudentsSection />
+              </Panel>
+            )}
+            {role === ROLES.REVIEWER && (
+              <Panel title="Upps!">
+                <NotFoundLayout
+                  title="Pronto abrá más"
+                  description="Estamos trabajando en nuevas funcionalidades"
+                >
+                  <Features />
+                </NotFoundLayout>
+              </Panel>
+            )}
           </div>
         </section>
       </article>

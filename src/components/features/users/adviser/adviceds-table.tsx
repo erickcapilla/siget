@@ -13,9 +13,25 @@ import {
 } from "@nextui-org/react";
 import { DocumentOutline, PaperCheckOutline } from "@/components/icons";
 import { optionNames } from "@/utils/utils";
+import reviewerService from "@/services/ReviewerServices";
+import { ReviewerResponse } from "@/types/reviewer";
+import { useState } from "react";
+import { ReviewerItem } from "@/components/features";
 
 export const AdvicedsTable = () => {
-  const { acceptedTopics, user } = useAuth();
+  const { acceptedTopics, user, token } = useAuth();
+
+  const getReviewers = (id: string) => {
+    const [reviewers, setReviewers] = useState<ReviewerResponse[]>([]);
+
+    reviewerService
+      .getReviewerByTopic(token, id)
+      .then((res) => res.json())
+      .then((data) => setReviewers(data))
+      .catch((error) => console.error(error));
+
+    return reviewers;
+  };
 
   return (
     <Table
@@ -31,6 +47,7 @@ export const AdvicedsTable = () => {
         <TableColumn>Tema</TableColumn>
         <TableColumn>Descripción</TableColumn>
         <TableColumn>Estudiante(s)</TableColumn>
+        <TableColumn>Revisores</TableColumn>
         <TableColumn>Tipo</TableColumn>
         <TableColumn>Acciones</TableColumn>
       </TableHeader>
@@ -53,6 +70,11 @@ export const AdvicedsTable = () => {
                   color="secondary"
                 >{`${topic.collaborator.name} ${topic.collaborator.fatherLastName}`}</Chip>
               )}
+            </TableCell>
+            <TableCell className="px-2 py-2">
+              {getReviewers(topic.id).map((reviewer) => (
+                <ReviewerItem key={reviewer.id} reviewer={reviewer} />
+              ))}
             </TableCell>
             <TableCell className="px-2 py-2">
               <Chip size="sm" variant="flat" color="success" radius="sm">

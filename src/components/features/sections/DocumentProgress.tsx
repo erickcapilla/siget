@@ -2,13 +2,16 @@ import type { DocumentResponse } from "@/types/topic";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks";
 import documentServices from "@/services/DocumentServices";
-import { ProgressDocumentBar } from "@/components/features";
+import { ProgressDocumentBar, ReviewerItem } from "@/components/features";
 import { Spinner, Chip, Avatar } from "@nextui-org/react";
 import { optionNames } from "@/utils/utils";
+import reviewerService from "@/services/ReviewerServices";
+import type { ReviewerResponse } from "@/types/reviewer";
 
 export const DocumentProgressSection = () => {
   const [loading, setLoading] = useState(false);
   const [document, setDocument] = useState<DocumentResponse[]>([]);
+  const [reviewers, setReviewers] = useState<ReviewerResponse[]>([]);
   const { token, user, acceptedTopics } = useAuth();
 
   useEffect(() => {
@@ -21,6 +24,12 @@ export const DocumentProgressSection = () => {
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
+
+    reviewerService
+      .getReviewerByTopic(token, acceptedTopics[0].id)
+      .then((res) => res.json())
+      .then((data) => setReviewers(data))
+      .catch((error) => console.error(error));
   }, []);
 
   return (
@@ -46,7 +55,10 @@ export const DocumentProgressSection = () => {
             {document.length > 0 ? (
               <>
                 <div className="min-w-[600px]">
-                  <ProgressDocumentBar document={document} type={acceptedTopics[0].graduationOption.name} />
+                  <ProgressDocumentBar
+                    document={document}
+                    type={acceptedTopics[0].graduationOption.name}
+                  />
                 </div>
               </>
             ) : (
@@ -66,6 +78,23 @@ export const DocumentProgressSection = () => {
                   : `${acceptedTopics[0].requestedBy.name} ${acceptedTopics[0].requestedBy.fatherLastName}`
               } (Asesor)`}
             </Chip>
+            {acceptedTopics[0].collaborator && (
+              <Chip
+                size="sm"
+                avatar={<Avatar color="secondary" />}
+                variant="flat"
+                color="secondary"
+              >
+                {`${acceptedTopics[0].collaborator.name} ${acceptedTopics[0].collaborator.fatherLastName} (Colaborador)`}
+              </Chip>
+            )}
+            {reviewers.length > 0 ? (
+              reviewers.map((reviewer) => (
+                <ReviewerItem key={reviewer.id} reviewer={reviewer} />
+              ))
+            ) : (
+              <p> Sin revisores aún </p>
+            )}
           </div>
         </div>
       ) : (

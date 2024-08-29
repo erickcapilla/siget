@@ -3,6 +3,9 @@ class ReviewerServices {
   API_URL_REVIEWER_BY_TOPIC = `${
     import.meta.env.VITE_API_URL
   }/topic-reviewer/by-topic`;
+  API_URL_TOPIC_BY_REVIEWER = `${
+    import.meta.env.VITE_API_URL
+  }/topic-reviewer/by-reviewer`;
 
   async setReviewer(token: string, topicId: string, reviewerId: string) {
     const response = await fetch(this.API_URL_REVIEWER, {
@@ -26,6 +29,26 @@ class ReviewerServices {
   async getReviewerByTopic(token: string, topicId: string) {
     const response = await fetch(
       `${this.API_URL_REVIEWER_BY_TOPIC}/${topicId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.ok) {
+      return response;
+    }
+
+    const error = await response.json();
+
+    throw new Error(error.message);
+  }
+
+  async getTopicByReviewer(token: string, reviewerId: string) {
+    const response = await fetch(
+      `${this.API_URL_TOPIC_BY_REVIEWER}/${reviewerId}`,
       {
         method: "GET",
         headers: {

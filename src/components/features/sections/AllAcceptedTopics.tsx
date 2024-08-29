@@ -29,7 +29,7 @@ export const AllAcceptedTopicsSection = () => {
       ) : topics.length > 0 ? (
         <AllTopicsTable topics={topics} />
       ) : (
-        <p>No hay estudiantes</p>
+        <p>No hay temas</p>
       )}
     </div>
   );

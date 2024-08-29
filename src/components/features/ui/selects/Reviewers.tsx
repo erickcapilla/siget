@@ -31,7 +31,7 @@ export const ReviewersSelect = ({ onChange }: Props) => {
   return (
     <Autocomplete
       items={users}
-      label="Selecciona un reviewer"
+      label="Selecciona un revisor"
       variant="bordered"
       color="primary"
       placeholder="Selecciona un usuario"

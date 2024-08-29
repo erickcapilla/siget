@@ -107,7 +107,7 @@ class TopicServices {
     const response = await fetch(`${this.API_URL_ACCEPTED_TOPIC}/${id}`, {
       method: "PATCH",
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -130,7 +130,7 @@ class TopicServices {
     const response = await fetch(this.API_URL_ALL_ACCEPTED_TOPIC, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ degree }),

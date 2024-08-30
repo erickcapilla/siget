@@ -18,7 +18,7 @@ interface Props {
 export const LayoutForm = ({ children, footer, href }: Props) => {
   return (
     <>
-      <Header />
+      <Header isOpen={false} />
       <main className="flex flex-col items-center gap-5 w-screen px-5 pt-10">
         <Card className="max-w-md w-full" radius="sm" shadow="sm">
           <CardHeader className="flex justify-center">

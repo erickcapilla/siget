@@ -62,14 +62,14 @@ export const UserDocument = () => {
           <div className="max-h-80 grid gap-2">
             <h3 className="text-xs text-primary font-bold mb-3">
               {" "}
-              {document
+              {document.length > 0
                 ? "Agrega una nueva versión de tu documento"
                 : "Agrega tu documento"}{" "}
             </h3>
-            {document ? (
-              <EditDocumentForm id={document[0]?.id} />
+            {document.length > 0 ? (
+              <EditDocumentForm id={document[0]?.id} setDocument={setDocument} />
             ) : (
-              <DocumentForm id={acceptedTopics[0].id} />
+              <DocumentForm id={acceptedTopics[0].id} setDocument={setDocument} />
             )}
             <Button
               className="w-full"

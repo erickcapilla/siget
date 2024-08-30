@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FilePond, registerPlugin } from "react-filepond";
 import { useAuth } from "@/hooks";
+import toast from "react-hot-toast";
+import { DocumentResponse } from "@/types/topic";
 
 // Import FilePond styles
 import "filepond/dist/filepond.min.css";
@@ -13,9 +15,10 @@ registerPlugin(FilePondPluginFileValidateType);
 
 interface Props {
   id: string;
+  setDocument: React.Dispatch<React.SetStateAction<DocumentResponse[]>>;
 }
 
-export const EditDocumentForm = ({ id }: Props) => {
+export const EditDocumentForm = ({ id, setDocument }: Props) => {
   const [files, setFiles] = useState([]);
   const { token } = useAuth();
 
@@ -29,6 +32,7 @@ export const EditDocumentForm = ({ id }: Props) => {
         instantUpload={false}
         server={{
           process: {
+            method: "PATCH",
             url: `${
               import.meta.env.VITE_API_URL
             }/files/update-topic?topic-document=${id}`,
@@ -38,10 +42,22 @@ export const EditDocumentForm = ({ id }: Props) => {
             ondata: (formData) => {
               formData.delete("files");
               formData.delete("file");
-              
+
               formData.append("file", files[0].file);
               console.log(formData);
               return formData;
+            },
+            onload(response) {
+              toast.success("Documento actualizado");
+              try {
+                const jsonResponse = JSON.parse(response);
+                console.log(jsonResponse);
+                setDocument([jsonResponse]);
+                return jsonResponse;
+              } catch (error) {
+                console.error("Error parsing JSON response:", error);
+                return null;
+              } // or return 0;
             },
           },
         }}

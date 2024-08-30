@@ -5,8 +5,12 @@ import { DegreeResponse } from "@/types/admin";
 import degreeServices from "@/services/DegreeServices";
 import toast from "react-hot-toast";
 
-export const DegreesAdmin = () => {
-  const [degrees, setDegrees] = useState<DegreeResponse[]>([]);
+interface Props {
+  setDegrees: React.Dispatch<React.SetStateAction<DegreeResponse[]>>;
+  degrees: DegreeResponse[];
+}
+
+export const DegreesAdmin = ({setDegrees, degrees}: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [degree, setDegree] = useState<DegreeResponse>({} as DegreeResponse);
@@ -37,7 +41,7 @@ export const DegreesAdmin = () => {
 
       {isLoading ? (
         <Spinner />
-      ) : degrees.length > 0 ? (
+      ) : degrees?.length > 0 ? (
         <div className="flex flex-wrap gap-2">
           <DegreeList
             setDegrees={setDegrees}

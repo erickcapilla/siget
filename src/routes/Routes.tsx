@@ -19,6 +19,7 @@ import {
   Adviceds,
   AcceptedTopics,
   ViewDocument,
+  Reviews,
 } from "@/pages";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { useAuth } from "@/hooks";
@@ -64,6 +65,7 @@ export const AppRoutes = () => {
         <Route path={paths.userAdvice} element={<UserAdvice />} />
         <Route path={paths.adviceds} element={<Adviceds />} />
         <Route path={paths.accepteds} element={<AcceptedTopics />} />
+        <Route path={paths.reviews} element={<Reviews />} />
       </Route>
 
       <Route
@@ -90,6 +92,7 @@ export const AppRoutes = () => {
         <Route path={paths.userAdvice} element={<UserAdvice />} />
         <Route path={paths.adviceds} element={<Adviceds />} />
         <Route path={paths.accepteds} element={<AcceptedTopics />} />
+        <Route path={paths.reviews} element={<Reviews />} />
       </Route>
     </Routes>
   );

@@ -7,6 +7,7 @@ import documentCommentsServices from "@/services/DocumentCommentsServices";
 import toast from "react-hot-toast";
 import { ROLES } from "@/utils";
 import { useState } from "react";
+import { formatDay, formatTime } from "@/utils";
 
 interface Props {
   comment: CommentResponse;
@@ -15,10 +16,6 @@ interface Props {
 
 export const CommentItem = ({ comment, setComments }: Props) => {
   const { token, role } = useAuth();
-  const dateString = comment.date;
-  const date = new Date(dateString);
-  const formattedDate = date.toLocaleDateString();
-  const formattedTime = date.toLocaleTimeString();
   const [loading, setLoading] = useState(false);
 
   const deleteComment = () => {
@@ -41,7 +38,7 @@ export const CommentItem = ({ comment, setComments }: Props) => {
             size="sm"
             className="text-gray-500"
           >
-            {formattedDate}
+            {formatDay(comment.date)}
           </Chip>
           <Chip
             startContent={<ClockIcon size={15} color="#bfbfbf" />}
@@ -49,7 +46,7 @@ export const CommentItem = ({ comment, setComments }: Props) => {
             size="sm"
             className="text-gray-500"
           >
-            {formattedTime}
+            {formatTime(comment.date)}
           </Chip>
         </section>
       </article>

@@ -3,8 +3,13 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import graduationServices from "@/services/GraduationsOptionsServices";
 import { useAuth } from "@/hooks";
+import { GraduationResponse } from "@/types/admin";
 
-export const GraduationForm = () => {
+interface Props {
+  setGraduations: React.Dispatch<React.SetStateAction<GraduationResponse[]>>;
+}
+
+export const GraduationForm = ({ setGraduations }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const { token } = useAuth();
@@ -20,10 +25,12 @@ export const GraduationForm = () => {
     setIsLoading(true);
     graduationServices
       .saveOption(token, name)
+      .then((res) => res.json())
+      .then((data) => setGraduations((prev) => [...prev, data]))
       .then(() => {
         setName("");
         toast.success(
-          "Opción de titulación agregado correctamente. Si no ve cambios recargue la página"
+          "Opción de titulación agregado correctamente."
         );
       })
       .catch((error) => toast.error(error.toString()))

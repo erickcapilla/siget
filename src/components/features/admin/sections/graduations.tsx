@@ -6,8 +6,12 @@ import graduationsServices from "@/services/GraduationsOptionsServices";
 import toast from "react-hot-toast";
 import { useAuth } from "@/hooks";
 
-export const GraduationsAdmin = () => {
-  const [graduations, setGraduations] = useState<GraduationResponse[]>([]);
+interface Props {
+  setGraduations: React.Dispatch<React.SetStateAction<GraduationResponse[]>>;
+  graduations: GraduationResponse[];
+}
+
+export const GraduationsAdmin = ({setGraduations, graduations}: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useAuth();
 

@@ -6,6 +6,7 @@ import {
 import { LayoutItem } from "@/layouts";
 import { AppointmentResponse } from "@/types/schedule";
 import { Chip, Avatar } from "@nextui-org/react";
+import { formatDay } from "@/utils";
 
 interface Props {
   setUsersAppointments: React.Dispatch<
@@ -29,7 +30,7 @@ export const ScheduleItem = ({ appointment }: Props) => {
             <LocationIcon size={sizeIcon} /> <p>{appointment.location}</p>
           </div>
           <div className="flex items-center gap-1">
-            <CalendarIcon size={sizeIcon} /> {appointment.date}
+            <CalendarIcon size={sizeIcon} /> {formatDay(appointment.date)}
           </div>
           <div className="flex items-center gap-1">
             <ClockIcon size={sizeIcon} /> {appointment.time}

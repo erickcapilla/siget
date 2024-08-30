@@ -2,8 +2,13 @@ import { Input, Button } from "@nextui-org/react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import degreeServices from "@/services/DegreeServices";
+import { DegreeResponse } from "@/types/admin";
 
-export const DegreeForm = () => {
+interface Props {
+  setDegrees: React.Dispatch<React.SetStateAction<DegreeResponse[]>>;
+}
+
+export const DegreeForm = ({setDegrees}: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
 
@@ -12,10 +17,12 @@ export const DegreeForm = () => {
     setIsLoading(true);
     degreeServices
       .saveDegree(name)
+      .then((res) => res.json())
+      .then((data) => setDegrees((prev) => [...prev, data]))
       .then(() => {
         setName("");
         toast.success(
-          "Programa educativo agregado correctamente. Si no ve cambios recargue la página"
+          "Programa educativo agregado correctamente."
         );
       })
       .catch((error) => toast.error(error.toString()))

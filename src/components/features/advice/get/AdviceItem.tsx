@@ -5,6 +5,7 @@ import { AdvisoryResponse } from "@/types/advisory";
 import { useAuth } from "@/hooks";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { formatDay } from "@/utils";
 
 interface Props {
   advisory: AdvisoryResponse;
@@ -46,7 +47,7 @@ export const AdviceItem = ({ advisory, setAdvisories }: Props) => {
         <div className="flex flex-col @md:flex-row @md:justify-between @md:items-center gap-5 w-full">
           <div className="flex gap-3 items-center flex-wrap">
             <Chip size="sm" color="success" variant="flat">
-              {advisory.date}
+              {formatDay(advisory.date)}
             </Chip>
             <Chip
               size="sm"

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FilePond, registerPlugin } from "react-filepond";
 import { useAuth } from "@/hooks";
+import { DocumentResponse } from "@/types/topic";
+import toast from "react-hot-toast";
 
 // Import FilePond styles
 import "filepond/dist/filepond.min.css";
@@ -12,10 +14,12 @@ import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 registerPlugin(FilePondPluginFileValidateType);
 
 interface Props {
+  setDocument: React.Dispatch<React.SetStateAction<DocumentResponse[]>>;
   id: string;
 }
 
-export const DocumentForm = ({ id }: Props) => {
+export const DocumentForm = ({ id, setDocument }: Props) => {
+
   const [files, setFiles] = useState([]);
   const { token } = useAuth();
 
@@ -42,6 +46,18 @@ export const DocumentForm = ({ id }: Props) => {
               formData.append("file", files[0].file);
               console.log(formData);
               return formData;
+            },
+            onload(response) {
+              toast.success("Documento actualizado");
+              try {
+                const jsonResponse = JSON.parse(response);
+                console.log(jsonResponse);
+                setDocument([jsonResponse]);
+                return jsonResponse;
+              } catch (error) {
+                console.error("Error parsing JSON response:", error);
+                return null;
+              } // or return 0;
             },
           },
         }}

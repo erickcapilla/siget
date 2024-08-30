@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const PetitionItem = ({ petition }: Props) => {
-  const { token } = useAuth();
+  const { token, setAcceptedTopics } = useAuth();
   const userName =
   petition.requestedBy.userInformation
       ? `${petition.requestedBy.userInformation.name} ${petition.requestedBy.userInformation.fatherLastName}`
@@ -20,8 +20,11 @@ export const PetitionItem = ({ petition }: Props) => {
   const acceptPetition = () => {
     requestTopicServices
       .acceptPetition(token, petition.id)
-      .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        setAcceptedTopics((topics) => [...topics, data]);
+      })
       .then(() => toast.success("Tema aceptado"))
       .catch((e) => toast.error(e.toStrign()));
   };

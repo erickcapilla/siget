@@ -119,6 +119,7 @@ export const AuthProvider = ({ children }: Props) => {
         user,
         acceptedTopics,
         setRole,
+        setAcceptedTopics,
       }}
     >
       {children}

@@ -1,12 +1,20 @@
 import { DegreesAdmin, GraduationsAdmin } from "@/components/features";
 import { Divider } from "@nextui-org/react";
+import { DegreeResponse, GraduationResponse } from "@/types/admin";
 
-export const AdminSection = () => {
+interface Props {
+  setDegrees: React.Dispatch<React.SetStateAction<DegreeResponse[]>>;
+  degrees: DegreeResponse[];
+  setGraduations: React.Dispatch<React.SetStateAction<GraduationResponse[]>>;
+  graduations: GraduationResponse[];
+}
+
+export const AdminSection = ({setDegrees, degrees, setGraduations, graduations}: Props) => {
   return (
     <section className="grid gap-5">
-      <DegreesAdmin />
+      <DegreesAdmin setDegrees={setDegrees} degrees={degrees} />
       <Divider />
-      <GraduationsAdmin />
+      <GraduationsAdmin setGraduations={setGraduations} graduations={graduations} />
     </section>
   )
 }

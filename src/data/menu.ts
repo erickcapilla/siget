@@ -99,6 +99,14 @@ export const menuItems: MenuItems[] = [
     roles: ["ASESOR_ROLE"],
   },
   {
+    id: "reviews",
+    name: "Temas asignados",
+    path: "/reviews",
+    icon: DocumentListOutline,
+    iconActive: DocumentListSolid,
+    roles: ["REVISOR_ROLE"],
+  },
+  {
     id: "accepteds",
     name: "Temas aceptados",
     path: "/accepteds",

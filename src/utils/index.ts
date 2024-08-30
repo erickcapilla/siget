@@ -18,6 +18,7 @@ export const paths = {
   adviceds: "/adviceds",
   accepteds: "/accepteds",
   viewDocument: "/view-document/",
+  reviews: "/reviews",
 }
 
 export enum ROLES {
@@ -32,14 +33,40 @@ export enum ROLES {
 
 export const formatDate = (dateStr) => {
   const date = new Date(dateStr);
+
   const formattedDate = date.toLocaleDateString("es-MX", {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
   });
+
   const formattedTime = date.toLocaleTimeString("es-MX", {
     hour: "2-digit",
     minute: "2-digit",
   });
+
   return `${formattedDate} - ${formattedTime} hrs`;
 };
+
+export const formatDay = (dateStr) => {
+  const date = new Date(dateStr);
+
+  const formattedDate = date.toLocaleDateString("es-MX", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
+  return `${formattedDate}`;
+}
+
+export const formatTime = (dateStr) => {
+  const date = new Date(dateStr);
+
+  const formattedTime = date.toLocaleTimeString("es-MX", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  return `${formattedTime} hrs`;
+}

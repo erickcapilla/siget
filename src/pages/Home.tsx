@@ -17,9 +17,13 @@ import {
 import { Features } from "@/components/unDraws";
 import { useAuth } from "@/hooks";
 import { ROLES } from "@/utils";
+import { useState } from "react";
+import { DegreeResponse, GraduationResponse } from "@/types/admin";
 
 export const Home = () => {
   const { user, role, acceptedTopics } = useAuth();
+  const [degrees, setDegrees] = useState<DegreeResponse[]>([]);
+  const [graduations, setGraduations] = useState<GraduationResponse[]>([]);
 
   return (
     <LayoutMain>
@@ -86,7 +90,12 @@ export const Home = () => {
             )}
             {role === ROLES.ADMIN && (
               <Panel title="Administar">
-                <AdminSection />
+                <AdminSection
+                  setDegrees={setDegrees}
+                  degrees={degrees}
+                  setGraduations={setGraduations}
+                  graduations={graduations}
+                />
               </Panel>
             )}
             {role === ROLES.SUBJECT_HOLDER && (

@@ -13,7 +13,7 @@ export const NotFoundLayout: React.FC<Props> = ({
     <div className="flex flex-col items-center justify-center gap-2 size-full">
       <h1 className="text-lg font-semibold text-secondary">{title}</h1>
       {children}
-      <p className="text-center mt-4 text-gray-500">{description}</p>
+      <p className="text-center text-gray-500">{description}</p>
     </div>
   );
 };

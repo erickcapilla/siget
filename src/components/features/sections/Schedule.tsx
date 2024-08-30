@@ -1,9 +1,14 @@
-import { ScheduleList, InvitationsList } from "@/components/features/schedule";
+import {
+  ScheduleList,
+  InvitationsList,
+  NotFoundLayout,
+} from "@/components/features";
 import { Spinner } from "@nextui-org/react";
 import { useAuth } from "@/hooks";
 import { useEffect, useState } from "react";
 import { AppointmentResponse } from "@/types/schedule";
 import scheduleServices from "@/services/ScheduleServices";
+import { Schedule } from "@/components/unDraws";
 
 export const ScheduleSection = () => {
   const { token } = useAuth();
@@ -44,7 +49,12 @@ export const ScheduleSection = () => {
         />
       )}
       {!loading && !appointments.length && !invitations.length && (
-        <p>No hay citas</p>
+        <NotFoundLayout
+          title="Sin citas"
+          description="No tienes citas programadas aún"
+        >
+          <Schedule className="size-32" />
+        </NotFoundLayout>
       )}
     </div>
   );

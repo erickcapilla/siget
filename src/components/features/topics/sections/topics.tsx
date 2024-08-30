@@ -27,7 +27,7 @@ export const AllTopics = ({ setIsLoading }: Props) => {
       {topics.length > 0 ? (
         <TopicsList topics={topics} isUser={false} />
       ) : (
-        <p>No hay temas</p>
+        <p>No hay temas disponibles</p>
       )}
     </div>
   )

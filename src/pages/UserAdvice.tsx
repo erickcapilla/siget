@@ -1,10 +1,16 @@
 import { DoublePanelLayout } from "@/layouts";
-import { AdviceForm, AdviceList } from "@/components/features";
+import {
+  AdviceForm,
+  AdviceList,
+  Panel,
+  NotFoundLayout,
+} from "@/components/features";
 import advisoryServices from "@/services/AdvisoryServices";
 import { useAuth } from "@/hooks";
 import { useEffect, useState } from "react";
 import { AdvisoryResponse } from "@/types/advisory";
 import { Spinner } from "@nextui-org/react";
+import { SelectTopic } from "@/components/unDraws";
 
 export const UserAdvice = () => {
   const { token, acceptedTopics } = useAuth();
@@ -26,23 +32,42 @@ export const UserAdvice = () => {
   }, []);
 
   return (
-    <DoublePanelLayout
-      title="Asesorías"
-      titleLeft="Agregar asesoría"
-      subtitleLeft="Presiona para agregar una nueva asesoría"
-      contentLeft={
-        <AdviceForm setAdvisories={setAdvisories} id={acceptedTopics[0]?.id} />
-      }
-    >
-      <>
-        {loading ? (
-          <Spinner />
-        ) : advisories.length > 0 ? (
-          <AdviceList advisories={advisories} setAdvisories={setAdvisories} />
-        ) : (
-          <p>No hay asesorías</p>
-        )}
-      </>
-    </DoublePanelLayout>
+    <>
+      {acceptedTopics.length > 0 ? (
+        <DoublePanelLayout
+          title="Asesorías"
+          titleLeft="Agregar asesoría"
+          subtitleLeft="Presiona para agregar una nueva asesoría"
+          contentLeft={
+            <AdviceForm
+              setAdvisories={setAdvisories}
+              id={acceptedTopics[0]?.id}
+            />
+          }
+        >
+          <>
+            {loading ? (
+              <Spinner />
+            ) : advisories.length > 0 ? (
+              <AdviceList
+                advisories={advisories}
+                setAdvisories={setAdvisories}
+              />
+            ) : (
+              <p>No hay asesorías</p>
+            )}
+          </>
+        </DoublePanelLayout>
+      ) : (
+        <Panel title="">
+          <NotFoundLayout
+            title="Selecciona un tema"
+            description="Selecciona un tema para poder ver tus asesorías"
+          >
+            <SelectTopic />
+          </NotFoundLayout>
+        </Panel>
+      )}
+    </>
   );
 };

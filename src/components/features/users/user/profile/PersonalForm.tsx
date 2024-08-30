@@ -6,15 +6,15 @@ import { Information } from "@/types";
 import toast from "react-hot-toast";
 
 export const PersonalForm = () => {
-  const { token, user } = useAuth();
+  const { token, user, setUser } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const [values, setValues] = useState<Information>({
-    name: user?.userInformation.name,
-    fatherLastName: user?.userInformation.fatherLastName,
-    motherLastName: user?.userInformation.motherLastName,
-    address: user?.userInformation.address,
-    phoneNumber: user?.userInformation.phoneNumber,
+    name: user?.userInformation?.name,
+    fatherLastName: user?.userInformation?.fatherLastName,
+    motherLastName: user?.userInformation?.motherLastName,
+    address: user?.userInformation?.address,
+    phoneNumber: user?.userInformation?.phoneNumber,
   });
 
   const handleChange = (
@@ -30,8 +30,11 @@ export const PersonalForm = () => {
     setLoading(true);
     if (user?.userInformation) {
       try {
-        await userServices.updateInformation(token, values);
+        const res = await userServices.updateInformation(token, values);
+        const data = await res.json();
 
+        console.log(data);
+        setUser({ ...user, userInformation: data });
         toast.success("Información actualizada");
       } catch (error) {
         console.error(error);
@@ -41,8 +44,11 @@ export const PersonalForm = () => {
       }
     } else {
       try {
-        await userServices.setInformation(token, values);
+        const res = await userServices.setInformation(token, values);
+        const data = await res.json();
 
+        console.log(data);
+        setUser({ ...user, userInformation: data });
         toast.success("Información agregada");
       } catch (error) {
         console.error(error);

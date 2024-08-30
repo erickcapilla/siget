@@ -28,7 +28,7 @@ export const UserPetitions = ({ setIsLoading }: Props) => {
       {petitions.length > 0 ? (
         <PetitionsList petitions={petitions} />
       ) : (
-        <p>No hay temas</p>
+        <p>No has recibido solicitudes</p>
       )}
     </div>
   )

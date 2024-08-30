@@ -13,6 +13,7 @@ export type AuthType = {
   acceptedTopics: AcceptedTopic[];
   setRole: React.Dispatch<React.SetStateAction<string>>;
   setAcceptedTopics: React.Dispatch<React.SetStateAction<AcceptedTopic[]>>;
+  setUser: React.Dispatch<React.SetStateAction<LoginResponse>>;
 };
 
 export type customJwtPayload = JwtPayload & { id: string };

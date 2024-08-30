@@ -72,7 +72,7 @@ export const ReviewerTopicsTable = ({ reviews }: Props) => {
             </TableCell>
             <TableCell className="px-2 py-2">
               <Chip size="sm" variant="flat" color="success" radius="sm">
-                {optionNames[review.topic.graduationOpton.name]}
+                {optionNames[review.topic.graduationOption.name]}
               </Chip>
             </TableCell>
             <TableCell className="px-2 py-2 flex gap-3">

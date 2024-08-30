@@ -1,12 +1,17 @@
+import type { ReviewerResponse } from "@/types/reviewer";
 import type { DocumentResponse } from "@/types/topic";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks";
 import documentServices from "@/services/DocumentServices";
-import { ProgressDocumentBar, ReviewerItem } from "@/components/features";
+import {
+  ProgressDocumentBar,
+  ReviewerItem,
+  NotFoundLayout,
+} from "@/components/features";
 import { Spinner, Chip, Avatar } from "@nextui-org/react";
 import { optionNames } from "@/utils/utils";
 import reviewerService from "@/services/ReviewerServices";
-import type { ReviewerResponse } from "@/types/reviewer";
+import { AddDocument } from "@/components/unDraws";
 
 export const DocumentProgressSection = () => {
   const [loading, setLoading] = useState(false);
@@ -98,7 +103,12 @@ export const DocumentProgressSection = () => {
           </div>
         </div>
       ) : (
-        <p> No tienes tema asignado </p>
+        <NotFoundLayout
+          title="Sin documento"
+          description="Agrega tu documento"
+        >
+          <AddDocument />
+        </NotFoundLayout>
       )}
     </>
   );

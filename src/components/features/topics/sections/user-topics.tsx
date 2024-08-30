@@ -28,7 +28,7 @@ export const UserTopics = ({ setIsLoading, setUserTopics, userTopics }: Props) =
       {userTopics.length > 0 ? (
         <TopicsList topics={userTopics} isUser setUserTopics={setUserTopics} />
       ) : (
-        <p>No tines temas</p>
+        <p>No tienes temas publicados</p>
       )}
     </div>
   )

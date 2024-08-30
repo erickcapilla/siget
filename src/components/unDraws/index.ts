@@ -1,1 +1,6 @@
 export * from "./Features"
+export * from "./PersonalInformation"
+export * from "./Schedule"
+export * from "./AddDocument"
+export * from "./SelectTopic"
+export * from "./Accepted"

@@ -57,6 +57,7 @@ export const AuthProvider = ({ children }: Props) => {
     setIsAuthenticated(false);
     setToken("");
     setRole("");
+    setAcceptedTopics([]);
     localStorage.removeItem("siget-token");
     localStorage.removeItem("siget-role");
     navigate(paths.login);

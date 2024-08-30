@@ -29,7 +29,7 @@ export const ScheduleSection = () => {
   }, []);
 
   return (
-    <div className="size-full grid gap-2">
+    <div className="w-full grid gap-2">
       {loading && <Spinner />}
       {!loading && appointments.length > 0 && (
         <ScheduleList

@@ -30,7 +30,7 @@ export const AddUserForm = ({ setUsers }: Props) => {
     console.log({ ...user, password })
 
     try {
-      const res = await authService.register(user);
+      const res = await authService.register(token, user);
       const data = await res.json();
       
       setUsers((prev) => [data, ...prev]);

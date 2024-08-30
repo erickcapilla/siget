@@ -26,10 +26,11 @@ class AuthService {
     throw new Error(error.message);
   }
 
-  async register(user: User) {
+  async register(token: string, user: User) {
     const response = await fetch(this.API_URL_REGISTER, {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),

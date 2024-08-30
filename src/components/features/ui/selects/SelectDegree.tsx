@@ -2,7 +2,7 @@ import { Select, SelectItem, Chip, SelectedItems } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Degree } from "@/types/user";
 import degreeServices from "@/services/DegreeServices";
-
+import { useAuth } from "@/hooks";
 
 interface Props {
   onChange?: (e?: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -11,9 +11,10 @@ interface Props {
 export const SelectDegree = ({ onChange }: Props) => {
   const [data, setData] = useState<Degree[]>([]);
   const [degrees, setDegrees] = useState<Degree[]>([]);
+  const { token } = useAuth();
 
   useEffect(() => {
-    degreeServices.getDegrees()
+    degreeServices.getDegrees(token)
       .then((response) => response.json())
       .then((data) => setData(data))
       .then(() => {

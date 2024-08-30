@@ -10,9 +10,10 @@ import { useAuth } from "@hooks/useAuth";
 
 interface Props {
   handleOpenPanel?: (type?: string) => void;
+  isOpen: boolean;
 }
 
-export const Header = ({ handleOpenPanel }: Props) => {
+export const Header = ({ handleOpenPanel, isOpen }: Props) => {
   const { isAuthenticated } = useAuth();
 
   return (
@@ -26,7 +27,7 @@ export const Header = ({ handleOpenPanel }: Props) => {
         />
       </Link>
       {isAuthenticated ? (
-        <ActionBar handleOpenPanel={handleOpenPanel} />
+        <ActionBar handleOpenPanel={handleOpenPanel} isOpen={isOpen} />
       ) : (
         <picture className={styles.headerPicture}>
           <img

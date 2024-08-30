@@ -3,6 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import degreeServices from "@/services/DegreeServices";
 import { DegreeResponse } from "@/types/admin";
+import { useAuth } from "@/hooks";
 
 interface Props {
   setDegrees: React.Dispatch<React.SetStateAction<DegreeResponse[]>>;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export const EditDegreeForm = ({ degree, setDegrees, setIsEditing }: Props) => {
+  const { token } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [newName, setName] = useState(
     degree.name.charAt(0).toUpperCase() +
@@ -21,7 +23,7 @@ export const EditDegreeForm = ({ degree, setDegrees, setIsEditing }: Props) => {
     e.preventDefault();
     setIsLoading(true);
     degreeServices
-      .updateDegree(degree.id, newName)
+      .updateDegree(token, degree.id, newName)
       .then(() => {
         setName("");
         toast.success("Programa educativo editado correctamente.");

@@ -3,6 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import degreeServices from "@/services/DegreeServices";
 import { DegreeResponse } from "@/types/admin";
+import { useAuth } from "@/hooks";
 
 interface Props {
   setDegrees: React.Dispatch<React.SetStateAction<DegreeResponse[]>>;
@@ -11,12 +12,13 @@ interface Props {
 export const DegreeForm = ({setDegrees}: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
+  const { token } = useAuth();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     degreeServices
-      .saveDegree(name)
+      .saveDegree(token, name)
       .then((res) => res.json())
       .then((data) => setDegrees((prev) => [...prev, data]))
       .then(() => {

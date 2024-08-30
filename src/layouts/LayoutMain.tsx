@@ -27,7 +27,7 @@ export const LayoutMain = ({ children }: Props) => {
 
   return (
     <>
-      <Header handleOpenPanel={handleOpenPanel} />
+      <Header handleOpenPanel={handleOpenPanel} isOpen={isOpen} />
       <div className="absolute flex w-full">
         <main className={`${screenSize && isOpen && "hidden"}`}>
           {children}

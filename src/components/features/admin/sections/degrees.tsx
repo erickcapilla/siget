@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { DegreeResponse } from "@/types/admin";
 import degreeServices from "@/services/DegreeServices";
 import toast from "react-hot-toast";
+import { useAuth } from "@/hooks";
 
 interface Props {
   setDegrees: React.Dispatch<React.SetStateAction<DegreeResponse[]>>;
@@ -14,11 +15,12 @@ export const DegreesAdmin = ({setDegrees, degrees}: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [degree, setDegree] = useState<DegreeResponse>({} as DegreeResponse);
+  const { token } = useAuth();
 
   useEffect(() => {
     setIsLoading(true);
     degreeServices
-      .getDegrees()
+      .getDegrees(token)
       .then((res) => res.json())
       .then((data) => setDegrees(data))
       .catch((error) => toast.error(error.toString()))

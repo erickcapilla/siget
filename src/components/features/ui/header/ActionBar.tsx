@@ -8,15 +8,16 @@ import {
   AvatarIcon,
   Spinner,
 } from "@nextui-org/react";
-import { MenuIcon } from "@/components/icons";
+import { MenuIcon, XMark } from "@/components/icons";
 import { useAuth } from "@/hooks";
 import { roleNames, roleColors } from "@/utils/utils";
 
 interface Props {
   handleOpenPanel: (type?: string) => void;
+  isOpen: boolean;
 }
 
-export const ActionBar = ({ handleOpenPanel }: Props) => {
+export const ActionBar = ({ handleOpenPanel, isOpen }: Props) => {
   const { role, user, loading } = useAuth();
 
   const name = user.userInformation
@@ -57,7 +58,7 @@ export const ActionBar = ({ handleOpenPanel }: Props) => {
                 }}
               />
             </NavbarItem>
-            <Tooltip content="Menú">
+            <Tooltip content={isOpen ? "Cerrar menú" : "Abrir menú"}>
               <NavbarItem>
                 <Button
                   radius="full"
@@ -65,7 +66,7 @@ export const ActionBar = ({ handleOpenPanel }: Props) => {
                   className="bg-transparent p-0 w-auto h-auto"
                   onPress={() => handleOpenPanel("menu")}
                 >
-                  <MenuIcon size={25} />
+                  {isOpen ? <XMark color="#FFF" /> : <MenuIcon size={25} />}
                 </Button>
               </NavbarItem>
             </Tooltip>

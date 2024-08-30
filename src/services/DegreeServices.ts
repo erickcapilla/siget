@@ -1,10 +1,11 @@
 class DegreeServices {
   API_URL_DEGREE = `${import.meta.env.VITE_API_URL}/degree-programs`;
 
-  async getDegrees() {
+  async getDegrees(token: string) {
     const response = await fetch(this.API_URL_DEGREE, {
       method: "GET",
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -18,10 +19,11 @@ class DegreeServices {
     throw new Error(error.message);
   }
 
-  async saveDegree(name: string) {
+  async saveDegree(token: string, name: string) {
     const response = await fetch(this.API_URL_DEGREE, {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ name }),
@@ -36,10 +38,11 @@ class DegreeServices {
     throw new Error(error.message);
   }
 
-  async updateDegree(id: string, name: string) {
+  async updateDegree(token: string, id: string, name: string) {
     const response = await fetch(`${this.API_URL_DEGREE}/${id}`, {
       method: "PATCH",
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ name }),
@@ -54,10 +57,11 @@ class DegreeServices {
     throw new Error(error.message);
   }
 
-  async deleteDegree(id: string) {
+  async deleteDegree(token: string, id: string) {
     const response = await fetch(`${this.API_URL_DEGREE}/${id}`, {
       method: "DELETE",
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });

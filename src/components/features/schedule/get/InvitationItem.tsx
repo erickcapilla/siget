@@ -10,7 +10,7 @@ import scheduleServices from "@/services/ScheduleServices";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { formatDay, formatTime } from "@/utils";
+import { formatDay } from "@/utils";
 
 interface Props {
   setUsersAppointments: React.Dispatch<
@@ -78,7 +78,7 @@ export const InvitationItem = ({
               <CalendarIcon size={sizeIcon} /> {formatDay(appointment.date)}
             </div>
             <div className="flex items-center gap-1">
-              <ClockIcon size={sizeIcon} /> {formatTime(appointment.time)}
+              <ClockIcon size={sizeIcon} /> {appointment.time}
             </div>
             <div>
               <Chip

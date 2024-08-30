@@ -3,6 +3,7 @@ import { DegreeResponse } from "@/types/admin";
 import degreeServices from "@/services/DegreeServices";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useAuth } from "@/hooks";
 
 interface Props {
   setDegrees: React.Dispatch<React.SetStateAction<DegreeResponse[]>>;
@@ -13,6 +14,7 @@ interface Props {
 
 export const DegreeItem = ({ setDegrees, setDegree, setIsEditing, degree }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { token } = useAuth();
   const name =
     degree.name.charAt(0).toUpperCase() +
     degree.name.slice(1).replace(/-/g, " ");
@@ -20,7 +22,7 @@ export const DegreeItem = ({ setDegrees, setDegree, setIsEditing, degree }: Prop
   const deleteDegree = () => {
     setIsLoading(true);
     degreeServices
-      .deleteDegree(degree.id)
+      .deleteDegree(token, degree.id)
       .then(() => {
         setDegrees((prev) => prev.filter((item) => item.id !== degree.id));
         toast.success("Programa educativo eliminado correctamente");

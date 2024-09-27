@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import topicServices from "@/services/TopicServices";
 import { AcceptedTopic } from "@/types/topic";
 import { useAuth } from "@/hooks";
-import { AllTopicsTable, Panel } from "@/components/features";
+import { FinishedTopicsTable, Panel } from "@/components/features";
 import { Spinner, Chip } from "@nextui-org/react";
 import { LayoutMain } from "@/layouts";
 import degreeServices from "@/services/DegreeServices";
@@ -20,7 +20,7 @@ export const FinishedTopics = () => {
     topicServices
       .getFinishedTopics(token, [degree])
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => setTopics(data))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   };
@@ -63,7 +63,7 @@ export const FinishedTopics = () => {
         {loading ? (
           <Spinner />
         ) : topics.length > 0 ? (
-          <AllTopicsTable topics={topics} />
+          <FinishedTopicsTable topics={topics} />
         ) : (
           <p>No hay temas finalizados</p>
         )}

@@ -4,31 +4,13 @@ import {
   Select,
   SelectItem,
   Chip,
-  Button,
 } from "@nextui-org/react";
 import { roleNames } from "@/utils/utils";
 import { useAuth } from "@/hooks";
-import { CardInfo } from "@/components/features";
-import { useState } from "react";
-import sendEmailForgotPassword from "@/services/AuthServices";
-import toast from "react-hot-toast";
+import { CardInfo, ModalChangePassword } from "@/components/features";
 
 export const Details = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const { user, token } = useAuth();
-
-  const sendEmail = async () => {
-    try {
-      setIsLoading(true);
-      await sendEmailForgotPassword.sendEmailForgotPassword(token, user.user.email);
-      toast.success("Código envíado. Revisa tu correo electrónico.");
-    } catch (error) {
-      toast.error(error.toString());
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { user } = useAuth();
 
   return (
     <article className="flex flex-col items-center justify-between gap-10 size-full">
@@ -92,50 +74,13 @@ export const Details = () => {
           </div>
         </section>
       )}
-      <section className="grid gap-2">
+      <section className="grid gap-2 w-full">
         <CardInfo
           title="¿Eres nuevo?"
-          description="Te recomendamos cambiar tu contraseña. Presiona el botón, revisa tu correo, sigue las intrucciones que se indican."
+          description="Te recomendamos cambiar tu contraseña."
           color="danger"
         />
-        <Button
-          className="w-full"
-          color="danger"
-          radius="sm"
-          variant="flat"
-          onPress={() => {
-            toast((t) => (
-              <span>
-                ¿Estás seguro de cambiar tu contraseña?
-                <Button
-                  className="m-2"
-                  color="danger"
-                  size="sm"
-                  variant="flat"
-                  onPress={() => {
-                    sendEmail();
-                    toast.dismiss(t.id);
-                  }}
-                >
-                  Cambiar
-                </Button>
-                <Button
-                  className="m-2"
-                  size="sm"
-                  variant="flat"
-                  onPress={() => {
-                    toast.dismiss(t.id);
-                  }}
-                >
-                  Cancelar
-                </Button>
-              </span>
-            ));
-          }}
-          isLoading={isLoading}
-        >
-          Cambiar contraseña
-        </Button>
+        <ModalChangePassword />
       </section>
     </article>
   );

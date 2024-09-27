@@ -34,7 +34,7 @@ export const Topics = () => {
               title="¡Felicidades!"
               description="Ya tienes un tema aceptado. Visita la sección de asesorías y documento."
             >
-              <Accepted />
+              <Accepted className="w-full" />
             </NotFoundLayout>
           </Panel>
         </LayoutMain>

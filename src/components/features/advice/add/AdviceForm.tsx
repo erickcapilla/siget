@@ -1,4 +1,6 @@
-import { Input, Button, DateInput, Textarea } from "@nextui-org/react";
+import { Input, Button, DatePicker, Textarea } from "@nextui-org/react";
+import { now, parseAbsoluteToLocal } from "@internationalized/date";
+import { I18nProvider } from "@react-aria/i18n";
 import { AdvisoryData, AdvisoryResponse } from "@/types/advisory";
 import { useState } from "react";
 import advisoryServices from "@/services/AdvisoryServices";
@@ -70,17 +72,26 @@ export const AdviceForm = ({ setAdvisories, id }: Props) => {
           value={advisory.observations}
           onChange={handleChange}
         />
-        <DateInput
-          name="date"
-          isRequired
-          label="Fecha de revisión"
-          color="primary"
-          variant="bordered"
-          radius="sm"
-          onChange={(e) => {
-            setAdvisory({ ...advisory, date: `${e.month}/${e.day}/${e.year}` });
-          }}
-        />
+        <I18nProvider locale="es-MX">
+          <DatePicker
+            showMonthAndYearPickers
+            name="date"
+            label="Fecha de la cita"
+            variant="bordered"
+            color="primary"
+            minValue={parseAbsoluteToLocal(
+              now("UTC").toDate().toISOString()
+            ).subtract({ months: 6 })}
+            maxValue={parseAbsoluteToLocal(
+              now("UTC").toDate().toISOString()
+            ).add({ months: 6 })}
+            radius="sm"
+            isRequired
+            onChange={(e) => {
+              setAdvisory({ ...advisory, date: `${e.month}/${e.day}/${e.year}` });
+            }}
+          />
+        </I18nProvider>
       </div>
       <div>
         <Button

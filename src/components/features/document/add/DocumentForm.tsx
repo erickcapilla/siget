@@ -16,9 +16,10 @@ registerPlugin(FilePondPluginFileValidateType);
 interface Props {
   setDocument: React.Dispatch<React.SetStateAction<DocumentResponse[]>>;
   id: string;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const DocumentForm = ({ id, setDocument }: Props) => {
+export const DocumentForm = ({ id, setDocument, setLoading }: Props) => {
 
   const [files, setFiles] = useState([]);
   const { token } = useAuth();
@@ -40,6 +41,8 @@ export const DocumentForm = ({ id, setDocument }: Props) => {
               Authorization: `Bearer ${token}`,
             },
             ondata: (formData) => {
+              setLoading(true);
+
               formData.delete("files");
               formData.delete("file");
               
@@ -57,7 +60,9 @@ export const DocumentForm = ({ id, setDocument }: Props) => {
               } catch (error) {
                 console.error("Error parsing JSON response:", error);
                 return null;
-              } // or return 0;
+              } finally {
+                setLoading(false);
+              }
             },
           },
         }}

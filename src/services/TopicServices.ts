@@ -8,6 +8,12 @@ class TopicServices {
   API_URL_ALL_ACCEPTED_TOPIC = `${
     import.meta.env.VITE_API_URL
   }/accepted-topics/get-by-degree-program`;
+  API_URL_FINISH_TOPIC = `${
+    import.meta.env.VITE_API_URL
+  }/accepted-topics/finish-topic`;
+  API_URL_FINISED_TOPICS = `${
+    import.meta.env.VITE_API_URL
+  }/finished-topics/get-by-degree-program`;
 
   async saveTopic(token: string, topic: Topic) {
     const response = await fetch(this.API_URL_TOPIC, {
@@ -107,7 +113,7 @@ class TopicServices {
     const response = await fetch(`${this.API_URL_ACCEPTED_TOPIC}/${id}`, {
       method: "PATCH",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -130,7 +136,7 @@ class TopicServices {
     const response = await fetch(this.API_URL_ALL_ACCEPTED_TOPIC, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ degree }),
@@ -151,6 +157,42 @@ class TopicServices {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    });
+
+    if (response.ok) {
+      return response;
+    }
+
+    const error = await response.json();
+
+    throw new Error(error.message);
+  }
+
+  async finishAcceptedTopic(token: string, id: string) {
+    const response = await fetch(`${this.API_URL_FINISH_TOPIC}/${id}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      return response;
+    }
+
+    const error = await response.json();
+
+    throw new Error(error.message);
+  }
+
+  async getFinishedTopics(token: string, degree: string[]) {
+    const response = await fetch(this.API_URL_FINISED_TOPICS, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ degree }),
     });
 
     if (response.ok) {

@@ -20,6 +20,7 @@ import {
   AcceptedTopics,
   ViewDocument,
   Reviews,
+  FinishedTopics,
 } from "@/pages";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { useAuth } from "@/hooks";
@@ -93,6 +94,7 @@ export const AppRoutes = () => {
         <Route path={paths.adviceds} element={<Adviceds />} />
         <Route path={paths.accepteds} element={<AcceptedTopics />} />
         <Route path={paths.reviews} element={<Reviews />} />
+        <Route path={paths.finished} element={<FinishedTopics />} />
       </Route>
     </Routes>
   );

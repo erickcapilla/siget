@@ -4,31 +4,66 @@ import {
   DocumentViewer,
   CommentList,
   EditDocumentForm,
-  EditAcceptedTopic,
+  ModalOptionsTopic,
 } from "@/components/features";
 import { useAuth } from "@/hooks";
 import { useEffect, useState } from "react";
 import documentCommentsServices from "@/services/DocumentCommentsServices";
 import documentServices from "@/services/DocumentServices";
-import { CommentResponse, DocumentResponse, TopicResponse } from "@/types/topic";
-import { Spinner, Button, Chip } from "@nextui-org/react";
-import { formatDate } from "@/utils"
+import topicServices from "@/services/TopicServices";
+import { CommentResponse, DocumentResponse } from "@/types/topic";
+import { UserTopicResponse } from "@/types/user";
+import { Spinner, Chip, Button } from "@nextui-org/react";
+import { formatDate } from "@/utils";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { paths } from "@/utils";
 
 export const UserDocument = () => {
-  const { token, acceptedTopics } = useAuth();
+  const { token, acceptedTopics, setAcceptedTopics } = useAuth();
   const [comments, setComments] = useState<CommentResponse[]>([]);
   const [document, setDocument] = useState<DocumentResponse[]>([]);
+  const [users, setUsers] = useState<UserTopicResponse[]>([]);
   const [loading, setLoading] = useState(true);
+  const [finishLoading, setFinishLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const getComments = (documentID: string) => {
+  const getCommentsByUser = (userID: string) => {
     documentCommentsServices
-      .getComments(token, documentID)
+      .getCommentsByUser(token, document[0]?.id, userID)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setComments(data.result);
       })
       .catch((error) => console.error(error));
+  };
+
+  const getUsersThatComment = (documentID: string) => {
+    documentCommentsServices
+      .getUsersThatComment(token, documentID)
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+
+        if (data.length > 0) {
+          getCommentsByUser(data[0].id);
+        }
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const finalizeDocument = () => {
+    setFinishLoading(true);
+
+    topicServices
+      .finishAcceptedTopic(token, acceptedTopics[0].id)
+      .then(() => setAcceptedTopics([]))
+      .then(() => {
+        toast.success("Documento finalizado");
+        navigate(paths.home);
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setFinishLoading(false));
   };
 
   useEffect(() => {
@@ -37,10 +72,9 @@ export const UserDocument = () => {
       .then((res) => res.json())
       .then((data) => {
         setDocument(data);
-        console.log(data);
 
         if (data.length > 0) {
-          getComments(data[0].id);
+          getUsersThatComment(data[0].id);
         }
       })
       .catch((error) => console.error(error))
@@ -52,6 +86,23 @@ export const UserDocument = () => {
       title="Documento"
       contentLeft={
         <div className="size-full flex flex-col justify-between">
+          <div className="mb-2 flex items-center">
+            <div className="w-full flex gap-2 overflow-auto pb-2">
+              {users.map((user) => (
+                <Chip
+                  key={user.id}
+                  className="cursor-pointer"
+                  onClick={() => {getCommentsByUser(user.id)}}
+                  color="primary"
+                  size="sm"
+                  variant="flat"
+                >
+                  {user.name + " " + user.fatherLastName}
+                </Chip>
+              ))}
+            </div>
+            <ModalOptionsTopic />
+          </div>
           <div className="h-full overflow-y-auto pr-2 flex flex-col gap-2">
             {document && comments.length > 0 ? (
               <CommentList comments={comments} setComments={setComments} />
@@ -67,24 +118,58 @@ export const UserDocument = () => {
                 : "Agrega tu documento"}{" "}
             </h3>
             {document.length > 0 ? (
-              <EditDocumentForm id={document[0]?.id} setDocument={setDocument} />
+              <EditDocumentForm
+                id={document[0]?.id}
+                setDocument={setDocument}
+                setLoading={setLoading}
+              />
             ) : (
-              <DocumentForm id={acceptedTopics[0].id} setDocument={setDocument} />
+              <DocumentForm
+                id={acceptedTopics[0].id}
+                setDocument={setDocument}
+                setLoading={setLoading}
+              />
             )}
-            <Button
-              className="w-full"
-              radius="sm"
-              color="danger"
-              variant="flat"
-            >
-              Abandonar tema
-            </Button>
-            <EditAcceptedTopic classButton="w-full" topicData={{
-              id: acceptedTopics[0].id,
-              title: acceptedTopics[0].title,
-              description: acceptedTopics[0].description,
-              graduationOption: acceptedTopics[0].graduationOption,
-            } as TopicResponse }  />
+            {document[0]?.chapters === 100 && (
+              <Button
+                className="w-full"
+                radius="sm"
+                color="success"
+                isLoading={finishLoading}
+                variant="flat"
+                onPress={() => {
+                  toast((t) => (
+                    <span>
+                      ¿Estás seguro de Finalizar el Documento?
+                      <Button
+                        className="m-2"
+                        color="success"
+                        size="sm"
+                        variant="flat"
+                        onPress={() => {
+                          finalizeDocument();
+                          toast.dismiss(t.id);
+                        }}
+                      >
+                        Finalizar
+                      </Button>
+                      <Button
+                        className="m-2"
+                        size="sm"
+                        variant="flat"
+                        onPress={() => {
+                          toast.dismiss(t.id);
+                        }}
+                      >
+                        Cancelar
+                      </Button>
+                    </span>
+                  ));
+                }}
+              >
+                Finalizar documento
+              </Button>
+            )}
           </div>
         </div>
       }

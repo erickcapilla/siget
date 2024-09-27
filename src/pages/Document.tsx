@@ -1,6 +1,6 @@
 import type { DocumentResponse, CommentResponse } from "@/types/topic";
 import { DoublePanelLayout } from "@/layouts";
-import { Button, Chip } from "@nextui-org/react";
+import { Button, Chip, Spinner } from "@nextui-org/react";
 import {
   DocumentViewer,
   CommentList,
@@ -20,20 +20,43 @@ export const Document = () => {
   const { id } = useParams();
   const [comments, setComments] = useState<CommentResponse[]>([]);
   const [document, setDocument] = useState<DocumentResponse>();
+  const [loading, setLoading] = useState(false);
   const topic = acceptedTopics.filter((topic) => topic.id === id);
 
+  const getDocument = () => {
+    documentServices
+      .getStudentDocument(token, id)
+      .then((res) => res.json())
+      .then((data) => {
+        setDocument(data);
+        getComments(data.id);
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const approveDocument = () => {
+    documentServices
+      .updateChapter(token, 100, document.id)
+      .then(() =>
+        toast.success("Documento aprobado")
+      )
+      .catch((error) => console.error(error))
+      .finally(() => {
+        setLoading(false);
+        getDocument();
+      });
+  };
+
   const updateChapter = () => {
+    setLoading(true);
+
     const chapter =
       chapters[topic[0].graduationOption.name].reverse[document?.chapters];
     const newChapter =
       chapters[topic[0].graduationOption.name].percent[chapter + 1];
-    documentServices
 
+    documentServices
       .updateChapter(token, parseInt(newChapter), document.id)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      })
       .then(() =>
         toast.success(
           `Capítulo ${
@@ -43,23 +66,29 @@ export const Document = () => {
           } aprobado`
         )
       )
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
+      .finally(() => {
+        setLoading(false);
+        getDocument();
+      });
   };
 
   const backChapter = () => {
+    setLoading(true);
+
     const chapter =
       chapters[topic[0].graduationOption.name].reverse[document?.chapters];
     const newChapter =
       chapters[topic[0].graduationOption.name].percent[chapter - 1];
-    documentServices
 
+    documentServices
       .updateChapter(token, parseInt(newChapter), document.id)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      })
       .then(() => toast.success("Capítulo regresado"))
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
+      .finally(() => {
+        setLoading(false);
+        getDocument();
+      });
   };
 
   const getComments = (DocumentID: string) => {
@@ -74,15 +103,7 @@ export const Document = () => {
   };
 
   useEffect(() => {
-    documentServices
-      .getStudentDocument(token, id)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setDocument(data);
-        getComments(data.id);
-      })
-      .catch((error) => console.error(error));
+    getDocument();
   }, []);
 
   return (
@@ -97,9 +118,11 @@ export const Document = () => {
           ) : (
             <p>No hay comentarios</p>
           )}
-          {role === ROLES.ADVISOR && (
-            <div className="w-full grid gap-2">
+          <div className="w-full grid gap-2">
+            {(role === ROLES.ADVISOR || role === ROLES.REVIEWER) && (
               <CommentForm id={document?.id} setComments={setComments} />
+            )}
+            {!loading && role === ROLES.ADVISOR ? (
               <div className="max-w-full flex gap-2">
                 {document?.chapters > 0 && (
                   <Button
@@ -140,7 +163,46 @@ export const Document = () => {
                     Regresar
                   </Button>
                 )}
-                {document?.chapters < 100 && (
+                {document?.chapters === 99 && (
+                  <Button
+                    className="w-full"
+                    radius="sm"
+                    color="success"
+                    variant="flat"
+                    onPress={() => {
+                      toast((t) => (
+                        <span>
+                          ¿Estás seguro de APROBAR este documento?
+                          <Button
+                            className="m-2"
+                            color="success"
+                            size="sm"
+                            variant="flat"
+                            onPress={() => {
+                              approveDocument();
+                              toast.dismiss(t.id);
+                            }}
+                          >
+                            Aprobar
+                          </Button>
+                          <Button
+                            className="m-2"
+                            size="sm"
+                            variant="flat"
+                            onPress={() => {
+                              toast.dismiss(t.id);
+                            }}
+                          >
+                            Cancelar
+                          </Button>
+                        </span>
+                      ));
+                    }}
+                  >
+                    Aprobar documento
+                  </Button>
+                )}
+                {document?.chapters < 99 && (
                   <Button
                     className="w-full"
                     radius="sm"
@@ -183,8 +245,10 @@ export const Document = () => {
                   </Button>
                 )}
               </div>
-            </div>
-          )}
+            ) : (
+              <Spinner />
+            )}
+          </div>
         </div>
       }
       subtitleLeft="Presiona para ver comentarios o agregar nueva versión"

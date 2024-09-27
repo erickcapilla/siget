@@ -9,7 +9,7 @@ export const chapters = {
       4: 52,
       5: 67,
       6: 84,
-      7: 100,
+      7: 99,
     },
     reverse: {
       0: 0,
@@ -19,7 +19,7 @@ export const chapters = {
       52: 4,
       67: 5,
       84: 6,
-      100: 7,
+      99: 7,
     },
   },
   thesis: {
@@ -32,7 +32,7 @@ export const chapters = {
       4: 52,
       5: 67,
       6: 84,
-      7: 100,
+      7: 99,
     },
     reverse: {
       0: 0,
@@ -42,7 +42,7 @@ export const chapters = {
       52: 4,
       67: 5,
       84: 6,
-      100: 7,
+      99: 7,
     },
   },
   memoirs: {
@@ -54,7 +54,7 @@ export const chapters = {
       3: 40,
       4: 62,
       5: 80,
-      6: 100,
+      6: 99,
     },
     reverse: {
       0: 0,
@@ -63,7 +63,7 @@ export const chapters = {
       40: 3,
       62: 4,
       80: 5,
-      100: 6,
+      99: 6,
     },
   },
 };

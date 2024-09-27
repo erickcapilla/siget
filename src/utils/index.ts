@@ -19,6 +19,7 @@ export const paths = {
   accepteds: "/accepteds",
   viewDocument: "/view-document/",
   reviews: "/reviews",
+  finished: "/finished",
 }
 
 export enum ROLES {

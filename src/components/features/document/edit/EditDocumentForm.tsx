@@ -16,9 +16,10 @@ registerPlugin(FilePondPluginFileValidateType);
 interface Props {
   id: string;
   setDocument: React.Dispatch<React.SetStateAction<DocumentResponse[]>>;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const EditDocumentForm = ({ id, setDocument }: Props) => {
+export const EditDocumentForm = ({ id, setDocument, setLoading }: Props) => {
   const [files, setFiles] = useState([]);
   const { token } = useAuth();
 
@@ -32,7 +33,7 @@ export const EditDocumentForm = ({ id, setDocument }: Props) => {
         instantUpload={false}
         server={{
           process: {
-            method: "PATCH",
+            method: "PUT",
             url: `${
               import.meta.env.VITE_API_URL
             }/files/update-topic?topic-document=${id}`,
@@ -40,6 +41,8 @@ export const EditDocumentForm = ({ id, setDocument }: Props) => {
               Authorization: `Bearer ${token}`,
             },
             ondata: (formData) => {
+              setLoading(true);
+              
               formData.delete("files");
               formData.delete("file");
 
@@ -57,7 +60,9 @@ export const EditDocumentForm = ({ id, setDocument }: Props) => {
               } catch (error) {
                 console.error("Error parsing JSON response:", error);
                 return null;
-              } // or return 0;
+              } finally {
+                setLoading(false);
+              }
             },
           },
         }}

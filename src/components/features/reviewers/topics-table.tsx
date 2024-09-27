@@ -80,7 +80,7 @@ export const ReviewerTopicsTable = ({ reviews }: Props) => {
                 as={Link}
                 size="sm"
                 startContent={<DocumentOutline />}
-                href={`/view-document/${review.topic.id}`}
+                href={`/document/${review.topic.id}`}
                 variant="light"
                 color="primary"
                 radius="sm"

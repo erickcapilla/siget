@@ -1,4 +1,6 @@
-import { Input, Button, TimeInput, DateInput } from "@nextui-org/react";
+import { Input, Button, TimeInput, DatePicker } from "@nextui-org/react";
+import { now, parseAbsoluteToLocal } from "@internationalized/date";
+import { I18nProvider } from "@react-aria/i18n";
 import { AppointmentData, AppointmentResponse } from "@/types/schedule";
 import scheduleServices from "@/services/ScheduleServices";
 import { useState } from "react";
@@ -37,7 +39,7 @@ export const ScheduleForm = ({ setUserAppointments }: Props) => {
     scheduleServices
       .createAppointment(token, appointment)
       .then((response) => response.json())
-      .then((data) => setUserAppointments(prev => [...prev, data]))
+      .then((data) => setUserAppointments((prev) => [...prev, data]))
       .then(() => toast.success("Cita agendada"))
       .catch((error) => toast.error(error.toString()))
       .finally(() => setLoading(false));
@@ -69,20 +71,29 @@ export const ScheduleForm = ({ setUserAppointments }: Props) => {
           isRequired
           onChange={handleChange}
         />
-        <DateInput
-          name="date"
-          label="Fecha de la cita"
-          variant="bordered"
-          color="primary"
-          radius="sm"
-          isRequired
-          onChange={(e) => {
-            setAppointment({
-              ...appointment,
-              date: e.toDate("UTC").toISOString(),
-            });
-          }}
-        />
+        <I18nProvider locale="es-MX">
+          <DatePicker
+            showMonthAndYearPickers
+            name="date"
+            label="Fecha de la cita"
+            variant="bordered"
+            color="primary"
+            minValue={parseAbsoluteToLocal(
+              now("UTC").toDate().toISOString()
+            ).add({ days: 1 })}
+            maxValue={parseAbsoluteToLocal(
+              now("UTC").toDate().toISOString()
+            ).add({ months: 6 })}
+            radius="sm"
+            isRequired
+            onChange={(e) => {
+              setAppointment({
+                ...appointment,
+                date: e.toDate("UTC").toISOString(),
+              });
+            }}
+          />
+        </I18nProvider>
         <TimeInput
           name="time"
           label="Hora de la cita"

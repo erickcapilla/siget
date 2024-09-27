@@ -20,10 +20,13 @@ export const CommentItem = ({ comment, setComments }: Props) => {
 
   const deleteComment = () => {
     setLoading(true);
-    documentCommentsServices.deleteComment(token, comment.id)
+    documentCommentsServices
+      .deleteComment(token, comment.id)
       .then(() => toast.success("Comentario eliminado"))
-      .then(() => setComments(prev => prev.filter(c => c.id !== comment.id)))
-      .catch(error => toast.error(error.toString()))
+      .then(() =>
+        setComments((prev) => prev.filter((c) => c.id !== comment.id))
+      )
+      .catch((error) => toast.error(error.toString()))
       .finally(() => setLoading(false));
   };
 
@@ -51,47 +54,48 @@ export const CommentItem = ({ comment, setComments }: Props) => {
         </section>
       </article>
       <article>
-        {role === ROLES.ADVISOR && (
-          <Button
-            size="sm"
-            variant="flat"
-            color="danger"
-            isIconOnly
-            className="bg-transparent"
-            isLoading={loading}
-            onPress={() => {
-              toast((t) => (
-                <span>
-                  ¿Estás seguro de eliminar el comentario?
-                  <Button
-                    className="m-2"
-                    color="danger"
-                    size="sm"
-                    variant="flat"
-                    onPress={() => {
-                      deleteComment();
-                      toast.dismiss(t.id);
-                    }}
-                  >
-                    Eliminar
-                  </Button>
-                  <Button
-                    className="m-2"
-                    size="sm"
-                    variant="flat"
-                    onPress={() => {
-                      toast.dismiss(t.id);
-                    }}
-                  >
-                    Cancelar
-                  </Button>
-                </span>
-              ));
-            }}
-          >
-            <DeleteIcon />
-          </Button>
-        )}
+        {(role === ROLES.ADVISOR ||
+          role === ROLES.REVIEWER) && (
+            <Button
+              size="sm"
+              variant="flat"
+              color="danger"
+              isIconOnly
+              className="bg-transparent"
+              isLoading={loading}
+              onPress={() => {
+                toast((t) => (
+                  <span>
+                    ¿Estás seguro de eliminar el comentario?
+                    <Button
+                      className="m-2"
+                      color="danger"
+                      size="sm"
+                      variant="flat"
+                      onPress={() => {
+                        deleteComment();
+                        toast.dismiss(t.id);
+                      }}
+                    >
+                      Eliminar
+                    </Button>
+                    <Button
+                      className="m-2"
+                      size="sm"
+                      variant="flat"
+                      onPress={() => {
+                        toast.dismiss(t.id);
+                      }}
+                    >
+                      Cancelar
+                    </Button>
+                  </span>
+                ));
+              }}
+            >
+              <DeleteIcon />
+            </Button>
+          )}
       </article>
     </LayoutItem>
   );

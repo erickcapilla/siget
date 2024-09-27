@@ -7,6 +7,9 @@ class AuthService {
   }/auth/forgot-password`;
   API_URL_NEW_PASSWORD = `${import.meta.env.VITE_API_URL}/auth/reset-password`;
   API_URL_REFRESH_TOKEN = `${import.meta.env.VITE_API_URL}/auth/refresh-token`;
+  API_URL_CHANGE_PASSWORD = `${
+    import.meta.env.VITE_API_URL
+  }/auth/change-password`;
 
   async login({ email, password }) {
     const response = await fetch(this.API_URL_LOGIN, {
@@ -88,6 +91,25 @@ class AuthService {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    });
+
+    if (response.ok) {
+      return response;
+    }
+
+    const error = await response.json();
+
+    throw new Error(error.message);
+  }
+
+  async changePassword(token: string, oldPassword: string, newPassword: string) {
+    const response = await fetch(`${this.API_URL_CHANGE_PASSWORD}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ oldPassword, newPassword }),
     });
 
     if (response.ok) {

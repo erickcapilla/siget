@@ -19,6 +19,7 @@ import {
   CalendarOutline,
   StudentsOutline,
   DocumentListOutline,
+  CircleCheckOutline,
 } from "@/components/icons";
 import {
   HomeSolid,
@@ -31,6 +32,7 @@ import {
   CalendarSolid,
   StudentsSolid,
   DocumentListSolid,
+  CircleCheckSolid,
 } from "@/components/icons";
 
 export const menuItems: MenuItems[] = [
@@ -136,6 +138,22 @@ export const menuItems: MenuItems[] = [
     path: "/schedule",
     icon: CalendarOutline,
     iconActive: CalendarSolid,
+    roles: [
+      "ADMIN_ROLE",
+      "STUDENT_ROLE",
+      "ASESOR_ROLE",
+      "REVISOR_ROLE",
+      "TITULAR_MATERIA_ROLE",
+      "ADMINISTRATIVO_ROLE",
+      "COORDINADOR_ROLE",
+    ],
+  },
+  {
+    id: "finished",
+    name: "Temas finalizados",
+    path: "/finished",
+    icon: CircleCheckOutline,
+    iconActive: CircleCheckSolid,
     roles: [
       "ADMIN_ROLE",
       "STUDENT_ROLE",

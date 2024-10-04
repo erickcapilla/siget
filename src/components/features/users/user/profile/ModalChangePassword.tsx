@@ -59,7 +59,7 @@ export const ModalChangePassword = ({ classButton }: Props) => {
         <ModalContent>
           <>
             <ModalHeader className="flex flex-col gap-1 text-primary">
-              Editar Tema
+              Cambiar contraseña
             </ModalHeader>
             <ModalBody>
               <ChangePasswordForm />

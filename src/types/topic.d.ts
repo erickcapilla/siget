@@ -41,7 +41,9 @@ export type AcceptedTopic = {
   acceptedBy: UserTopicResponse; 
   requestedBy: UserTopicResponse;
   graduationOption: GraduationResponse;
+  degreeProgram: DegreeResponse;
   proposedByRole: string;
+  status: "FINISHED" | "IN_PROGRESS";
 }
 
 export type CommentResponse = {

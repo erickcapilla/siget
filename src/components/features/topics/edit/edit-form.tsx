@@ -4,6 +4,7 @@ import { TopicData, TopicResponse } from "@/types/topic";
 import toast from "react-hot-toast";
 import topicService from "@/services/TopicServices";
 import { useAuth } from "@/hooks/useAuth";
+import { GraduationsSelect } from "@/components/features";
 
 interface Props {
   setUserTopics?: React.Dispatch<React.SetStateAction<TopicResponse[]>>;
@@ -14,6 +15,7 @@ export const EditTopicForm = ({ topicData }: Props) => {
   const [topic, setTopic] = useState<TopicData>({
     title: topicData.title,
     description: topicData.description,
+    graduationOption: topicData.graduationOption.id,
   } as TopicData);
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useAuth();
@@ -26,6 +28,8 @@ export const EditTopicForm = ({ topicData }: Props) => {
 
   const handleSubmit = (e: React.FormEvent<EventTarget | HTMLFormElement>) => {
     e.preventDefault();
+
+    console.log(topic);
 
     setIsLoading(true);
     topicService
@@ -65,6 +69,10 @@ export const EditTopicForm = ({ topicData }: Props) => {
           isRequired
           value={topic.description}
           onChange={handleChange}
+        />
+        <GraduationsSelect
+          onChange={handleChange}
+          defaultValue={topic.graduationOption}
         />
         <Button
           type="submit"

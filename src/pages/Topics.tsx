@@ -7,6 +7,7 @@ import {
   UserPetitions,
   NotFoundLayout,
   Panel,
+  LeftTopicsSection,
 } from "@/components/features";
 import { Chip, Button } from "@nextui-org/react";
 import { useState } from "react";
@@ -46,7 +47,7 @@ export const Topics = () => {
           contentLeft={<TopicForm setUserTopics={setUserTopics} />}
         >
           <article className="w-full grid gap-3">
-            <section className="w-full flex gap-3 overflow-auto scrollbar-hide">
+            <section className="w-full flex gap-3 overflow-auto py-2">
               <Chip
                 as={Button}
                 size="md"
@@ -55,7 +56,7 @@ export const Topics = () => {
                 onPress={() => handleView("all")}
                 isLoading={section === "all" && isLoading}
               >
-                Todos
+                {role === ROLES.STUDENT ? "De asesores" : "De estudiantes"}
               </Chip>
               <Chip
                 as={Button}
@@ -87,21 +88,38 @@ export const Topics = () => {
               >
                 Solicitudes recibidas
               </Chip>
+              {role === ROLES.STUDENT && (
+                <Chip
+                  as={Button}
+                  size="md"
+                  variant="flat"
+                  color={section === "lefts" ? "primary" : "default"}
+                  onPress={() => handleView("lefts")}
+                  isLoading={section === "lefts" && isLoading}
+                >
+                  Temas abandonados
+                </Chip>
+              )}
             </section>
-            {section === "all" && <AllTopics setIsLoading={setIsLoading} />}
-            {section === "user" && (
-              <UserTopics
-                setIsLoading={setIsLoading}
-                setUserTopics={setUserTopics}
-                userTopics={userTopics}
-              />
-            )}
-            {section === "interest" && (
-              <UserRequests setIsLoading={setIsLoading} />
-            )}
-            {section === "proposals" && (
-              <UserPetitions setIsLoading={setIsLoading} />
-            )}
+            <section className="overflow-y-auto">
+              {section === "all" && <AllTopics setIsLoading={setIsLoading} />}
+              {section === "user" && (
+                <UserTopics
+                  setIsLoading={setIsLoading}
+                  setUserTopics={setUserTopics}
+                  userTopics={userTopics}
+                />
+              )}
+              {section === "interest" && (
+                <UserRequests setIsLoading={setIsLoading} />
+              )}
+              {section === "proposals" && (
+                <UserPetitions setIsLoading={setIsLoading} />
+              )}
+              {section === "lefts" && (
+                <LeftTopicsSection setIsLoading={setIsLoading} />
+              )}
+            </section>
           </article>
         </DoublePanelLayout>
       )}

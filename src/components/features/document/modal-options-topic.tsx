@@ -10,10 +10,22 @@ import { EditAcceptedTopic } from "@/components/features";
 import { TopicResponse } from "@/types/topic";
 import { useAuth } from "@/hooks";
 import { SettingsOutline } from "@/components/icons";
+import topicService from "@/services/TopicServices";
+import toast from "react-hot-toast";
 
 export const ModalOptionsTopic = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { acceptedTopics } = useAuth();
+  const { acceptedTopics, token, setAcceptedTopics } = useAuth();
+
+  const leaveTopic = () => {
+    topicService
+      .leaveTopic(token, acceptedTopics[0].id)
+      .then(() => setAcceptedTopics([]))
+      .then(() => {
+        toast.success("Tema abandonado con éxito");
+      })
+      .catch((error) => toast.error(error.toString()));
+  };
 
   return (
     <>
@@ -50,6 +62,35 @@ export const ModalOptionsTopic = () => {
                 radius="sm"
                 color="danger"
                 variant="flat"
+                onPress={() => {
+                  toast((t) => (
+                    <span>
+                      ¿Estás seguro de ABANDONAR el tema?
+                      <Button
+                        className="m-2"
+                        color="danger"
+                        size="sm"
+                        variant="flat"
+                        onPress={() => {
+                          leaveTopic();
+                          toast.dismiss(t.id);
+                        }}
+                      >
+                        Abandonar
+                      </Button>
+                      <Button
+                        className="m-2"
+                        size="sm"
+                        variant="flat"
+                        onPress={() => {
+                          toast.dismiss(t.id);
+                        }}
+                      >
+                        Cancelar
+                      </Button>
+                    </span>
+                  ));
+                }}
               >
                 Abandonar tema
               </Button>

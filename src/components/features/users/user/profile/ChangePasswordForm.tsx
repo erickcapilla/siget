@@ -22,7 +22,11 @@ export const ChangePasswordForm = () => {
     setIsLoading(true);
     authServices
       .changePassword(token, oldPassword, newPassword)
-      .then(() => toast.success("Contraseña actualizada"))
+      .then(() => {
+        setOldPassword("");
+        setNewPassword("");
+        toast.success("Contraseña actualizada")
+      })
       .catch((error) => toast.error(error.toString()))
       .finally(() => setIsLoading(false));
   };

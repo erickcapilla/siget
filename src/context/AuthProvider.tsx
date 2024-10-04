@@ -6,6 +6,7 @@ import { paths, ROLES } from "@/utils";
 
 import authServices from "@/services/AuthServices";
 import requestTopicServices from "@/services/RequestTopicServices";
+import topicServices from "@/services/TopicServices";
 import toast from "react-hot-toast";
 import AuthContext from "./AuthContext";
 
@@ -41,7 +42,21 @@ export const AuthProvider = ({ children }: Props) => {
         const res = await requestTopicServices.getAcceptedTopics(data.token);
         const da = await res.json();
 
-        setAcceptedTopics(da.items);
+        const topicsInProgress = da.items.filter(
+          (topic) => topic.status === "IN_PROGRESS"
+        );
+        console.log(topicsInProgress, da.items);
+
+        if (
+          data.user.roles.includes(ROLES.STUDENT) &&
+          topicsInProgress.length > 0
+        ) {
+          setAcceptedTopics(topicsInProgress);
+        }
+
+        if (data.user.roles.includes(ROLES.ADVISOR)) {
+          setAcceptedTopics(da.items);
+        }
       }
 
       navigate(paths.home);
@@ -70,7 +85,7 @@ export const AuthProvider = ({ children }: Props) => {
       if (token === "") {
         setLoading(false);
         setIsAuthenticated(false);
-        
+
         return;
       }
 
@@ -90,8 +105,21 @@ export const AuthProvider = ({ children }: Props) => {
           const res = await requestTopicServices.getAcceptedTopics(data.token);
           const da = await res.json();
 
-          setAcceptedTopics(da.items);
-          console.log(da)
+          const topicsInProgress = da.items.filter(
+            (topic) => topic.status === "IN_PROGRESS"
+          );
+          console.log(topicsInProgress, da.items);
+
+          if (
+            data.user.roles.includes(ROLES.STUDENT) &&
+            topicsInProgress.length > 0
+          ) {
+            setAcceptedTopics(topicsInProgress);
+          }
+
+          if (data.user.roles.includes(ROLES.ADVISOR)) {
+            setAcceptedTopics(da.items);
+          }
         }
 
         if (role === "") {
@@ -104,6 +132,11 @@ export const AuthProvider = ({ children }: Props) => {
         setLoading(false);
       }
     };
+
+    topicServices.getLeftTopics(token, ["f63edffb-fb4e-409f-b668-86da2a7c6948"])
+      .then((res) => res.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error));
 
     refreshToken();
   }, []);

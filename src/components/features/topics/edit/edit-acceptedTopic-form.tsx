@@ -14,10 +14,10 @@ export const EditAcceptedTopicForm = ({ topicData }: Props) => {
   const [topic, setTopic] = useState<TopicData>({
     title: topicData.title,
     description: topicData.description,
-    graduationOption: topicData.graduationOption.id
+    graduationOption: topicData.graduationOption.id,
   } as TopicData);
   const [isLoading, setIsLoading] = useState(false);
-  const { token } = useAuth();
+  const { token, setAcceptedTopics } = useAuth();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -27,10 +27,12 @@ export const EditAcceptedTopicForm = ({ topicData }: Props) => {
 
   const handleSubmit = (e: React.FormEvent<EventTarget | HTMLFormElement>) => {
     e.preventDefault();
-
+    console.log(topic);
     setIsLoading(true);
     topicService
       .updateAcceptedTopic(token, topicData.id, topic)
+      .then(res => res.json())
+      .then(data => setAcceptedTopics([data]))
       .then(() => toast.success("Tema editado correctamente"))
       .catch((error) => toast.error(error.toString()))
       .finally(() => setIsLoading(false));
@@ -67,7 +69,10 @@ export const EditAcceptedTopicForm = ({ topicData }: Props) => {
           value={topic.description}
           onChange={handleChange}
         />
-        <GraduationsSelect onChange={handleChange} />
+        <GraduationsSelect
+          onChange={handleChange}
+          defaultValue={topic.graduationOption}
+        />
         <Button
           type="submit"
           color="primary"

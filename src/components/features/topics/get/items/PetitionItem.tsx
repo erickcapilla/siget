@@ -26,14 +26,14 @@ export const PetitionItem = ({ petition }: Props) => {
         setAcceptedTopics((topics) => [...topics, data]);
       })
       .then(() => toast.success("Tema aceptado"))
-      .catch((e) => toast.error(e.toStrign()));
+      .catch((e) => toast.error(e.toString()));
   };
 
   const rejectPetition = () => {
     requestTopicServices
       .deletePetition(token, petition.id)
       .then(() => toast.success("Tema rechazado"))
-      .catch((e) => toast.error(e));
+      .catch((e) => toast.error(e.toString()));
   };
 
   return (

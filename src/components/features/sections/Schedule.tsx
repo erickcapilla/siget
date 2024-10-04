@@ -15,6 +15,9 @@ export const ScheduleSection = () => {
   const [loading, setLoading] = useState(true);
   const [appointments, setAppointments] = useState<AppointmentResponse[]>([]);
   const [invitations, setInvitations] = useState<AppointmentResponse[]>([]);
+  const userAppointments = appointments.filter((appointment) => {
+    return invitations.some((invitation) => invitation.id !== appointment.id);
+  });
 
   useEffect(() => {
     setLoading(true);
@@ -39,7 +42,7 @@ export const ScheduleSection = () => {
       {!loading && appointments.length > 0 && (
         <ScheduleList
           setUsersAppointments={setAppointments}
-          appointments={appointments}
+          appointments={userAppointments}
         />
       )}
       {!loading && invitations.length > 0 && (

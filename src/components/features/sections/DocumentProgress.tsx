@@ -22,9 +22,10 @@ export const DocumentProgressSection = () => {
   useEffect(() => {
     setLoading(true);
     documentServices
-      .getUserDocuments(token)
+      .getStudentDocument(token, acceptedTopics[0]?.id)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setDocument(data);
       })
       .catch((error) => console.error(error))

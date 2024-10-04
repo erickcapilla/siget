@@ -1,4 +1,4 @@
-import { DoublePanelLayout } from "@/layouts";
+import { DoublePanelLayout, LayoutMain } from "@/layouts";
 import {
   AdviceForm,
   AdviceList,
@@ -59,14 +59,16 @@ export const UserAdvice = () => {
           </>
         </DoublePanelLayout>
       ) : (
-        <Panel title="">
-          <NotFoundLayout
-            title="Selecciona un tema"
-            description="Selecciona un tema para poder ver tus asesorías"
-          >
-            <SelectTopic />
-          </NotFoundLayout>
-        </Panel>
+        <LayoutMain>
+          <Panel title="">
+            <NotFoundLayout
+              title="Selecciona un tema"
+              description="Selecciona un tema para poder ver tus asesorías"
+            >
+              <SelectTopic className="w-full" />
+            </NotFoundLayout>
+          </Panel>
+        </LayoutMain>
       )}
     </>
   );

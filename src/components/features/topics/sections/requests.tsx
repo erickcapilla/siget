@@ -37,7 +37,7 @@ export const UserRequests = ({ setIsLoading }: Props) => {
     <div className="grid gap-3">
       {requests.length > 0 && <RequestsList requests={requests} />}
       {accepteds.length > 0 && <AcceptedList accepteds={accepteds} />}
-      {requests.length || (accepteds.length === 0 && <p>No hay solicitudes enviadas</p>)}
+      {(requests.length || accepteds.length) === 0 && <p>No hay solicitudes enviadas</p>}
     </div>
   );
 };

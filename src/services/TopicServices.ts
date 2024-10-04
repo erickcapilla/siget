@@ -16,6 +16,7 @@ class TopicServices {
   }/accepted-topics/get-finished-topics`;
   API_URL_LEAVE_TOPIC = `${import.meta.env.VITE_API_URL}/accepted-topics/abandon`;
   API_URL_LEAVE_TOPICS = `${import.meta.env.VITE_API_URL}/abandoned-topic/get-by-degree-program`;
+  API_URL_LEAVE_TOPIC_ASESOR = `${import.meta.env.VITE_API_URL}/abandoned-topic`;
 
   async saveTopic(token: string, topic: Topic) {
     const response = await fetch(this.API_URL_TOPIC, {
@@ -232,6 +233,40 @@ class TopicServices {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ degree }),
+    });
+
+    if (response.ok) {
+      return response;
+    }
+
+    const error = await response.json();
+
+    throw new Error(error.message);
+  }
+
+  async getLeftTopicAsesor (token: string) {
+    const response = await fetch(`${this.API_URL_LEAVE_TOPIC_ASESOR}/get-by-assessor`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      return response;
+    }
+
+    const error = await response.json();
+
+    throw new Error(error.message);
+  }
+
+  async deleteLeftTopic (token: string, id: string) {
+    const response = await fetch(`${this.API_URL_LEAVE_TOPIC_ASESOR}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     if (response.ok) {

@@ -88,18 +88,16 @@ export const Topics = () => {
               >
                 Solicitudes recibidas
               </Chip>
-              {role === ROLES.STUDENT && (
-                <Chip
-                  as={Button}
-                  size="md"
-                  variant="flat"
-                  color={section === "lefts" ? "primary" : "default"}
-                  onPress={() => handleView("lefts")}
-                  isLoading={section === "lefts" && isLoading}
-                >
-                  Temas abandonados
-                </Chip>
-              )}
+              <Chip
+                as={Button}
+                size="md"
+                variant="flat"
+                color={section === "lefts" ? "primary" : "default"}
+                onPress={() => handleView("lefts")}
+                isLoading={section === "lefts" && isLoading}
+              >
+                Temas abandonados
+              </Chip>
             </section>
             <section className="overflow-y-auto">
               {section === "all" && <AllTopics setIsLoading={setIsLoading} />}

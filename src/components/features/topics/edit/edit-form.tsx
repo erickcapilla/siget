@@ -11,7 +11,7 @@ interface Props {
   topicData: TopicResponse;
 }
 
-export const EditTopicForm = ({ topicData }: Props) => {
+export const EditTopicForm = ({ topicData, setUserTopics }: Props) => {
   const [topic, setTopic] = useState<TopicData>({
     title: topicData.title,
     description: topicData.description,
@@ -34,6 +34,8 @@ export const EditTopicForm = ({ topicData }: Props) => {
     setIsLoading(true);
     topicService
       .updateTopic(token, topicData.id, topic)
+      .then((res) => res.json())
+      .then((data) => setUserTopics(prev => prev.map(t => t.id === data.id ? data : t)))
       .then(() => toast.success("Tema editado correctamente"))
       .catch((error) => toast.error(error.toString()))
       .finally(() => setIsLoading(false));

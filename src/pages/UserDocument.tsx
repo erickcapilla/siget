@@ -72,7 +72,7 @@ export const UserDocument = () => {
   useEffect(() => {
     if (acceptedTopics.length > 0) {
       documentServices
-        .getUserDocuments(token)
+        .getStudentDocument(token, acceptedTopics[0].id)
         .then((res) => res.json())
         .then((data) => {
           setDocument(data);

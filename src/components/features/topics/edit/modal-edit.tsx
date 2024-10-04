@@ -12,9 +12,10 @@ import { TopicResponse } from "@/types/topic";
 interface Props {
   topicData: TopicResponse;
   classButton?: string;
+  setUserTopics?: React.Dispatch<React.SetStateAction<TopicResponse[]>>;
 }
 
-export const EditTopic = ({ classButton, topicData }: Props) => {
+export const EditTopic = ({ classButton, topicData, setUserTopics }: Props) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -31,6 +32,7 @@ export const EditTopic = ({ classButton, topicData }: Props) => {
             <ModalBody>
               <EditTopicForm
                 topicData={topicData}
+                setUserTopics={setUserTopics}
               />
             </ModalBody>
           </>

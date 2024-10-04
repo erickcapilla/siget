@@ -127,7 +127,7 @@ export const TopicItem = ({ topic, isUser, setUserTopics }: Props) => {
             )}
           </div>
           <div className="flex gap-2">
-            {isUser && <EditTopic topicData={topic} />}
+            {isUser && <EditTopic topicData={topic} setUserTopics={setUserTopics} />}
             <Tooltip
               content={isUser ? "Eliminar tema" : "Solicitar tema"}
               radius="sm"

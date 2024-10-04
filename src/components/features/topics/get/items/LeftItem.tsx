@@ -1,4 +1,11 @@
-import { User, Chip, Tooltip, Button, AvatarIcon, Link } from "@nextui-org/react";
+import {
+  User,
+  Chip,
+  Tooltip,
+  Button,
+  AvatarIcon,
+  Link,
+} from "@nextui-org/react";
 import { DownloadOutline } from "@/components/icons";
 import { LayoutItem } from "@/layouts";
 import { AcceptedTopic } from "@/types/topic";
@@ -7,19 +14,37 @@ import { optionNames } from "@/utils/utils";
 import userServices from "@/services/UserServices";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks";
+import { ROLES } from "@/utils";
+import toast from "react-hot-toast";
+import { TrashIcon } from "@/components/icons";
+import topicServices from "@/services/TopicServices";
 
 import "@/css/topic.css";
 
 interface Props {
   topic: AcceptedTopic;
+  setTopics: React.Dispatch<React.SetStateAction<AcceptedTopic[]>>;
 }
 
-export const LeftItem = ({ topic }: Props) => {
+export const LeftItem = ({ topic, setTopics }: Props) => {
   const [user, setUser] = useState<TopicUser>(null);
-  const { token } = useAuth();
+  const { token, role } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const userName = user
     ? `${user.userInformation.name} ${user.userInformation.fatherLastName}`
     : "Usuario";
+
+  const deleteTopic = () => {
+    setIsLoading(true);
+    topicServices
+      .deleteLeftTopic(token, topic.id)
+      .then(() =>
+        setTopics((prev) => prev.filter((t) => t.id !== topic.id))
+      )
+      .then(() => toast.success("Tema eliminado"))
+      .catch((e) => toast.error(e.toString()))
+      .finally(() => setIsLoading(false));
+  };
 
   useEffect(() => {
     if (topic.requestedBy) {
@@ -75,6 +100,54 @@ export const LeftItem = ({ topic }: Props) => {
             />
           </div>
           <div className="flex gap-2">
+            {role === ROLES.ADVISOR && (
+              <Tooltip
+                content={"Eliminar tema"}
+                radius="sm"
+                className="text-primary font-bold w-full"
+              >
+                <Button
+                  color="primary"
+                  variant="ghost"
+                  size="md"
+                  isIconOnly
+                  isLoading={isLoading}
+                  radius="sm"
+                  className="group w-full @sm:max-w-20"
+                  onPress={() => {
+                    toast((t) => (
+                      <span>
+                        ¿Estás seguro de eliminar este tema?
+                        <Button
+                          color="danger"
+                          size="sm"
+                          variant="flat"
+                          className="m-2"
+                          onPress={() => {
+                            deleteTopic();
+                            toast.dismiss(t.id);
+                          }}
+                        >
+                          Eliminar
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="flat"
+                          className="m-2"
+                          onPress={() => {
+                            toast.dismiss(t.id);
+                          }}
+                        >
+                          Cancelar
+                        </Button>
+                      </span>
+                    ));
+                  }}
+                >
+                  <TrashIcon className="fill-primary group-hover:fill-white" />
+                </Button>
+              </Tooltip>
+            )}
             <Tooltip
               content={"Descargar documento"}
               radius="sm"
@@ -89,7 +162,9 @@ export const LeftItem = ({ topic }: Props) => {
                 radius="sm"
                 className="group w-full @sm:max-w-20"
                 download
-                href={`${import.meta.env.VITE_API_URL}/files/document/${topic.id}.pdf`}
+                href={`${import.meta.env.VITE_API_URL}/files/document/${
+                  topic.id
+                }.pdf`}
                 target="_blank"
               >
                 <DownloadOutline className="size-6 fill-primary group-hover:fill-white" />

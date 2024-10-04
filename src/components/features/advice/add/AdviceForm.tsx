@@ -46,7 +46,7 @@ export const AdviceForm = ({ setAdvisories, id }: Props) => {
   };
   return (
     <form
-      className="flex flex-col justify-between h-full"
+      className="flex flex-col gap-3 justify-between h-full"
       onSubmit={handleSubmit}
     >
       <div className="grid gap-3">

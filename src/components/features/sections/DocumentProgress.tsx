@@ -26,7 +26,7 @@ export const DocumentProgressSection = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setDocument(data);
+        setDocument([data]);
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));

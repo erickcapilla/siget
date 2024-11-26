@@ -70,13 +70,14 @@ export const UserDocument = () => {
   };
 
   useEffect(() => {
+    setLoading(true)
     if (acceptedTopics.length > 0) {
       documentServices
         .getStudentDocument(token, acceptedTopics[0].id)
         .then((res) => res.json())
         .then((data) => {
-          setDocument(data);
-          console.log(data);
+          setDocument([data]);
+          console.log(data, "Hola prueba");
 
           if (data.length > 0) {
             getUsersThatComment(data[0].id);

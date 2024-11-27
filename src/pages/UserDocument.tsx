@@ -31,9 +31,9 @@ export const UserDocument = () => {
   const [finishLoading, setFinishLoading] = useState(false);
   const navigate = useNavigate();
 
-  const getCommentsByUser = (userID: string) => {
+  const getCommentsByUser = (documentId: string, userID: string) => {
     documentCommentsServices
-      .getCommentsByUser(token, document[0]?.id, userID)
+      .getCommentsByUser(token, documentId, userID)
       .then((res) => res.json())
       .then((data) => {
         setComments(data.result);
@@ -47,9 +47,10 @@ export const UserDocument = () => {
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
+        console.log(data)
 
         if (data.length > 0) {
-          getCommentsByUser(data[0].id);
+          getCommentsByUser(documentID, data[0].id);
         }
       })
       .catch((error) => console.error(error));
@@ -77,10 +78,9 @@ export const UserDocument = () => {
         .then((res) => res.json())
         .then((data) => {
           setDocument([data]);
-          console.log(data, "Hola prueba");
 
-          if (data.length > 0) {
-            getUsersThatComment(data[0].id);
+          if (data) {
+            getUsersThatComment(data.id);
           }
         })
         .catch((error) => console.error(error))
@@ -103,7 +103,7 @@ export const UserDocument = () => {
                         key={user.id}
                         className="cursor-pointer"
                         onClick={() => {
-                          getCommentsByUser(user.id);
+                          getCommentsByUser(document[0].id, user.id);
                         }}
                         color="primary"
                         size="sm"

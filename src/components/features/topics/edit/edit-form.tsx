@@ -29,8 +29,6 @@ export const EditTopicForm = ({ topicData, setUserTopics }: Props) => {
   const handleSubmit = (e: React.FormEvent<EventTarget | HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(topic);
-
     setIsLoading(true);
     topicService
       .updateTopic(token, topicData.id, topic)

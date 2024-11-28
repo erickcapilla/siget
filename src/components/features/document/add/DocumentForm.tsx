@@ -47,14 +47,12 @@ export const DocumentForm = ({ id, setDocument, setLoading }: Props) => {
               formData.delete("file");
               
               formData.append("file", files[0].file);
-              console.log(formData);
               return formData;
             },
             onload(response) {
               toast.success("Documento actualizado");
               try {
                 const jsonResponse = JSON.parse(response);
-                console.log(jsonResponse);
                 setDocument([jsonResponse]);
                 return jsonResponse;
               } catch (error) {

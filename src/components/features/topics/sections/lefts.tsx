@@ -32,7 +32,6 @@ export const LeftTopicsSection = ({ setIsLoading }: Props) => {
       .then((response) => response.json())
       .then((data) => {
         setTopics(data);
-        console.log(data);
       })
       .catch((error) => console.error(error))
       .finally(() => setIsLoading(false));

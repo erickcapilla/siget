@@ -25,7 +25,6 @@ export const DocumentProgressSection = () => {
       .getStudentDocument(token, acceptedTopics[0]?.id)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setDocument([data]);
       })
       .catch((error) => console.error(error))

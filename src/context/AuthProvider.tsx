@@ -6,7 +6,7 @@ import { paths, ROLES } from "@/utils";
 
 import authServices from "@/services/AuthServices";
 import requestTopicServices from "@/services/RequestTopicServices";
-import topicServices from "@/services/TopicServices";
+//import topicServices from "@/services/TopicServices";
 import toast from "react-hot-toast";
 import AuthContext from "./AuthContext";
 
@@ -45,7 +45,6 @@ export const AuthProvider = ({ children }: Props) => {
         const topicsInProgress = da.items.filter(
           (topic) => topic.status === "IN_PROGRESS"
         );
-        console.log(topicsInProgress, da.items);
 
         if (
           data.user.roles.includes(ROLES.STUDENT) &&
@@ -108,7 +107,6 @@ export const AuthProvider = ({ children }: Props) => {
           const topicsInProgress = da.items.filter(
             (topic) => topic.status === "IN_PROGRESS"
           );
-          console.log(topicsInProgress, da.items);
 
           if (
             data.user.roles.includes(ROLES.STUDENT) &&
@@ -133,10 +131,10 @@ export const AuthProvider = ({ children }: Props) => {
       }
     };
 
-    topicServices.getLeftTopics(token, ["f63edffb-fb4e-409f-b668-86da2a7c6948"])
+    /*topicServices.getLeftTopics(token, ["f63edffb-fb4e-409f-b668-86da2a7c6948"])
       .then((res) => res.json())
       .then(data => console.log(data))
-      .catch(error => console.error(error));
+      .catch(error => console.error(error));*/
 
     refreshToken();
   }, []);

@@ -34,8 +34,7 @@ export const InvitationItem = ({
     scheduleServices
       .acceptAppointment(token, appointment.id)
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+      .then(() => {
         toast.success("Cita aceptada");
       })
       .catch((error) => {

@@ -15,14 +15,12 @@ export const PetitionItem = ({ petition }: Props) => {
   petition.requestedBy.userInformation
       ? `${petition.requestedBy.userInformation.name} ${petition.requestedBy.userInformation.fatherLastName}`
       : "Usuario";
-  console.log(petition);
 
   const acceptPetition = () => {
     requestTopicServices
       .acceptPetition(token, petition.id)
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         setAcceptedTopics((topics) => [...topics, data]);
       })
       .then(() => toast.success("Tema aceptado"))

@@ -47,7 +47,6 @@ export const UserDocument = () => {
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
-        console.log(data)
 
         if (data.length > 0) {
           getCommentsByUser(documentID, data[0].id);

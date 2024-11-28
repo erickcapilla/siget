@@ -18,7 +18,6 @@ export const UserPetitions = ({ setIsLoading }: Props) => {
       .getUserPetitions(token)
       .then((response) => response.json())
       .then((data) => setPetitions(data))
-      .then(() => console.log(petitions))
       .catch((error) => console.error(error))
       .finally(() => setIsLoading(false));
   }, [])

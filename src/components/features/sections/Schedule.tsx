@@ -25,14 +25,14 @@ export const ScheduleSection = () => {
       .getRequestAppointment(token)
       .then((response) => response.json())
       .then((data) => setAppointments(data.schedules))
-      .catch((error) => console.log(error))
+      .catch((error) => console.error(error))
       .finally(() => setLoading(false));
 
     scheduleServices
       .getPetitionAppointment(token)
       .then((response) => response.json())
       .then((data) => setInvitations(data.schedules))
-      .catch((error) => console.log(error))
+      .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, []);
 

@@ -27,8 +27,8 @@ export const EditAcceptedTopicForm = ({ topicData }: Props) => {
 
   const handleSubmit = (e: React.FormEvent<EventTarget | HTMLFormElement>) => {
     e.preventDefault();
-    console.log(topic);
     setIsLoading(true);
+    
     topicService
       .updateAcceptedTopic(token, topicData.id, topic)
       .then(res => res.json())

@@ -96,7 +96,6 @@ export const Document = () => {
       .getComments(token, DocumentID)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setComments(data.result);
       })
       .catch((error) => console.error(error));

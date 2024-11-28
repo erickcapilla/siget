@@ -33,7 +33,6 @@ export const PersonalForm = () => {
         const res = await userServices.updateInformation(token, values);
         const data = await res.json();
 
-        console.log(data);
         setUser({ ...user, userInformation: data });
         toast.success("Información actualizada");
       } catch (error) {
@@ -47,7 +46,6 @@ export const PersonalForm = () => {
         const res = await userServices.setInformation(token, values);
         const data = await res.json();
 
-        console.log(data);
         setUser({ ...user, userInformation: data });
         toast.success("Información agregada");
       } catch (error) {

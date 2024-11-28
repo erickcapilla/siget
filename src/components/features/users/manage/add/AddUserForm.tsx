@@ -27,7 +27,6 @@ export const AddUserForm = ({ setUsers }: Props) => {
     setIsLoading(true);
     const password = passwordGenerator();
     setUser({ ...user, password });
-    console.log({ ...user, password })
 
     try {
       const res = await authService.register(token, user);

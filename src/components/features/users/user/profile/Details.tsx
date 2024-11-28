@@ -56,8 +56,7 @@ export const Details = () => {
             <div className="w-full grid gap-3">
               <h3 className="text-black text-sm">Programas académicos</h3>
               <div className="size-full flex gap-1 flex-wrap">
-                {user.userInformation &&
-                  user.userDegreePrograms.map((degree) => (
+                {user.userDegreePrograms?.map((degree) => (
                     <Chip
                       key={degree.id}
                       color="secondary"

@@ -6,6 +6,7 @@ import { TopicUser } from "@/types/user";
 import { useParams } from "react-router-dom";
 import { DoublePanelLayout } from "@/layouts";
 import { UserDetails } from "@/components/features";
+import { PersonalInformation } from "@/components/unDraws";
 
 export const Profile = () => {
   const [user, setUser] = useState<TopicUser>();
@@ -43,7 +44,9 @@ export const Profile = () => {
       {loading ? (
         <Spinner />
       ) : user ? (
-        <h1>{user?.userInformation?.name}</h1>
+        <div className="size-full">
+          <PersonalInformation className="size-full" />
+        </div>
       ) : (
         <h1>Usuario no encontrado</h1>
       )}

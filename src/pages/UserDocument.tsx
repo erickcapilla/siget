@@ -195,7 +195,7 @@ export const UserDocument = () => {
             <Spinner />
           ) : document.length > 0 ? (
             <>
-              <div className="fixed top-3 right-3 z-100">
+              <div className="fixed top-3 right-3 z-1000">
                 <Chip
                   size="sm"
                   color="primary"
